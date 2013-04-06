@@ -1,0 +1,1753 @@
+% This is file JFM2egui.tex
+% first release v1.0, 20th October 1996
+%       release v1.01, 30th October 1996
+%       release v1.1, 25th June 1997
+%       release v1.11, 2nd September 1997
+%       release v1.12, 13th November 1997
+%       release v1.13, 16th January 1998
+%   (based on JFMguide.tex v1.3 for LaTeX 2.09)
+% Copyright (C) 1996, 1997, 1998 Cambridge University Press
+
+\NeedsTeXFormat{LaTeX2e}
+
+% The following saves the original definitions of \geq and \leq (guide only).
+\let\realgeq\geq
+\let\realleq\leq
+
+\documentclass{jfm}
+
+%%% Macros for the guide only %%%
+\newcommand\lra{\ensuremath{\quad\longrightarrow\quad}}
+
+% The following adds 6pt of space around verbatim environments.
+\let\realverbatim=\verbatim
+\let\realendverbatim=\endverbatim
+\renewcommand\verbatim{\par\addvspace{6pt plus 2pt minus 1pt}\realverbatim}
+\renewcommand\endverbatim{\realendverbatim\addvspace{6pt plus 2pt minus 1pt}}
+\makeatletter
+\newcommand\verbsize{\@setfontsize\verbsize{10}\@xiipt}
+\renewcommand\verbatim@font{\verbsize\normalfont\ttfamily}
+\makeatother
+%%% End of macros for the guide %%%
+
+
+% See if the author has AMS Euler fonts installed: If they have, attempt
+% to use the 'upmath' package to provide upright math.
+
+\ifCUPmtlplainloaded \else
+  \checkfont{eurm10}
+  \iffontfound
+    \IfFileExists{upmath.sty}
+      {\typeout{^^JFound AMS Euler Roman fonts on the system,
+                   using the 'upmath' package.^^J}%
+       \usepackage{upmath}}
+      {\typeout{^^JFound AMS Euler Roman fonts on the system, but you
+                   don't seem to have the}%
+       \typeout{'upmath' package installed. JFM.cls can take advantage
+                 of these fonts,^^Jif you use 'upmath' package.^^J}%
+       \providecommand\mathup[1]{##1}%
+       \providecommand\mathbup[1]{##1}%
+       \providecommand\upi{\pi}%
+       \providecommand\upartial{\partial}%
+      }
+  \else
+    \providecommand\mathup[1]{#1}%
+    \providecommand\mathbup[1]{#1}%
+    \providecommand\upi{\pi}%
+    \providecommand\upartial{\partial}%
+  \fi
+\fi
+
+% See if the author has AMS symbol fonts installed: If they have, attempt
+% to use the 'amssymb' package to provide the AMS symbol characters.
+
+\ifCUPmtlplainloaded \else
+  \checkfont{msam10}
+  \iffontfound
+    \IfFileExists{amssymb.sty}
+      {\typeout{^^JFound AMS Symbol fonts on the system, using the
+                'amssymb' package.^^J}%
+       \usepackage{amssymb}%
+       \let\le=\leqslant  \let\leq=\leqslant
+       \let\ge=\geqslant  \let\geq=\geqslant
+      }{}
+  \fi
+\fi
+
+% See if the author has the AMS 'amsbsy' package installed: If they have,
+% use it to provide better bold math support (with \boldsymbol).
+
+\ifCUPmtlplainloaded \else
+  \IfFileExists{amsbsy.sty}
+    {\typeout{^^JFound the 'amsbsy' package on the system, using it.^^J}%
+     \usepackage{amsbsy}}
+    {\providecommand\boldsymbol[1]{\mbox{\boldmath $##1$}}}
+\fi
+
+
+%%% Example macros (some are not used in this sample file) %%%
+
+% For units of measure
+\newcommand\dynpercm{\nobreak\mbox{$\;$dynes\,cm$^{-1}$}}
+\newcommand\cmpermin{\nobreak\mbox{$\;$cm\,min$^{-1}$}}
+
+% Various bold symbols
+\providecommand\bnabla{\boldsymbol{\nabla}}
+\providecommand\bcdot{\boldsymbol{\cdot}}
+\providecommand\bomega{\boldsymbol{\omega}}
+\newcommand\biS{\boldsymbol{S}}
+\newcommand\etb{\boldsymbol{\eta}}
+\newcommand\bldP{\boldsymbol{P}}
+
+% For multiletter symbols
+\newcommand\Real{\mbox{Re}} % cf plain TeX's \Re and Reynolds number
+\newcommand\Imag{\mbox{Im}} % cf plain TeX's \Im
+\newcommand\Rey{\mbox{\textit{Re}}}  % Reynolds number
+\newcommand\Pran{\mbox{\textit{Pr}}} % Prandtl number, cf TeX's \Pr product
+\newcommand\Pen{\mbox{\textit{Pe}}}  % Peclet number
+\newcommand\Ai{\mbox{Ai}}            % Airy function
+\newcommand\Bi{\mbox{Bi}}            % Airy function
+
+% For sans serif characters:
+% The following macros are setup in JFM.cls for sans-serif fonts in text
+% and math.  If you use these macros in your article, the required fonts
+% will be substitued when you article is typeset by the typesetter.
+%
+% \textsfi, \mathsfi   : sans-serif slanted
+% \textsfb, \mathsfb   : sans-serif bold
+% \textsfbi, \mathsfbi : sans-serif bold slanted (doesnt exist in CM fonts)
+%
+% For san-serif roman use \textsf and \mathsf as normal.
+%
+\newcommand\ssC{\mathsf{C}}    % for sans serif C
+\newcommand\sfsP{\mathsfi{P}}  % for sans serif sloping P
+\newcommand\slsQ{\mathsfbi{Q}} % for sans serif bold-sloping Q
+
+% Hat position
+\newcommand\hatp{\skew3\hat{p}}      % p with hat
+\newcommand\hatR{\skew3\hat{R}}      % R with hat
+\newcommand\hatRR{\skew3\hat{\hatR}} % R with 2 hats
+\newcommand\doubletildesigma{\skew2\tilde{\skew2\tilde{\Sigma}}}
+%       italic Sigma with double tilde
+
+% array strut to make delimiters come out right size both ends
+\newsavebox{\astrutbox}
+\sbox{\astrutbox}{\rule[-5pt]{0pt}{20pt}}
+\newcommand{\astrut}{\usebox{\astrutbox}}
+
+\newcommand\GaPQ{\ensuremath{G_a(P,Q)}}
+\newcommand\GsPQ{\ensuremath{G_s(P,Q)}}
+\newcommand\p{\ensuremath{\partial}}
+\newcommand\tti{\ensuremath{\rightarrow\infty}}
+\newcommand\kgd{\ensuremath{k\gamma d}}
+\newcommand\shalf{\ensuremath{{\scriptstyle\frac{1}{2}}}}
+\newcommand\sh{\ensuremath{^{\shalf}}}
+\newcommand\smh{\ensuremath{^{-\shalf}}}
+\newcommand\squart{\ensuremath{{\textstyle\frac{1}{4}}}}
+\newcommand\thalf{\ensuremath{{\textstyle\frac{1}{2}}}}
+\newcommand\Gat{\ensuremath{\widetilde{G_a}}}
+\newcommand\ttz{\ensuremath{\rightarrow 0}}
+\newcommand\ndq{\ensuremath{\frac{\mbox{$\partial$}}{\mbox{$\partial$} n_q}}}
+\newcommand\sumjm{\ensuremath{\sum_{j=1}^{M}}}
+\newcommand\pvi{\ensuremath{\int_0^{\infty}%
+  \mskip \ifCUPmtlplainloaded -30mu\else -33mu\fi -\quad}}
+
+\newcommand\etal{\mbox{\textit{et al.}}}
+\newcommand\etc{etc.\ }
+\newcommand\eg{e.g.\ }
+\providecommand\AMSLaTeX{AMS\,\LaTeX}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\title[Journal of Fluid Mechanics]{\LaTeXe\ Input Guide for Authors}
+
+\author[M. Reed]{M.\ns R\ls E\ls E\ls D$^1$}
+
+\affiliation{$^1$TAG Group, Cambridge University Press, Cambridge}
+
+\date{January 1998}
+\pubyear{1998} % only needed when year of publication is not current year.
+\volume{000}
+\pagerange{\pageref{firstpage}--\pageref{lastpage}}
+
+\begin{document}
+
+\label{firstpage}
+\maketitle
+
+\begin{abstract}
+This guide is for authors who are preparing papers for the
+\emph{Journal of Fluid Mechanics}
+using the \LaTeXe\ document preparation system and the Cambridge
+University Press JFM class file.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+The layout design for the \emph{Journal of Fluid Mechanics} has been
+implemented as a \LaTeXe\ class file. The JFM class is based on the ARTICLE
+class as discussed in the \LaTeX\ manual (2nd edition).
+Commands which differ from the standard \LaTeX\ interface, or which are
+provided in addition to the standard interface, are explained in this
+guide. This guide is not a substitute for the \LaTeX\ manual itself.
+
+Note that the final printed version of papers will use the Monotype Times
+typeface rather than Computer Modern available to authors. Also,
+the measure in the JFM class is different from the \LaTeX\ article class. For
+these reasons line lengths and page breaks will change and authors
+should not insert hard breaks in their text.
+
+The sample pages (\verb"JFM2esam.tex") contains examples of most of the points
+mentioned in this Guide, plus many other useful notes and definitions.
+
+\subsection{Introduction to \LaTeX}
+
+The \LaTeX\ document preparation system is a special version of the
+\TeX\ typesetting program.
+ \LaTeX\ adds to \TeX\ a collection of commands which allow the author
+to concentrate on the logical structure of the document rather than its
+visual layout.
+
+\LaTeX\ provides a consistent and comprehensive document preparation
+interface.
+\LaTeX\ can automatically number equations, figures,
+tables, and list entries, as well as sections and
+subsections.
+Using this numbering system, bibliographic citations, page references
+and cross-references to any other numbered entity (\eg
+section, equation, figure, list entry) are quite straightforward.
+
+\subsection{The JFM document class}
+
+The use of document classes allows a simple change of style (or style option)
+to transform the appearance of your document.
+The CUP JFM class file preserves the standard \LaTeX\ interface such that any
+document which can be  produced using the standard \LaTeX\ ARTICLE class
+can also be produced with the JFM class.
+However, the measure (or width of text) is slightly different from that
+for ARTICLE; therefore line breaks will change and it is possible that
+longer equations may need re-setting.
+
+\section{Using the JFM class file}
+
+First, copy the file \verb"JFM.cls" into the correct subdirectory on your
+system.
+The JFM document style is implemented as a complete document class, and
+\emph{not} as a class option.
+In order to use the JFM class, replace \verb"article" by \verb"jfm" in the
+\verb"\documentclass" command at the beginning of your document:
+%
+\begin{verbatim}
+  \documentclass{article}
+\end{verbatim}
+%
+is replaced by
+%
+\begin{verbatim}
+  \documentclass[referee]{jfm}
+\end{verbatim}
+%
+Some of the standard document class options should not be used. The
+\verb"referee" option will double-space your document and make the task
+of reviewing much simpler.
+Author-defined macros should be inserted before \verb"\begin{document}",
+or in a separate file and should be included with the submission,
+see \S\ref{secUser}. Authors must not change any of the macro definitions
+or parameters in \verb"JFM.cls".
+
+\subsection{Document class options}
+
+In general, the following standard document class options should \emph{not} be
+used with the JFM class file:
+%
+\begin{itemize}
+  \item \texttt{10pt}, \texttt{11pt} and \texttt{12pt} -- unavailable;
+  \item \texttt{twoside} is the default (\texttt{oneside} is disabled);
+  \item \texttt{onecolumn} is the default (\texttt{twocolumn} is disabled);
+  \item \texttt{titlepage} is not required and is disabled;
+  \item \texttt{fleqn} and \texttt{leqno} should not be used, and are disabled.
+\end{itemize}
+
+\subsection{Additional `packages' supplied with \texttt{JFM.cls}}
+
+The following additional package (\verb".sty") files are supplied in the
+JFM distribution:
+\begin{itemize}
+  \item \verb"upmath" -- provides `upright' math characters.
+        Requires \verb"amsbsy" and \verb"amsgen".
+
+  \item \verb"amsbsy" -- provides better `bold math' support,
+        with \verb"\boldsymbol".
+
+  \item \verb"amssymb" -- provides access to the AMS symbol
+        fonts \verb"msam" and \verb"msbm".
+
+  \item \verb"amsgen" -- required by \verb"amsbsy".
+  \item \verb"amsfonts" -- required by \verb"amssymb".
+\end{itemize}
+The AMS packages are supplied for your convenience from the
+\AMSLaTeX\ distribution. If you already have the
+\AMSLaTeX\ distribution installed, you can safely delete
+the \verb"ams*.sty" files (it is worth checking if the supplied files
+are newer).
+
+If your site does not have the AMS Fonts and \AMSLaTeX\ packages
+installed, we strongly recommend that your site installs them. With them, you
+can produce output which is much closer to the final result. The latest
+AMS Fonts/\AMSLaTeX\ distributions can be found
+on your nearest CTAN (Comprehensive \TeX\ Archive Network) site.
+
+\subsubsection{The \texttt{UPMATH} package}
+
+The \verb"upmath" package defines the macros \verb"\mathup" and
+\verb"\mathbup", which allow access to the symbols in the AMS Euler fonts.
+
+The \verb"upmath" package provides macros for upright lower-case Greek
+(\verb"\ualpha"--\verb"\uxi"), and for bold lower-case Greek
+(\verb"\ubalpha"--\verb"\ubxi"). The bold upright symbol \verb"\eta" has to
+be treated differently, in this case use \verb"\uboldeta".
+The \verb"upmath" package also provides \verb"\upartial" and \verb"\ubpartial".
+
+To use the \verb"upmath" package, you need to have the AMS \verb"eurm/b"
+fonts installed.
+
+\section{Additional facilities}
+
+In addition to all the standard \LaTeX\ design elements, the JFM class file
+includes the following features:
+\begin{itemize}
+  \item Extended commands for specifying a short version
+        of the title and author(s) for the running
+        headlines.
+  \item Abstract environment.
+  \item Control of enumerated lists.
+  \item A \verb"proof" environment.
+  \item Acknowledgments environment.
+\end{itemize}
+Once you have used these additional facilities in your document,
+it can be processed only with \verb"JFM.cls".
+
+\subsection{Titles, authors' names and running headlines}
+
+In the JFM style, the title of the article and the author's name (or authors'
+names) are used both at the beginning of the article for the main title and
+throughout the article as running headlines at the top of every page.
+The title is used on odd-numbered pages (rectos) and the author's name
+(with initials only for first names) appears on even-numbered pages
+(versos). The \verb"\pagestyle" and \verb"\thispagestyle" commands should
+\emph{not} be used.  Similarly, the commands \verb"\markright" and
+\verb"\markboth" should not be necessary.
+
+Although the main heading can run to several lines of text,
+the running headline must be a single line.
+Moreover, the main heading can also incorporate new line commands
+(\eg \verb"\\") but these are not acceptable in a running headline.
+To enable you to specify an alternative short title and author's name, the
+standard \verb"\title" and \verb"\author" commands have been extended to take
+an optional argument to be used as the running headline:
+%
+\begin{verbatim}
+  \title[A short title]{The full title which can be as long
+                         as necessary}
+  \author[Initials and last names of all authors]{The full names of
+     all the authors, using \and before the last name in the list}
+  \affiliation{Author's affiliation}
+\end{verbatim}
+
+Unlike most other document styles, \verb"JFM.cls" does not follow the
+convention of using the second line of the \verb"\author" command to
+write the author's affiliation.  Rather, this must be entered using
+the \verb"\affiliation" command as shown above.  The \verb"\and"
+command does not produce separate author/affiliation pairs, but
+only generates the word `and' in small caps as required
+by the JFM style.  Use the predefined macro \verb"\ls" to get the
+letterspacing between the letters of the author's name.  If there is
+more than one affiliation, use \verb"\\[\affilskip]" between lines of the
+\verb"\affiliation", inserting footnote numbers manually.
+
+An example will make all this clearer.  To produce
+
+\medskip
+\begin{center}
+{\Large\bfseries Interesting title} \par\medskip
+{\bfseries By A\ls L\ls A\ls N\ns N.\ns O\ls T\ls H\ls E\ls R$^1$\ns
+  \and J.\ns Q.\ns P\ls U\ls B\ls L\ls I\ls C$^2$}\par
+\medskip
+{\small $^1$University of Moscow, Moscow, Russia\\[3pt]
+$^2$Ngonga University, Nairobi, Kenya}\par
+\medskip
+{\small (Received 12 June 1992)}
+\end{center}
+\medskip
+
+\noindent you would type
+%
+\begin{verbatim}
+  \title[Short title]{Interesting title}
+  \author[A. N. Other and J. Q. Public]
+         {A\ls L\ls A\ls N\ns N.\ns O\ls T\ls H\ls E\ls R$^1$\ns
+          \and J.\ns Q.\ns P\ls U\ls B\ls L\ls I\ls C$^2$}
+  \affiliation{$^1$University of Moscow, Moscow, Russia\\[\affilskip]
+               $^2$Ngonga University, Nairobi, Kenya}
+  \date{12 June 1992}
+\end{verbatim}
+
+The \LaTeX\ \verb"\thanks" command creates a footnote appearing at the bottom
+of the title page.
+
+\subsection{Abstract}
+
+The JFM style provides for an abstract, produced by
+%
+\begin{verbatim}
+  \begin{abstract}
+  ...
+  \end{abstract}
+\end{verbatim}
+
+This should appear just \emph{before} the first \verb"\section" command.
+
+\subsection{Lists}
+
+The JFM style provides the three standard list environments plus an additional
+unnumbered list:
+\begin{itemize}
+  \item Numbered lists, created using the \verb"enumerate" environment.
+  \item Bulleted lists, created using the \verb"itemize" environment.
+  \item Labelled lists, created using the \verb"description" environment.
+\end{itemize}
+The \verb"enumerate" environment numbers each list item with an italic
+letter in parentheses;
+alternative styles can be achieved by inserting a redefinition of the
+number labelling command after the \verb"\begin{enumerate}". For example, a
+list numbered with roman numerals inside parentheses can be produced by the
+following commands:
+%
+\begin{verbatim}
+  \begin{enumerate}
+  \renewcommand{\theenumi}{\roman{enumi}}
+  \item first item
+         :
+  \end{enumerate}
+\end{verbatim}
+%
+This produces the following list:
+\begin{enumerate}
+  \renewcommand{\theenumi}{\roman{enumi}}
+  \item first item
+  \item second item
+  \item \etc
+\end{enumerate}
+
+In the last example, the item alignment is uneven because
+the standard list indention is designed to be sufficient for arabic
+numerals rather than the longer roman numerals. In order to enable
+different labels to be used more easily, the \verb"enumerate" environment
+in the JFM style can be given an optional argument which (like a standard
+\verb"thebibliography" environment) specifies the \emph{widest label}. For
+example,
+\begin{enumerate}[(iii)]
+  \renewcommand{\theenumi}{\roman{enumi}}
+  \item first item
+  \item second item
+  \item \etc
+\end{enumerate}
+was produced by the following input:
+%
+\begin{verbatim}
+  \begin{enumerate}[(iii)]
+  \renewcommand{\theenumi}{\roman{enumi}}
+  \item first item
+          :
+  \end{enumerate}
+\end{verbatim}
+
+Remember, once you have used the optional argument on the \verb"enumerate"
+environment, do not process your document with a standard \LaTeX\ class file.
+
+\subsection{Proof environment}
+
+The standard \LaTeX\ constructs do not include a proof environment to
+follow a theorem, lemma \etc (see also $\S$\ref{sectTheor}), and so one has
+been added for the JFM style. For example,
+%
+\begin{verbatim}
+\begin{theorem}[2]
+  Let the scalar function $T(x,y,t,\bomega)$ be a conserved
+  density for solutions of \textrm{(9)}. Then the two-component function
+  \begin{equation}
+    {\bldP} = \mathsf{J}\mathcal{E} T
+  \end{equation}
+  represents the infinitesimal generator of a symmetry group
+  for \textrm{(9)}.
+\end{theorem}
+\begin{proof}
+  The assumption about $T$ means that
+  \[
+    0 \sim \frac{\upartial T}{\upartial t} +
+    \mathcal{E}T \bomega_t
+    = \frac{\upartial T}{\upartial t} + \{ T, H\},
+  \]
+  where $\upartial T / \upartial t$ refers to explicit
+  dependence on $t$. The skew symmetry of  $\mathsf{J}$ hence implies
+  \begin{equation}
+    \frac{\upartial T}{\upartial t} \sim \{ H, T\},
+  \end{equation}
+  whereupon the operation $\mathsf{J} \mathcal{E}$, which commutes with
+  $\upartial_t$ in its present sense, gives
+  \[
+    \frac{\upartial {\bldP}}{\upartial t}=\mathsf{J}\mathcal{E}\{ H, T\}.
+  \]
+  This equation reproduces the characterisation of symmetries that was
+  expressed by (19), thus showing $\mathrm{P}$ to represent a symmetry
+  group.
+\end{proof}
+\end{verbatim}
+%
+produces the following text:
+%
+\begin{theorem}[2]
+  Let the scalar function $T(x,y,t,\bomega)$ be a conserved
+  density for solutions of \textrm{(9)}. Then the two-component function
+  \begin{equation}
+    {\bldP} = \mathsf{J}\mathcal{E} T
+  \end{equation}
+  represents the infinitesimal generator of a symmetry group
+  for \textrm{(9)}.
+\end{theorem}
+\begin{proof}
+  The assumption about $T$ means that
+  \[
+    0 \sim \frac{\upartial T}{\upartial t} +
+    \mathcal{E}T \bomega_t
+    = \frac{\upartial T}{\upartial t} + \{ T, H\},
+  \]
+  where $\upartial T / \upartial t$ refers to explicit
+  dependence on $t$. The skew symmetry of  $\mathsf{J}$ hence implies
+  \begin{equation}
+    \frac{\upartial T}{\upartial t} \sim \{ H, T\},
+  \end{equation}
+  whereupon the operation $\mathsf{J} \mathcal{E}$, which commutes with
+  $\upartial_t$ in its present sense, gives
+  \[
+    \frac{\upartial {\bldP}}{\upartial t}=\mathsf{J}\mathcal{E}\{ H, T\}.
+  \]
+  This equation reproduces the characterisation of symmetries that was
+  expressed by (19), thus showing $\mathrm{P}$ to represent a symmetry
+  group.
+\end{proof}
+
+The final \usebox{\proofbox} will not be included if the \verb"proof*"
+environment is used.
+
+\ifCUPmtlplainloaded
+\smallskip
+Note: If a proof environment is ended by and unnumbered equation, it is
+customary for Editors to mark the proof box to be moved up, so that it
+aligns with the end of the equation.  This can be achieved by placing a
+\verb"\raiseproofboxby" command before the \verb"\end{proof}".
+A value of \verb"1.5\baselineskip" seems to give the best results. \eg
+\begin{verbatim}
+  \begin{proof} \raiseproofboxby{1.5\baselineskip}
+    The assumption about $T$ means that
+    :
+    \[
+      \frac{\upartial T}{\upartial t} \sim \{ H, T\},
+    \]
+  \end{proof}
+\end{verbatim}
+\fi
+
+\subsection{Remarks}
+
+The JFM style requires Remarks, Notes, Problems, Comments, and Cases to be
+typeset as for proofs but without the closing \usebox{\proofbox}\,.  The
+\verb"JFM.cls" file contains a \verb"remarks" environment for this purpose.
+It works like the standard \LaTeX\ \verb"\newtheorem" command except there
+is no optional argument for numbering:
+%
+\begin{verbatim}
+  \newremark{note}{Note}
+  \begin{note}
+     This is a note...
+  \end{note}
+\end{verbatim}
+%
+This will produce the following text:
+\newremark{note}{Note}
+\begin{note}
+This is a note.  It isn't very interesting as notes go, but it's still
+a note.
+\end{note}
+
+\section{Mathematics and units}
+
+The JFM class file will insert the correct space above and below
+displayed maths if standard \LaTeX\ commands are used; for example use
+\verb"\[ ... \]" and \emph{not} \verb"$$ ... $$". Do not leave blank
+lines above and below displayed equations unless a new paragraph is
+really intended.
+
+\subsection{Numbering of equations}
+
+The \verb"subequations" and \verb"subeqnarray" environments have been
+incorporated into the JFM class file (see \S\ref{sub:amstex} regarding
+the \verb"subequations" environment). Using these two environments,
+you can number your equations (\ref{a1}), (\ref{a2}) \etc automatically.
+For example, you can typeset
+  \begin{subequations}
+  \begin{equation}
+    a_1 \equiv (2\Omega M^2/x)^{1/4} y^{1/2}\label{a1}
+  \end{equation}
+  and
+  \begin{equation}
+    a_2 \equiv (x/2\Omega)^{1/2}k_y/M.\label{a2}
+  \end{equation}
+  \end{subequations}
+by using the \verb"subequations" environment as follows:
+%
+\begin{verbatim}
+  \begin{subequations}
+  \begin{equation}
+    a_1 \equiv (2\Omega M^2/x)^{1/4} y^{1/2}\label{a1}
+  \end{equation}
+  and
+  \begin{equation}
+    a_2 \equiv (x/2\Omega)^{1/2}k_y/M.\label{a2}
+  \end{equation}
+  \end{subequations}
+\end{verbatim}
+%
+You may also typeset an \verb"array" such as:
+  \begin{subeqnarray}\label{eqna}
+    \dot{X}    & = & \gamma X - \gamma\delta\eta ,\\
+    \dot{\eta} & = & {\textstyle\frac{1}{2}} \delta + 2X\eta .
+  \end{subeqnarray}
+by using the \verb"subeqnarray" environment as follows:
+%
+  \begin{verbatim}
+  \begin{subeqnarray}
+    \dot{X}    & = & \gamma X - \gamma\delta\eta ,\\
+    \dot{\eta} & = & {\textstyle\frac{1}{2}} \delta + 2X\eta .
+  \end{subeqnarray}
+  \end{verbatim}
+%
+You can do something more complex with these environments. Here follow
+a few examples of manipulating equation numbers which may be useful.
+First, you may wish to manipulate individual lines in a \verb"subeqnarray"
+%
+\begin{subeqnarray}
+% define subequation numbers
+  \gdef\thesubequation{\theequation \textit{a,b}}
+    M_{1} & = & a_{1}z^3+b_{1}z\rho^2 + \ldots,\quad
+    M_{2}  =  a_{2}z^3+b_{2}z\rho^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{c,d}}
+    M_{3} & = & a_{3}z^3+b_{3}z\rho^2 + \ldots,\quad
+    M_{4}  =  c_{4}\rho^3+d_{4}\rho z^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{e,f}}
+    M_{5} & = & c_{5}\rho^3+d_{5}\rho z^2 + \ldots,\quad
+    M_{6}  =  c_{6}\rho^3+d_{6}\rho z^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{g,h}}
+    M_{7} & = & c_{7}\rho^3+d_{7}\rho z^2 + \ldots,\quad
+    M_{8}  =  a_{8}z^3+b_{8}z\rho^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{i,j}}
+    M_{9} & = & a_{9}z^3+b_{9}z\rho^2 + \ldots,\quad
+    M_{10}  =  _{10}\rho^3+d_{10}\rho z^2 + \ldots.
+\end{subeqnarray}
+% reinstate the original definition of \thesubequation
+\returnthesubequation
+%
+Second, you may wish to have a \verb"subeqnarray"
+%
+\begin{subeqnarray}
+  \dot{X}    & = & \gamma X - \gamma\delta\eta ,\\
+  \dot{\eta} & = & {\textstyle\frac{1}{2}} \delta + 2X\eta .
+\end{subeqnarray}
+%
+followed by another \verb"subeqnarray"
+% don't increment the equation counter
+\addtocounter{equation}{-1}
+\begin{subeqnarray}
+% increment subequation counter by 2 to take it from a to c
+  \addtocounter{subequation}{2}
+  \dot{X}    & = & \gamma X - \gamma\delta\eta ,\\
+  \dot{\eta} & = & {\textstyle\frac{1}{2}} \delta + 2X\eta .
+\end{subeqnarray}
+%
+followed by an \verb"equation"
+% save the current definition of \theequation
+\let\oldequation=\theequation
+% define \theequation
+\renewcommand\theequation{4.4\textit{e}}
+\begin{equation}
+  K\sim(A + {\hbar} {A_1} +{{\hbar}^2} {A_2} +...)\,
+    \exp(-I_{\mathrm{class}}/{\hbar}).
+\end{equation}
+%
+At some point, you will need to reset everything back to normal
+% restore the definition of \theequation
+\let\theequation=\oldequation
+% restore the equation number
+\setcounter{equation}{4}
+\begin{equation}
+  \Psi(a, \psi^A) = C \exp(-3a^2/\hbar) + D \exp(3a^2/\hbar)
+    {\psi_A}{\psi^A}.
+\end{equation}
+%
+The equations above were typeset using the following code
+%
+\begin{verbatim}
+\begin{subeqnarray}
+% define subequation numbers
+  \gdef\thesubequation{\theequation \textit{a,b}}
+    M_{1} & = & a_{1}z^3+b_{1}z\rho^2 + \ldots,\quad
+    M_{2}  =  a_{2}z^3+b_{2}z\rho^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{c,d}}
+    M_{3} & = & a_{3}z^3+b_{3}z\rho^2 + \ldots,\quad
+    M_{4}  =  c_{4}\rho^3+d_{4}\rho z^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{e,f}}
+    M_{5} & = & c_{5}\rho^3+d_{5}\rho z^2 + \ldots,\quad
+    M_{6}  =  c_{6}\rho^3+d_{6}\rho z^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{g,h}}
+    M_{7} & = & c_{7}\rho^3+d_{7}\rho z^2 + \ldots,\quad
+    M_{8}  =  a_{8}z^3+b_{8}z\rho^2 + \ldots, \\
+  \gdef\thesubequation{\theequation \textit{i,j}}
+    M_{9} & = & a_{9}z^3+b_{9}z\rho^2 + \ldots,\quad
+    M_{10}  =  _{10}\rho^3+d_{10}\rho z^2 + \ldots.
+\end{subeqnarray}
+% reinstate the original definition of \thesubequation
+\returnthesubequation
+%
+Second, you may wish to have a \verb"subeqnarray"
+%
+\begin{subeqnarray}
+  \dot{X}    & = & \gamma X - \gamma\delta\eta ,\\
+  \dot{\eta} & = & {\textstyle\frac{1}{2}} \delta + 2X\eta .
+\end{subeqnarray}
+%
+followed by another \verb"subeqnarray"
+% don't increment the equation counter
+\addtocounter{equation}{-1}
+\begin{subeqnarray}
+% increment subequation counter by 2 to take it from a to c
+  \addtocounter{subequation}{2}
+  \dot{X}    & = & \gamma X - \gamma\delta\eta ,\\
+  \dot{\eta} & = & {\textstyle\frac{1}{2}} \delta + 2X\eta .
+\end{subeqnarray}
+%
+followed by an \verb"equation"
+% save the current definition of \theequation
+\let\oldequation=\theequation
+% define \theequation
+\renewcommand\theequation{4.4\textit{e}}
+\begin{equation}
+  K\sim(A + {\hbar} {A_1} +{{\hbar}^2} {A_2} +...)\,
+    \exp(-I_{\mathrm{class}}/{\hbar}).
+\end{equation}
+%
+At some point, you will need to reset everything back to normal
+% restore the definition of \theequation
+\let\theequation=\oldequation
+% restore the equation number
+\setcounter{equation}{4}
+\begin{equation}
+  \Psi(a, \psi^A) = C \exp(-3a^2/\hbar) + D \exp(3a^2/\hbar)
+    {\psi_A}{\psi^A}.
+\end{equation}
+\end{verbatim}
+
+\subsubsection{Cross referencing items in the \texttt{subeqnarray} environment}
+
+If you use the standard \verb"\label" command to label
+individual lines within a \texttt{subeqnarray} environment, you will not
+get what you expect when you use \verb"\ref" to refer to them: \eg you
+will get 4.2 and not 4.2\textit{a}, \etc (You may find this effect useful if
+you wish to refer to a range of items. \eg \verb"\ref{eqna}\,\textit{a--c}"
+which gives \ref{eqna}\,\textit{a--c}.)
+
+The \verb"\slabel" command is provided to allow you refer to items within a
+\texttt{subeqnarray} environment correctly. It works in exactly the same
+way as the normal \verb"\label" command.
+
+\subsubsection{The \texttt{subequations} environment and the
+  \texttt{AMSTEX} package} \label{sub:amstex}
+
+The \verb"amstex" (and \verb"amsmath") packages also define a
+\verb"subequations" environment.  The environment in \verb"JFM.cls" is used
+by default, as the environments in the AMS packages don't produce the correct
+style of output.
+
+If you must use the AMS \verb"subequations" environment,
+you should place a
+\begin{verbatim}
+  \useAMSsubequations
+\end{verbatim}
+before \verb"\begin{document}".
+In this case the JFM version of \verb"subequations" can still be used by
+using the \verb"CUPsubequations" environment.
+
+Note that the \verb"subequations" environment from the \verb"amstex" package
+takes an argument -- you should use an `a' to give \verb"\alph" style
+subequations. \eg
+\begin{verbatim}
+  \begin{subequations}{a}
+    ...
+  \end{subequations}
+\end{verbatim}
+The sub-equation number will not be typset in italics -- the typesetter
+will correct this.
+
+\subsection{AMS fonts -- especially if you do not have them}
+
+If you need symbols from the AMS font set but do not have them installed,
+you can ensure that they will be correctly typeset by taking the following
+steps.
+Set up user-defined macros that can be redefined by the typesetter to use
+the correct AMS macros. For example, the blackboard bold symbols,
+sometimes called shell or outline characters, are obtained with the AMS
+macro \verb"\mathbb{..}". Instead, use a macro definition such as:
+%
+\begin{verbatim}
+  % replace font!
+  \newcommand\BbbE{\ensuremath{\mathsf{E}}} % Blackboard bold E
+\end{verbatim}
+%
+This substitutes a sans serif character where you want blackboard
+bold. You can typeset the input file and the typesetter is alerted to do the
+substitution.
+
+The following example (which uses the \verb"\providecommand" macro) will work
+without modification by the typesetter, because the \verb"\providecommand"
+macro will not overwrite any existing \verb"\mathbb" definition.
+%
+\begin{verbatim}
+  \providecommand\mathbb[1]{\ensuremath{\mathsf{#1}}}
+  ...
+  \newcommand\BbbE{\mathbb{E}} % Blackboard bold E
+\end{verbatim}
+
+Plain \TeX\ provides only \verb"\leq" and \verb"\geq" which typeset the
+Computer Modern symbols $\realleq$ and $\realgeq$, respectively. These will
+be redefined at typesetting to use the AMS symbols \verb"\leqslant" and
+\verb"\geqslant", to give slanted symbols.
+
+If you wish to use AMS fonts with \LaTeXe\ you must be using at least
+version 2.0. Earlier versions are not supported.
+
+\subsection{Typeface}
+
+Sometimes, non-italic symbols are required in maths, as described in the
+Notation Guide (\verb"JFM2enot.tex"). This section describes how these may
+be obtained using \LaTeX\ and \verb"JFM.cls".
+
+\subsubsection{Roman symbols}\label{roman}
+
+The mathematical operators and constants, such as sin, cos, log and exp
+(and many others) are covered by \LaTeXe\ macros which ensure that they are
+typeset in roman text, even in math mode: \verb"\sin", \verb"\cos",
+\verb"\log", \verb"\exp". Where single letters are concerned (\eg d, i, e)
+just use \verb"\mathrm" in math mode, i.e.\ \verb"$E=m\mathrm{c}^2$" which
+typesets as $E=m\mathrm{c}^2$, giving the correct roman character but with
+math spacing. When the term involves more than one character (\eg \Real\ or
+\Imag ) text-character spacing is required:
+%
+\begin{verbatim}
+  $\mbox{Re}\;x$
+\end{verbatim}
+%
+which typesets as $\Real\;x$.
+
+Where such expressions are used repeatedly, macro definitions can reduce
+typing and editing. The following examples are included in the preamble
+of the input files for this document, \verb"JFM2egui.tex", and in the
+sample article \verb"JFM2esam.tex". Authors are encouraged to use them
+and others like them.
+%
+\begin{verbatim}
+  \newcommand\Real{\mbox{Re}} % do not confuse with TeX's \Re
+  \newcommand\Imag{\mbox{Im}} % do not confuse with TeX's \Im
+  \newcommand\Ai{\mbox{Ai}}   % Airy function
+  \newcommand\Bi{\mbox{Bi}}   % Airy function
+\end{verbatim}
+
+\subsubsection{Multiletter italic symbols}
+
+If multiletter symbols are used in math mode, for example Reynolds,
+Prandtl numbers, \etc the standard math mode spacing between them is
+too large and text-character spacing is required. As described
+in \S\ref{roman} (but here for italic letters) use for example
+%
+\begin{verbatim}
+  \newcommand\Rey{\mbox{\textit{Re}}}
+  \newcommand\Pran{\mbox{\textit{Pr}}}
+\end{verbatim}
+
+\subsubsection{Upright and sloping Greek symbols}
+
+Like the italic/roman fonts described above, Greek letters for math
+variables are printed in the Journal in sloping type, whereas constants,
+operators and units are upright. However, \LaTeX\ normally produces sloping
+lowercase Greek and upright capitals. The upright lowercase required for
+example for `pi' and `mu' (micro) are provided by the \verb"upmath" package
+(from the AMS Euler fonts). If you don't have the AMS font set, you will have
+to use the normal math italic symbols and the typesetter will substitute the
+corresponding upright characters.
+
+You will make this much easier if you can use the macros \verb"\upi" and
+\verb"\umu" in your text to indicate the need for the upright characters,
+together with the following definitions in the preamble, where they can
+easily be redefined by the typesetter.
+%
+\begin{verbatim}
+  \providecommand\upi{\pi}
+  \providecommand\umu{\mu}
+\end{verbatim}
+%
+Notice the use of \verb"\providecommand", this stops your
+definitions overwriting the ones used by the typesetter.
+
+Sloping uppercase Greek characters can be obtained by using the
+\verb"\varGamma" \etc macros (which are built into the class file).
+The few required upright Greek capital letters (\eg capital delta for
+`difference') are given by the relevant \LaTeX\ macro, \eg \verb"\Delta".
+
+\subsubsection{Sans serif symbols}
+
+The \verb"\textsf" and \verb"\mathsf" commands change the typeface to
+sans serif, giving upright characters. Occasionally, bold-sloping sans serif
+is needed (see the Notation Guide). You should use the following supplied
+macros to obtain these fonts.\\[6pt]
+%
+\verb"  \textsf{text}  " \lra \textsf{text}
+  \qquad \verb"\mathsf{math}  " \lra $\mathsf{math}$\\
+\verb"  \textsfi{text} " \lra \textsfi{text}
+  \qquad \verb"\mathsfi{math} " \lra $\mathsfi{math}$\\
+\verb"  \textsfb{text} " \lra \textsfb{text}
+  \qquad \verb"\mathsfb{math} " \lra $\mathsfb{math}$\\
+\verb"  \textsfbi{text}" \lra \textsfbi{text}
+  \qquad \verb"\mathsfbi{math}" \lra $\mathsfbi{math}$\\[6pt]
+%
+You can use them like this:
+%
+\begin{verbatim}
+  \newcommand\ssC{\mathsf{C}}     % for sans serif C
+  \newcommand\sfsP{\mathsfi{P}}   % for sans serif slanted P
+  \newcommand\sfbsX{\mathsfbi{X}} % for sans serif bold slanted X
+\end{verbatim}
+%
+Note that the bold-slanted macros \verb"\textsfbi" and
+\verb"\mathsfbi" use the slanted sans serif font \verb"cmssi"
+-- because there is no bold-slanted math sans serif font in available in
+Computer Modern!  If you use the supplied sans-serif text and math commands
+the typesetter will be able to substitute the fonts automatically.
+
+\subsubsection{Bold math italic symbols}
+
+If you require bold math italic symbols/letters, \LaTeX\ provides several ways
+of getting them.  Firstly, \LaTeX's \verb"\boldmath" switch which can be
+used like this:
+\begin{verbatim}
+  $ \mbox{\boldmath $P$} = \mathsf{J}\mathcal{E} T $
+\end{verbatim}
+As you can see it takes quite alot of typing to achieve a bold math italic P.
+Another problem is that you can't use \verb"\boldmath" in math mode, thus the
+\verb"\mbox" forces the resulting text into text style (which you may not
+want).
+
+You can cut down on the typing by defining the following macro (which
+is in the preamble of this guide):
+\begin{verbatim}
+  \providecommand\boldsymbol[1]{\mbox{\boldmath $#1$}}
+\end{verbatim}
+Then for the above example you can define:
+\begin{verbatim}
+  \newcommand\bldP{\boldsymbol{P}}
+\end{verbatim}
+the achieve the same result. This still doesn't remove the default to
+text style problem.
+
+If you have the \verb"amsbsy" package on your system, then you can remove
+this limitation as well by placing a \verb"\usepackage{amsbsy}" after the
+\verb"\documentclass" line in your document, and then use \verb"\boldsymbol"
+for bold math italic symbols (don't define \verb"\boldsymbol" yourself when
+using \verb"amsbsy").
+
+\subsubsection{Script characters}
+
+Script characters should be typeset using \LaTeXe's \verb"\mathcal"
+command. This produces Computer Modern symbols such as $\mathcal{E}\,$
+and $\mathcal{F}\,$ in your hard copy but the the typesetter will substitute
+the more florid script characters normally seen in the journal.
+
+\subsection{Skewing of accents}
+
+Accents such as hats, overbars and dots are normally centred over letters,
+but when these are italic or sloping greek the accent may need to be moved
+to the right so that it is centred over the top of the sloped letter. For
+example, \verb"\newcommand\hatp{\skew3\hat{p}}" will produce $\hatp$.
+
+\subsection{Units of measure}
+
+Numbers and their units of measure should be typeset with fixed spaces
+that will not break over two lines. This is easily done with user-defined
+macros. For example,\linebreak \verb"52\dynpercm" typesets as
+52\dynpercm , providing the following macro definition has been included
+in the preamble.
+%
+\begin{verbatim}
+  \newcommand\dynpercm{\nobreak\mbox{$\;$dynes\,cm$^{-1}$}}
+\end{verbatim}
+
+\section{User-defined macros}\label{secUser}
+
+If you define your own macros you must ensure that their names do not
+conflict with any existing macros in plain \TeX\ or \LaTeX\ (or \AMSLaTeX\ %
+if you are using this). You should also place them in the preamble to
+your input file, between the \verb"\documentclass" and
+\verb"\begin{document}" commands.
+
+Apart from scanning the indexes of the relevant manuals, you can check
+whether a macro name is already used in plain \TeX\ or \LaTeX\ by using
+the \TeX\ command \verb"show". For instance, run \LaTeX\ interactively
+and type \verb"\show\<macro_name>" at the \TeX\ prompt. (Alternatively,
+insert the \verb"\show" command into the preamble of an input file and
+\TeX\ it.)
+%
+\begin{verbatim}
+  * \show\Re
+\end{verbatim}
+%
+produces the following response from \TeX :
+%
+\begin{verbatim}
+  > \Re=\mathchar"23C.
+  <*> \show\Re
+\end{verbatim}
+%
+By contrast \verb"\Real" is not part of plain \TeX\ or \LaTeX\ and
+\verb"\show\Real" generates:
+%
+\begin{verbatim}
+  > \Real=undefined
+  <*> \show\Real
+\end{verbatim}
+%
+confirming that this name can be assigned to a user-defined macro.
+
+Alternatively, you can just use \verb"\newcommand", which will check for
+the existence of the macro you are trying to define.  If the macro exists
+\LaTeX\ will respond with:
+%
+\begin{verbatim}
+  ! LaTeX Error: Command ... already defined.
+\end{verbatim}
+%
+In this case you should choose another name, and try again.
+
+Such macros must be in a place where they can easily be found and
+modified by the journal's editors or typesetter. They must be gathered
+together in the preamble of your input file, or in a separate
+\verb"macros.tex" file with the command \verb"\input{macros}" in the
+preamble. Macro definitions must not be scattered about your document
+where they are likely to be completely overlooked by the typesetter.
+
+The same applies to font definitions that are based on Computer Modern
+fonts. These must be changed by the typesetter to use the journal's
+\TeX\ typefaces Times and Helvetica. In this case, you should draw
+attention to these font definitions on the hard copy that you submit for
+publication and by placing a comment in your input file just before the
+relevant definitions, for example \verb"% replace font!"
+
+\section{Some guidelines for using standard facilities}
+
+The following notes may help you achieve the best effects with the
+standard \LaTeX\ facilities that remain in the JFM style.
+
+\subsection{Sections}
+
+Only the first three \LaTeX\ section levels are defined in the JFM class
+file:
+\begin{itemize}
+  \item[] Heading A -- \verb"\section{...}"
+  \item[] Heading B -- \verb"\subsection{...}"
+  \item[] Heading C -- \verb"\subsubsection{...}"
+\end{itemize}
+There is no \verb"paragraph" or \verb"subparagraph" in the JFM style.
+
+To obtain non-bold in a bold heading use the usual \LaTeXe\ commands for
+changing typeface; for example
+\verb"\section{Fluctuations in Ca\textsc{\textmd{ii}}".
+If a section head is too wide for the measure, the turnover line should
+be full out. To achieve this, you use the command \verb"\endgraf", as
+illustrated in the following section head:
+%
+\begin{verbatim}
+  \section{Angular distribution of the radiation: compatibility
+             of the results with\endgraf the conservation of energy}
+\end{verbatim}
+%
+  \begin{table}
+    \begin{center}
+      \begin{minipage}{4.7cm}
+        \begin{tabular}{@{}cccl@{}}
+        {Figure} & {$hA$} & {$hB$}\footnote{A table must be
+        inside a \texttt{minipage} environment if it includes
+        table footnotes.}
+         & \multicolumn{1}{c@{}}{$hC$}\\[3pt]
+       2 & $\exp\;(\upi \mathrm{i} x)$
+         & $\exp\;(\upi \mathrm{i} y)$ & $0$\\
+       3 & $-1$    & $\exp\;(\upi \mathrm{i} x)$ & $1$\\
+       4 & $-4+3\mathrm{i}$ & $-4+3\mathrm{i}$ & 1.6\\
+       5 & $-2$    & $-2$    & $1.2\mathrm{i}$
+       \end{tabular}
+     \end{minipage}
+    \end{center}
+  \caption{An example table} \label{sample-table}
+  \end{table}
+
+\subsection{Tables}
+
+The \texttt{table} environment is implemented as described in
+the \LaTeX\ manual to provide consecutively numbered floating
+inserts for tables.
+
+The JFM class will cope with most table positioning problems
+and you should not normally use the optional positional qualifiers \verb"t",
+\verb"b", \verb"h" on the
+\verb"table" environment, as this would override these decisions.
+Table captions should appear at the bottom of the table; therefore you
+should place the \verb"\caption" command after the body of the table.
+
+The JFM \verb"\table" command will insert rules above and below
+the table as required by the JFM style, so you should not attempt
+to insert these yourself.
+The only time you need to intervene with the rules is when two or more tables
+fall one above another. When this happens, you will get two rules together
+and too much space between the tables; the solution is to add \verb"\norule"
+before the end of upper table and \verb"\followon" between tables as shown
+here:
+%
+\begin{verbatim}
+    ...
+    \end{center}
+    \caption{Dimensionless parameters}\label{dimensionless_p}
+    \norule
+  \end{table}
+    \followon
+  \begin{table}
+    \begin{center}
+    ...
+\end{verbatim}
+
+The JFM style dictates that vertical rules should never be used within the
+body of the table, and horizontal rules should be used only to span
+columns with the same headings. Extra space can be inserted to distinguish
+groups of rows or columns.
+
+As an example, table~\ref{sample-table} is produced using the following
+commands:
+%
+\begin{verbatim}
+  \begin{table}
+    \begin{center}
+      \begin{minipage}{4.7cm}
+        \begin{tabular}{@{}cccl@{}}
+        {Figure} & {$hA$} & {$hB$}\footnote{A table must be
+        inside a \texttt{minipage} environment if it includes
+        table footnotes.}
+         & \multicolumn{1}{c@{}}{$hC$}\\[3pt]
+       2 & $\exp\;(\upi \mathrm{i} x)$
+         & $\exp\;(\upi \mathrm{i} y)$ & $0$\\
+       3 & $-1$    & $\exp\;(\upi \mathrm{i} x)$ & $1$\\
+       4 & $-4+3\mathrm{i}$ & $-4+3\mathrm{i}$ & 1.6\\
+       5 & $-2$    & $-2$    & $1.2\mathrm{i}$
+       \end{tabular}
+     \end{minipage}
+    \end{center}
+  \caption{An example table} \label{sample-table}
+  \end{table}
+\end{verbatim}
+
+The \verb"tabular" environment has been modified for the JFM style in the
+following ways:
+\begin{enumerate}
+  \item Additional vertical space is inserted above and below a horizontal
+        rule produced by \verb"\hline"
+  \item Tables are centred, and span the full width of the page; that is,
+        they are similar to the tables that would be produced by
+        \verb"\begin{tabular*}{\textwidth}".
+\end{enumerate}
+Commands to redefine quantities such as \verb"\arraystretch" should be
+omitted. Note the use of the \verb"\@{}" command at the beginning and end of
+\verb"tabular" argument. This removes intercolumn spacing for
+the first and last columns.
+
+\subsection{Illustrations (or figures)}
+
+At present, there are editing problems with using PostScript or similar
+files for figures and so artwork must be supplied separately as hard copy
+to be lettered and sized by the Printer. An approximate amount of space
+should be left, using the \verb"\vspace" command.
+
+The JFM style will cope with most figure positioning problems and you should
+not normally use the optional positional qualifiers \verb"t", \verb"b",
+\verb"h" on the \verb"figure" environment, as this would override these
+decisions. Figure captions should be below the figure itself, therefore the
+\verb"\caption" command should appear after the space left for the
+illustration within the \verb"figure" environment.
+For example, figure~\ref{sample-figure} is produced using the following
+commands:
+\begin{figure}
+  \vspace{3cm}
+  \caption{An example figure with space for artwork}
+  \label{sample-figure}
+\end{figure}
+
+\begin{verbatim}
+  \begin{figure}
+    \vspace{3cm}
+    \caption{An example figure with space for artwork}
+    \label{sample-figure}
+  \end{figure}
+\end{verbatim}
+
+If a figure caption is too long to fit on the same page as its illustration,
+the caption may be typeset as `{\small\textsc{Figure X.} \textrm{For caption
+see facing page.}}', and the longer caption typeset at the bottom of the
+facing page. Authors should not concern themselves unduly with such details,
+and may leave pages long.
+
+\subsection{Theorem environments}\label{sectTheor}
+
+The \verb"\newtheorem" command works as described in the \LaTeX\ manual,
+but produces spacing and caption typefaces required to the JFM style.  The
+preferred numbering scheme is for theorems to be numbered within sections,
+as 1.1, 1.2, 1.3, etc., but other numbering schemes are permissible and
+may be implemented as described in the \LaTeX\ manual.  In order to allow
+authors maximum flexibility in numbering and naming, \emph{no} theorem-like
+environments are defined in \verb"JFM.cls".  Rather, you have to define
+each one yourself.  Theorem-like environments include Theorem, Definition,
+Lemma, Corollary, and Proposition.  For example,
+%
+\begin{verbatim}
+  \newtheorem{theorem}{Theorem}[section]
+  \newtheorem{lemma}{Lemma}[section]
+  \renewcommand{\thelemma}{\Roman{lemma}}
+\end{verbatim}
+
+\subsection{Acknowledgments}
+
+Acknowledgments should appear at the close of your paper, just before
+the list of references and any appendices.  Use the \verb"acknowledgments"
+(or \verb"acknowledgements") environment, which simply inserts an appropriate
+amount of vertical space.
+
+\subsection{Appendices}
+
+You should use the standard \LaTeX\ \verb"\appendix" command to place any
+Appendices, normally, just before the references. This numbers
+appendices as A, B etc., equations as (A1), (B1) \etc (figures and
+tables continue the same numbering sequence as in the main text).
+
+If you have only one Appendix, you should use the \verb"\oneappendix" command
+(instead of \verb"\appendix"). This command does the same as \verb"\appendix",
+except it allows \verb"JFM.cls" to typeset a single Appendix correctly.
+
+\subsection{References}
+
+As with standard \LaTeX, there are two ways of producing a list of
+references; either by compiling a list (using a \verb"thebibliography"
+environment), or by using the JFM Bib\TeX\ style file \verb"jfm.bst".
+
+\subsubsection{Downloading the {\tt JFM.bst} files}
+
+The \verb"jfm.bst" files can be downloaded (via Anonymous FTP) from the
+following site: \verb"ftp.cup.cam.ac.uk", in the directory:
+%
+\begin{verbatim}
+  pub/texarchive/journals/latex/jfm-cls/bst
+\end{verbatim}
+%
+You can pick up the files individually, or fetch them all in one go by
+downloading \verb"bst2e.ltx" (in `text' transfer mode). If you
+download the \verb".ltx" file, also download the \verb"readme.txt"
+as this tells you how to unpack the files.
+
+Once you have downloaded and if necessary unpacked the files, examine the
+example file \verb"bibsamp.tex", for further instructions.
+
+\subsubsection{References in the text}
+
+References in the text are given by author and date, in the form
+\cite{Den85}. Each  entry has a key, which is assigned by the author
+and used to refer to that entry in the text.
+
+\subsubsection{The list of references}
+
+The following listing shows some references prepared in the style of the
+journal; the code produces the references at the end of this guide.
+%
+\begin{verbatim}
+\begin{thebibliography}{}
+  \bibitem[Abramowitz \& Stegun (1965)]{AS65}
+    \textsc{Abramowitz, M. \& Stegun, I. A.} 1965
+    \emph{Handbook of Mathematical Functions}. Dover.
+  \bibitem[Dennis (1985)]{Den85}
+    \textsc{Dennis, S. C. R.} 1985
+    Compact explicit finite difference approximations to the
+    Navier--Stokes equation. In \emph{Ninth Intl Conf. on
+    Numerical Methods in Fluid Dynamics} (ed. Soubbaramayer
+    \& J. P. Boujot). Lecture Notes in Physics, vol. 218,
+    pp.~23--51. Springer.
+  \bibitem[Jones (1976)]{Jon76}
+    \textsc{Jones, O. C.} 1976
+    An improvement in the calculation of turbulent friction in
+    rectangular ducts. \emph{Trans. ASME} J:
+    \emph{J. Fluids Engng} \textbf{98}, 173--181.
+  \bibitem[Saffman (1990)]{Saf90}
+    \textsc{Saffman, P. G.} 1990
+    A model vortex reconnection. \emph{J. Fluid Mech.}
+    \textbf{212}, 395--402.
+  \bibitem[Saffman \& Schatzman (1982)]{SS82}
+    \textsc{Saffman, P. G. \& Schatzman, J. C.} 1982
+    Stability of a vortex street of finite vortices.
+    \emph{J. Fluid Mech.} \textbf{117}, 171--185.
+  \bibitem[Saffman \& Yuen (1980)]{SY80}
+    \textsc{Saffman, P. G. \& Yuen, H. C.} 1980
+    A new type of three-dimensional deep-water wave of permanent
+    form. \emph{J. Fluid Mech.} \textbf{101}, 797--808.
+  \bibitem[Shaqfeh \& Koch (1990)]{SK90}
+    \textsc{Shaqfeh, E. S. G. \& Koch, D. L.} 1990
+    Orientational dispersion of fibres in extensional flow.
+    \emph{Phys. Fluids} A \textbf{2}, 1077--1081.
+  \bibitem[Wijngaarden (1968)]{Wij68}
+    \textsc{Wijngaarden, L. van} 1968
+    On the oscillations near and at resonance in open pipes.
+    \emph{J. Engng Maths} \textbf{2}, 225--240
+  \bibitem[Williams (1964)]{Wil64}
+    \textsc{Williams, J. A.} 1964
+    A nonlinear problem in surface water waves. PhD thesis,
+    University of California, Berkeley.
+\end{thebibliography}
+\end{verbatim}
+%
+Each entry takes the form
+%
+\begin{verbatim}
+  \bibitem[Author(s) (Date)]{tag}
+    Bibliography entry
+\end{verbatim}
+%
+where \verb"Author(s)"\ should be the author names as they are cited in
+the text, \verb"Date" is the date to be cited in the text, and \verb"tag"
+is the tag that is to be used as an argument for the \verb"\cite{}" command.
+\verb"Bibliography entry" should be the material that is to appear in the
+bibliography, suitably formatted.
+
+\begin{thebibliography}{}
+  \bibitem[Abramowitz \& Stegun (1965)]{AS65}
+    \textsc{Abramowitz, M. \& Stegun, I. A.} 1965
+    \emph{Handbook of Mathematical Functions}. Dover.
+  \bibitem[Dennis (1985)]{Den85}
+    \textsc{Dennis, S. C. R.} 1985
+    Compact explicit finite difference approximations to the
+    Navier--Stokes equation. In \emph{Ninth Intl Conf. on
+    Numerical Methods in Fluid Dynamics} (ed. Soubbaramayer
+    \& J. P. Boujot). Lecture Notes in Physics, vol. 218,
+    pp.~23--51. Springer.
+  \bibitem[Jones (1976)]{Jon76}
+    \textsc{Jones, O. C.} 1976
+    An improvement in the calculation of turbulent friction in
+    rectangular ducts. \emph{Trans. ASME} J:
+    \emph{J. Fluids Engng} \textbf{98}, 173--181.
+  \bibitem[Saffman (1990)]{Saf90}
+    \textsc{Saffman, P. G.} 1990
+    A model vortex reconnection. \emph{J. Fluid Mech.}
+    \textbf{212}, 395--402.
+  \bibitem[Saffman \& Schatzman (1982)]{SS82}
+    \textsc{Saffman, P. G. \& Schatzman, J. C.} 1982
+    Stability of a vortex street of finite vortices.
+    \emph{J. Fluid Mech.} \textbf{117}, 171--185.
+  \bibitem[Saffman \& Yuen (1980)]{SY80}
+    \textsc{Saffman, P. G. \& Yuen, H. C.} 1980
+    A new type of three-dimensional deep-water wave of permanent
+    form. \emph{J. Fluid Mech.} \textbf{101}, 797--808.
+  \bibitem[Shaqfeh \& Koch (1990)]{SK90}
+    \textsc{Shaqfeh, E. S. G. \& Koch, D. L.} 1990
+    Orientational dispersion of fibres in extensional flow.
+    \emph{Phys. Fluids} A \textbf{2}, 1077--1081.
+  \bibitem[Wijngaarden (1968)]{Wij68}
+    \textsc{Wijngaarden, L. van} 1968
+    On the oscillations near and at resonance in open pipes.
+    \emph{J. Engng Maths} \textbf{2}, 225--240
+  \bibitem[Williams (1964)]{Wil64}
+    \textsc{Williams, J. A.} 1964
+    A nonlinear problem in surface water waves. PhD thesis,
+    University of California, Berkeley.
+\end{thebibliography}
+
+\ifCUPmtlplainloaded \newpage\fi
+
+\appendix
+\section{Special commands in {\mdseries\texttt{JFM.cls}}}
+\ifCUPmtlplainloaded\else \addtocontents{toc}{\setcounter{tocdepth}{1}}\fi
+
+The following is a summary of the new commands, optional
+arguments and environments which have been added to the
+standard \LaTeX\ user-interface in creating the JFM class file.
+\vspace{6pt}
+
+\begin{tabular}{@{}p{10pc}@{}p{21pc}@{}}
+\emph{New commands}   & \\[3pt]
+\verb"\affiliation"   & use after \verb"\author" to typeset an affiliation.\\
+\verb"\affilskip"     & use immediately after \verb"\\" in
+                        \verb"\affiliation" to
+                        give correct vertical spacing between separate
+                        affiliations.\\
+\verb"\author"        & do not use \verb"\\" in \verb"\author" to
+                        start an affiliation.\\
+\ifCUPmtlplainloaded
+\verb"\cite"          & the optional argument has changed it's use. This
+                        allows author-date citations to be changed without
+                        loosing the link to the bibliography entry.\\
+\fi
+\verb"\followon"      & to remove space between adjacent tables.\\
+\verb"\ls"            & to letter space the author's name.\\
+\verb"\newremark"     & used as \verb"\newtheorem" to define environments for
+                        Remarks, Definitions, Notes, etc.\\
+\verb"\norule"        & to remove the line below a table.\\
+\verb"\ns"            & to insert space between an author's names.\\
+\verb"\oneappendix"   & does the same as \verb"\appendix", except it allows
+                        \verb"JFM.cls" to typeset a single Appendix correctly.\\
+\verb"\returnthesubequation" & restores original definition of
+                              \verb"\thesubequation".\\
+\verb"\slabel"        & correctly `labels' equation lines within a
+                        \verb"subeqnarray" environment.\\
+\verb"\useAMSsubequations" & allows you to use the \verb"subequations"
+                        environment from the \verb"amstex"/\verb"amsmath"
+                        packages (if you use them).\\
+\ifCUPmtlplainloaded
+\verb"\fulloutfootnote" & sets the \verb"\thanks" footnote on the first
+                          page of the article full out. Should be placed
+                          before the \verb"\thanks" command.\\
+\verb"\nosectioneqnreset" & stops \verb"\section" commands resetting the
+                            \verb"equation" counter. It also redefines
+                            \verb"\theequation" to give output in the
+                            form 1 (equation) and not 1.1 (section.equation).
+                            This is useful to retain an authors hard-coded
+                            equation numbers.\\
+\verb"\raiseproofboxby" & allows you to specify the amount by which a
+                          proof box is raised at the end of the
+                          \verb"proof" environment.\\
+\verb"\removefullpoint" & removes the full point from the next \verb"\caption"
+                          command, usually used for continued captions.\\
+\fi
+\end{tabular}
+\par\vspace{6pt}
+\begin{tabular}{@{}p{7.5pc}@{}p{23.5pc}@{}}
+\emph{New environments} & \\[3pt]
+\verb"acknowledgments"  & to typeset acknowledgments.\\
+\ifCUPmtlplainloaded
+\verb"bottomfigure"     & for split figures and captions (on facing page).\\
+\fi
+\verb"proof"            & to typeset mathematical proofs.\\
+\verb"proof*"           & to typeset mathematical proofs without the
+                          finishing proof box.\\
+\verb"remark"           & this environment works like the \verb"theorem"
+                          environment; it typesets an italic heading and
+                          roman text to contrast with \verb"theorem"'s small
+                          caps heading and italic text.\\
+\verb"subeqnarray"      & enables equations in an array to be
+                          numbered as (6.1\textit{a}), etc.\\
+\verb"subequation"      & enables consecutive equations to be
+                          numbered (6.1\textit{a}), etc.\\
+\ifCUPmtlplainloaded
+\end{tabular}
+\par
+\begin{tabular}{@{}p{7.5pc}@{}p{23.5pc}@{}}
+\strut\rlap{\emph{New environments continued}} & \\[3pt]
+\fi
+\verb"tabular"          & has been modified to insert additional space above
+                          and below an \verb"\hrule" and the table caption
+                          and body is centred with rules full out across the
+                          text measure.\\
+\end{tabular}
+\par\addvspace{6pt plus 6pt}
+\ifCUPmtlplainloaded\else \newpage\fi
+\begin{tabular}{@{}p{9pc}@{}p{22.25pc}@{}}
+\emph{New optional arguments} & \\[3pt]
+\verb"[<short title>]" & in the \verb"\title" command: to define a right
+                         running headline that is different from the article
+                         title.\\
+\verb"[<short author>]" & in the \verb"\author" command: to define a left
+                          running headline that is different from the
+                          authors' names as typeset at the article opening.\\
+\verb"[<widest label>]" & in \verb"\begin{enumerate}": to ensure the correct
+                          alignment of numbered lists.\\
+\end{tabular}
+
+\section{Notes for editors}
+
+This appendix contains additional information which may be useful to
+those who are involved with the final production stages of an article.
+Authors, who are generally not typesetting the final pages in the
+journal's typeface (Monotype Times), do not need this information.
+
+\ifCUPmtlplainloaded
+\subsection{Setting the production typeface}
+
+The global \verb"\documentclass" option `\verb"prodtf"' sets up
+\verb"JFM.cls" to typeset in the production typeface -- Monotype Times.
+\eg
+%
+\begin{verbatim}
+  \documentclass[prodtf]{jfm}
+\end{verbatim}
+%
+This also automatically sets the odd, even and top margins to 0pt.
+\fi
+
+\subsection{Catchline commands}
+
+To be placed in the preamble:
+\begin{itemize}
+  \item \verb"\pubyear{}"
+  \item \verb"\volume{}"
+  \item \verb"\pagerange{}"
+\end{itemize}
+
+\subsection{Footnotes}
+
+If a footnote falls at the bottom of a page, it is possible for the
+footnote to appear on the following page (a feature of \TeX ). Check
+for this.
+
+\subsection{Rules between tables}
+
+If two or more tables fall one above another, add the commands
+\verb"\norule" and \verb"\followon" as described in this guide.
+
+\subsection{Font substitution}
+
+Check for use of AMS fonts, bold slanted sans serif, and bold math italic
+and alter preamble definitions to use the appropriate AMS/CUP/Monotype
+fonts for phototypesetter output.
+
+\subsection{Font sizes}
+
+The JFM class file defines all the standard \LaTeX\ font sizes. For example:
+\begin{itemize}
+  \item \verb"\tiny" -- {\tiny This is tiny text.}
+  \item \verb"\scriptsize" -- {\scriptsize This is scriptsize text.}
+  \item \verb"\indexsize" -- {\indexsize This is indexsize text.}
+  \item \verb"\footnotesize" -- {\footnotesize This is footnotesize text.}
+  \item \verb"\small" -- {\small This is small text.}
+  \item \verb"\qsmall"  -- {\qsmall This is qsmall text (quotations).}
+  \item \verb"\normalsize" -- This is normalsize text (default).
+  \item \verb"\large" -- {\large This is large text.}
+  \item \verb"\Large" -- {\Large This is Large text.}
+  \item \verb"\LARGE" -- {\LARGE This is LARGE text.}
+\end{itemize}
+%
+All these sizes are summarized in Table~\ref{tab:fontsizes}.
+%
+\begin{table}
+ \begin{center}
+ \begin{tabular}{@{}lr@{/}lp{4cm}@{}}
+ \multicolumn{1}{l}{\textit{Size}} &
+  \multicolumn{2}{c}{\textit{Size/Baseline}} & \textit{Usage}\\[3pt]
+ \verb"\tiny"         &     5pt &  6pt    & --\\
+ \verb"\scriptsize"   &     7pt &  8pt    & --\\
+ \verb"\indexsize"    &     8pt &  9pt    & catchline.\\
+ \verb"\footnotesize" &     9pt & 10pt    & index, footnotes.\\
+ \verb"\small"        &     9pt & 10pt    & `AND' in authors' names,\\
+                      &         &         & received date, affiliation,\\
+                      &         &         & figure and table captions.\\
+ \verb"\qsmall"       &  9.75pt & 10.75pt & quote, quotations.\\
+ \verb"\normalsize"   &    10pt & 12pt    & main text size, abstract,\\
+                      &         &         & B~and~C heads.\\
+ \verb"\large"        &    11pt & 13pt    & A head, part no.\\
+ \verb"\Large"        &    14pt & 18pt    & part title.\\
+ \verb"\LARGE"        &    17pt & 19pt    & article title.\\
+ \verb"\huge"         &    20pt & 25pt    & --\\
+ \verb"\Huge"         &    25pt & 30pt    & --\\
+ \end{tabular}
+\caption{Type sizes for \LaTeX\ size-changing commands.}
+\label{tab:fontsizes}
+\end{center}
+\end{table}
+
+\ifCUPmtlplainloaded
+
+\subsection{Landscape material}
+
+The add on package \verb"JFMland" provides macros for landscape figures and
+tables. See the \verb"JFMland" guide for further information.
+
+\subsection{Continued captions}
+
+These should be keyed like this:
+\begin{verbatim}
+  \begin{figure}
+    ...
+    \addtocounter{figure}{-1}
+    \removefullpoint
+    \caption{\textit{continued.}}
+  \end{figure}
+\end{verbatim}
+The \verb"\removefullpoint" macro also works for the \verb"table"
+environment, and for landscape material (using \verb"JFMland").
+
+\subsection{Figures with split artwork/captions}
+
+When a figure is too large to fit on a page with it's caption, you can use
+the following procedure to place the figure, and then it's caption at the foot
+of the facing page. First set the figure with a short caption
+using the normal \verb"figure" environment. \eg
+\begin{verbatim}
+  \begin{figure}
+    ...
+    \caption{For caption see facing page.}
+  \end{figure}
+\end{verbatim}
+Then set the correct (long) caption, so that it appears on the facing page:
+\begin{verbatim}
+  \begin{bottomfigure}
+    \addtocounter{figure}{-1}
+    \caption{This is the long caption...}
+  \end{bottomfigure}
+\end{verbatim}
+If the figure falls on a recto, you may have to move the \verb"bottomfigure"
+environment to before the \verb"figure" environment. In this case you need to
+move the \verb"\addtocounter" command into the \verb"figure" environment
+instead.
+
+The \verb"bottomfigure" environment places a full measure rule above the
+bottom-caption automatically.
+
+\subsection{Editing citations (when the author has used the
+ {\upshape\texttt{cite}} command)}
+
+In the past when an automatic \verb"\cite" command produced text in the output
+which needed to be changed, the argument (in [ ]) from the bibliography entry
+was copied to the location of the \verb"\cite" command and then modified.
+The \verb"\cite" command would then be removed as part of this process.
+
+In the near future, we will probably have to supply \TeX\ output which will
+need to contain `PDF marks' for interactive browsing.  Clearly by removing
+the automatic link to the bibliographic entry (referenced by the \verb"\cite"),
+we are making extra work for ourselves later on.
+
+To avoid this, the function of the \verb"\cite" command's optional argument
+has been changed. For example, the \verb"\cite" command for the
+`\verb"Hwang70"' entry gives:
+\[ \hbox{Hwang \& Tuck (1970)} \]
+but you want the following to appear in the text:
+\[ \hbox{Hwang \& Tuck 1970} \]
+you would then use:
+\[ \hbox{\verb"\cite[Hwang \& Tuck 1970]{Hwang70}"} \]
+to obtain the desired result.
+
+NOTE: This enhancement to the \verb"\cite" command is disabled when the
+author uses the `\verb"natbib"' package (for use with the \verb"JFM.bst"
+Bib\TeX\ style file).
+
+\section{Macros provided by {\mdseries\texttt{JFM2esym.sty}}}
+
+\subsection{Automatic font/character changes}
+
+\begin{itemize}\itemsep=6pt
+\item Upright Greek is changed to slanted uppercase Greek:
+\[
+   \oldGamma \oldDelta \oldTheta \oldLambda \oldXi \oldPi \oldSigma
+   \oldUpsilon \oldPhi \oldPsi \oldOmega
+ \lra
+\Gamma \Delta \Theta \Lambda \Xi \Pi \Sigma \Upsilon \Phi \Psi \Omega
+\]
+Normal upright Greek can be obtained by using the \verb|\old|
+form (\eg \verb|\oldDelta|).
+
+\item The \verb|\le|, \verb|\leq|, \verb|\ge|, \verb|\geq| commands
+use the equivalent AMS slanted symbols:
+\[
+\oldle \oldleq \oldge \oldgeq
+ \lra
+\le \leq \ge \geq
+\]
+The normal characters can be obtained by using the \verb|\old| form
+(\eg \verb|\oldge|).
+
+\item The text in the article title, author name(s), and section heads
+are set in Monotype Times New Roman Semibold. To obtain normal bold
+extended (\verb|mtbx|) inside in one of these use \verb|\realbf|, followed
+by \verb"\textbf" and/or \verb"\mathbf". \eg
+\begin{verbatim}
+  \section{xmntsm {\realbf \textbf{mtbx} $\mathbf{mtbx}$} xmntsm}
+\end{verbatim}
+The \verb"\textsb" and \verb"\mathsb" macros are also provided
+to allow the use of semi-bold text outside the normal places.
+\end{itemize}
+
+\subsection{Additional fonts}
+
+\begin{itemize}\itemsep=6pt
+\item The complete (v1) AMS symbols are available using the normal names:
+\[
+\hbox{\verb"\boxdot \boxplus \boxtimes"} \lra
+  \boxdot \boxplus \boxtimes
+\]
+
+\item Blackboard bold:
+\[
+\hbox{\verb"$\mathbb{ABC}$"} \lra \mathbb{ABC}
+\]
+
+\item Fraktur/Gothic (bold math version available):
+\[
+   \hbox{\verb"$\mathfrak{ABC}$"} \lra \mathfrak{ABC}
+\]
+
+\item The $\lessmuch$ (\verb"\lessmuch") and $\greatermuch$ (\verb"\greatermuch")
+symbols are provided.
+
+\item Bold math italic/symbols are provided by the \verb"\boldsymbol" macro
+(from the \verb"amsbsy" package). The \verb"\bmath" macro is provided as
+an alias.
+
+\strut\hspace*{11pt}The \verb"JFM2esym" package also defines most of the
+symbols from Appendix F of the \TeX book. These can be obtained by using
+their normal (unbold) symbol name prefixed with a `b'. \eg \verb|\nabla|
+becomes \verb|\bnabla|. The only exception to this rule is \verb|\eta|,
+which whould lead to a clash with \verb|\beta|. In this case use
+\verb|\boldeta| for bold eta.
+
+\strut\hspace*{11pt}The problem with space disappearing around certain
+bold math symbols (\verb"\bcdot") does not happen, when using the
+\verb"amsbsy" package.
+
+\item The \verb"\mathup" and \verb"\mathbup" macros are redefined to use the
+correct Monotype Times math upright fonts (\verb"mtmr" and \verb"mtmb").
+
+\item The \verb"\textsf*" and \verb"\mathsf*" macros are redefined to
+use the correct Monotype Helvetica fonts.
+
+\subsection{Other useful macros}
+
+\item The \verb"\tfrac" and \verb"dfrac" macros are defined to give
+text style and display style fractions. These commands work in the
+same way as \verb"\frac".
+
+\item The \verb"\dd", \verb"\e" and \verb"\ii" macros are defined to give
+upright roman d, e and i characters.
+
+\end{itemize}
+\fi
+
+\label{lastpage}
+
+\end{document}

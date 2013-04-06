@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>The need-to-know basics</TITLE>
+<META NAME="description" CONTENT="The need-to-know basics">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="previous" HREF="node10.html">
+<LINK REL="up" HREF="node8.html">
+<LINK REL="next" HREF="node17.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html285"
+  HREF="node17.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html281"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html277"
+  HREF="node15.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html283"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html286"
+  HREF="node17.html">MatPIV behind the scenes</A>
+<B> Up:</B> <A NAME="tex2html282"
+  HREF="node8.html">An example session</A>
+<B> Previous:</B> <A NAME="tex2html278"
+  HREF="node15.html">Visualizing the results</A>
+ &nbsp; <B>  <A NAME="tex2html284"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00530000000000000000"></A>
+<A NAME="essentials"></A>
+<BR>
+The need-to-know basics
+</H1>
+Essentially users end up with just a few lines of code to run <B>MatPIV&nbsp;</B>.
+The following lines assume that we have created both our
+world-coordinate file (in this example called ``worldco.mat'') and a
+mask (in this example called ``polymask.mat''). Then the following
+should suffice:
+
+<P>
+<PRE>
+[x,y,u,v,snr]=matpiv('Demo3/mpim1b.bmp','Demo3/mpim1c.bmp',...
+[128 128; 64 64; 32 32; 32 32],0.008,1,...
+'multin','worldco.mat','polymask.mat');
+[su,sv]=snrfilt(x,y,u,v,snr,1.3);
+[gu,gv]=globfilt(x,y,su,sv,3);
+[lu,lv]=localfilt(gu,gv,2.7,'median',3,'polymask.mat',x,y);
+[fu,fv]=naninterp(gu,gv,'linear','polymask.mat',x,y);
+</PRE>
+
+<P>
+We note that it is very easy to insert this piece of code into a for
+loop and perform a large number of calculations. We shall briefly
+revisit this in section&nbsp;<A HREF="node38.html#batch">3.5</A>.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

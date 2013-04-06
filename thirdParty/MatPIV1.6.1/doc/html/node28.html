@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Interpolate outliers</TITLE>
+<META NAME="description" CONTENT="Interpolate outliers">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="previous" HREF="node27.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node29.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html453"
+  HREF="node29.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html449"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html445"
+  HREF="node27.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html451"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html454"
+  HREF="node29.html">Integral and differential quantities</A>
+<B> Up:</B> <A NAME="tex2html450"
+  HREF="node24.html">Filters in MatPIV</A>
+<B> Previous:</B> <A NAME="tex2html446"
+  HREF="node27.html">Local filter</A>
+ &nbsp; <B>  <A NAME="tex2html452"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00634000000000000000">
+Interpolate outliers</A>
+</H2>
+
+<P>
+The file <EM>naninterp.m</EM> interpolates NaN's in a vectorfield using two
+slightly different methods. The calling should look like
+
+<P>
+<PRE>
+[fu,fv]=naninterp(lu,lv,method,mask,x,y);,
+</PRE>
+where method should be 'linear' or 'weighted' and defaults to 'linear'
+if not specified. This option sorts all spurious vectors based on the
+number of spurious neighbors to a point and starts by interpolating
+the vector that have as few neighboring outliers as possible, looping
+until no NaN's are left. The 'weighted' method uses the file FILLMISS.M
+to interpolate the outliers (see 'help fillmiss' for some info).
+
+<P>
+Additionally one can apply a mask to avoid interpolating vectors in
+a part of the measurement area.
+<PRE>
+&gt;&gt; [u,v]=naninterp(u,v,'polymask.mat',x,y);,
+</PRE>
+will replace NaN's but leave out areas that have been masked out
+(using MASK.M) Using the MASK option requires the x and y matrices
+input along with the velocities, u and v. 
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

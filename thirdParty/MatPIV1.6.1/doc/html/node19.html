@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Pattern Matching - the principles</TITLE>
+<META NAME="description" CONTENT="Pattern Matching - the principles">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="previous" HREF="node18.html">
+<LINK REL="up" HREF="node18.html">
+<LINK REL="next" HREF="node20.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html342"
+  HREF="node20.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html338"
+  HREF="node18.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html334"
+  HREF="node18.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html340"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html343"
+  HREF="node20.html">The core files</A>
+<B> Up:</B> <A NAME="tex2html339"
+  HREF="node18.html">How does it work?</A>
+<B> Previous:</B> <A NAME="tex2html335"
+  HREF="node18.html">How does it work?</A>
+ &nbsp; <B>  <A NAME="tex2html341"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00611000000000000000">
+Pattern Matching - the principles</A>
+</H2>
+
+<P>
+Let us start by assuming that we have taken two images (<IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img18.png"
+ ALT="$ I_1$"> and
+<IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$ I_2$">), separated by a time distance of <!-- MATH
+ $\Delta t = 0.0012$
+ -->
+<IMG
+ WIDTH="88" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img20.png"
+ ALT="$ \Delta t = 0.0012$">s (like, for
+example the images in Demo3). We subsequently divide both images into
+smaller regions, also known as sub-windows, interrogation-windows or
+interrogation-regions. We then compare each sub-window in the first
+image with the corresponding sub-window in the second image. We shall
+hereafter let <IMG
+ WIDTH="27" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$ I_1^{i,j}$"> denote sub-window number <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$ i,j$"> in the first
+image and <IMG
+ WIDTH="27" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$ I_2^{i,j}$"> the corresponding sub-window in the second image. 
+
+<P>
+We now aim to see if we can identify a displacement of the pattern in
+<IMG
+ WIDTH="27" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$ I_1^{i,j}$">. To do this we can evaluate the squared Euclidean distance
+between the two sub-windows. This is defined as
+<!-- MATH
+ \begin{displaymath}
+R_e (s,t)=\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} [I_1^{i,j}(m,n)-I_2^{i,j}(m-s,n-t)]^2.
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="mqd"></A>
+<IMG
+ WIDTH="361" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img24.png"
+ ALT="$\displaystyle R_e (s,t)=\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} [I_1^{i,j}(m,n)-I_2^{i,j}(m-s,n-t)]^2.
+$">
+</DIV><P></P>
+This means that, for every possible overlap of the sub-windows, we
+calculate the sum of the squared difference between them. In other words
+this means that we are looking for the position where the sub-windows
+are the ``least unlike''. Let us look in a bit more detail to this
+simple mathematical formula. If we expand the square parentheses on the
+right hand side we may get
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="mqdfull"></A><!-- MATH
+ \begin{equation}
+\begin{split}
+R_e (s,t) &= \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} [I_1^{i,j}(s,t)-I_2^{i,j}(m-s,n-t)]^2\\
+       &= \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_1^{i,j}(m,n)^2 -2 I_1^{i,j}(s,t) \cdot I_2^{i,j}(m-s,n-t) + I_2^{i,j}(m-s,n-t)^2.
+\end{split}
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="570" HEIGHT="111" BORDER="0"
+ SRC="img25.png"
+ ALT="\begin{displaymath}\begin{split}R_e (s,t) &amp;= \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} [...
+...t) \cdot I_2^{i,j}(m-s,n-t) + I_2^{i,j}(m-s,n-t)^2. \end{split}\end{displaymath}"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(3.1)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+We should notice that the first term, <!-- MATH
+ $I_1^{i,j}(m,n)^2$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img26.png"
+ ALT="$ I_1^{i,j}(m,n)^2$">, is merely a
+constant since it does not depend on <IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img27.png"
+ ALT="$ s$"> and <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$ t$">. The last term,
+<!-- MATH
+ $I_2^{i,j}(m-s,n-t)^2$
+ -->
+<IMG
+ WIDTH="129" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="$ I_2^{i,j}(m-s,n-t)^2$"> is seen to depend on <IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img27.png"
+ ALT="$ s$"> and <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$ t$">, but we notice
+that it is just dependent on the second image. So to sum up, only the
+middle term actually deals with both our images and as a matter of fact
+this term (without the <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ -2$">) is usually referred to as
+cross-correlation (or circular cross-correlation) and defined as
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="correlation"></A><!-- MATH
+ \begin{equation}
+R(s,t)=\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_1^{i,j}(m,n) \cdot I_2^{i,j}(m-s,n-t).
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="333" HEIGHT="66" ALIGN="MIDDLE" BORDER="0"
+ SRC="img31.png"
+ ALT="$\displaystyle R(s,t)=\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_1^{i,j}(m,n) \cdot I_2^{i,j}(m-s,n-t).$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(3.2)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+The basic assumption here is that the pattern in <IMG
+ WIDTH="18" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$ I_2$"> is evenly
+distributed so that the sum of <!-- MATH
+ $I_2^{i,j} ()^2$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img32.png"
+ ALT="$ I_2^{i,j} ()^2$"> does not change as we
+vary <IMG
+ WIDTH="11" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img27.png"
+ ALT="$ s$"> and <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$ t$">.
+
+<P>
+Traditionally in PIV, equation&nbsp;<A HREF="#correlation">3.2</A> has been preferred, and
+it is also the basis of many of the different algorithms in <B>MatPIV&nbsp;</B>
+('single','multi' and 'multin' options). The reason for this is
+primarily that equation&nbsp;<A HREF="#correlation">3.2</A> can be calculated using FFTs
+(and will therefore execute faster). 
+
+<P>
+The use of equation&nbsp;<A HREF="#mqd">3.1.1</A> in PIV has primarily been advocated
+by&nbsp;<A
+ HREF="node40.html#Gui:1996">Gui and Merzkirch (1996)</A> and&nbsp;<A
+ HREF="node40.html#Gui:2000">Gui and Merzkirch (2000)</A> and this is implemented in the
+<B>MatPIV&nbsp;</B>option called 'mqd'.
+
+<P>
+In the field of pattern matching another approach has often been chosen.
+Considering the fact that the last term in equation&nbsp;<A HREF="#mqdfull">3.1</A> may be
+non-constant, many people choose to apply so called normalized
+correlation, which is defined as
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="normcorr"></A><!-- MATH
+ \begin{equation}
+R(s,t)=\frac{\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_1^{i,j}(s,t) \cdot I_2^{i,j}(m+s,n+t)}{[\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_1^{i,j}(m,n)^2\cdot \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_2^{i,j}(m+s,n+t)^2]^{1/2}}.
+\end{equation}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="513" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$\displaystyle R(s,t)=\frac{\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_1^{i,j}(s,t) \cd...
+...,j}(m,n)^2\cdot \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_2^{i,j}(m+s,n+t)^2]^{1/2}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(3.3)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+This is the basis in the <B>MatPIV&nbsp;</B>option called 'norm'. <B>MatPIV&nbsp;</B>here uses
+a function from the Image Processing Toolbox of <B>Matlab</B> called <EM>normxcorr2.m</EM>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html342"
+  HREF="node20.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html338"
+  HREF="node18.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html334"
+  HREF="node18.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html340"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html343"
+  HREF="node20.html">The core files</A>
+<B> Up:</B> <A NAME="tex2html339"
+  HREF="node18.html">How does it work?</A>
+<B> Previous:</B> <A NAME="tex2html335"
+  HREF="node18.html">How does it work?</A>
+ &nbsp; <B>  <A NAME="tex2html341"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

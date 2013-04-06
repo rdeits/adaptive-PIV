@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Batch-processing with MatPIV</TITLE>
+<META NAME="description" CONTENT="Batch-processing with MatPIV">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node39.html">
+<LINK REL="previous" HREF="node29.html">
+<LINK REL="up" HREF="node17.html">
+<LINK REL="next" HREF="node39.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html582"
+  HREF="node39.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html578"
+  HREF="node17.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html572"
+  HREF="node37.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html580"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html583"
+  HREF="node39.html">Using a parameter-file as</A>
+<B> Up:</B> <A NAME="tex2html579"
+  HREF="node17.html">MatPIV behind the scenes</A>
+<B> Previous:</B> <A NAME="tex2html573"
+  HREF="node37.html">mnanmedian.m and mnanmean.m</A>
+ &nbsp; <B>  <A NAME="tex2html581"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00650000000000000000"></A>
+<A NAME="batch"></A>
+<BR>
+Batch-processing with <B>MatPIV</B>
+</H1>
+One of the advantages of using <B>MATLAB</B> is, besides the obvious
+platform independency, the ability to batch-process vast amounts of data
+by writing script-files. In the previous chapter we used a few
+``manual'' options during filtering and this is something that we would
+prefer to avoid when we work with larger amounts of measurement data. In
+this case <B>MatPIV</B> has the ability to work as a background process
+performing all the measurements. For instance the calculations performed
+in the previous chapter could have been accomplished by writing and
+executing a script file containing the lines:
+<PRE>
+[x,y,u,v,snr]=matpiv('im00.bmp','im04.bmp',...
+64,0.04,0.5, 'mqd','worldco1.mat');
+[su,sv]=snrfilt(x,y,u,v,snr,1.1);
+[gu,gv]=globfilt(x,y,su,sv,3);
+[lu,lv]=localfilt(gu,gv,2,'interp');
+[fu,fv]=naninterp(lu,lv,'linear');
+</PRE>
+
+<P>
+In this case we assume that the world coordinate file already exists,
+but we have not used a mask. We have also applied the MQD-method for
+pattern matching, just to emphasize that it is possible.
+
+<P>
+Similarly it is rather easy to write <EM>for</EM>-loops in <B>MATLAB</B>
+to repeat this operation several times, replacing the input images
+each time. <B>MatPIV</B> is supplied with an example of such a file,
+which is called <EM>runfile.m</EM> and is included in the
+distribution. Typically such a loop can be written in the following
+way:
+
+<P>
+<PRE>
+%%%%%%%%%%%%%%%%%%%%% Settings
+T=0.04;       % Time separation between base and cross images.
+met='multin'; % Use interrogation window offset
+wins=[64 64;64 64;32 32;32 32]; %windowsizes to use in the iterations
+woco='worldco1.mat'; % World coordinate file. This may be changed
+                     % within the loop as well, e.g. in the cases 
+                     % where there are two cameras
+snrtrld=1.2;  % threshold for use with snr-filtering
+globtrld=3;   % threshold for use with globalfiltering
+loctrld=1.7;  % threshold for use with local filtering
+med='median'; % Use median filtering in localfilt
+int='linear'; % interpolate outliers using linear interpolation
+maskfile='polymask.mat'; % name of file containing the pre-defined mask
+M=length(dir('*.bmp'));  % check how many images are present in the directory
+%%%%%%%%%%%%%%%%%%%%
+for i=1:M-1
+  im1=['myfilename',num2str(i),'.bmp']; 
+  im2=['myfilename',num2str(i+1),'.bmp']; 
+  % PIV calculation
+  [x,y,u,v,snr]=matpiv(im1,im2,wins,T,0.5,met,woco,maskfile);'])
+  % SnR filter:
+  [su,sv]=snrfilt(x,y,u,v,snr,snrtrld);
+  % global filter:
+  [gu,gv]=globfilt(x,y,su,sv,globtrld);
+  % local median filter:
+  [lu,lv]=localfilt(gu,gv,loctrld,med,x,y);'])
+  % interpolate outliers
+  [fu,fv]=naninterp(lu,lv,int,maskfile,x,y);'])
+
+  save(['vel_field',num2str(i),'.mat'],'u','v','snr','fu','fv');
+
+  if i==1
+     save coordinates.mat x y
+  end
+end
+</PRE>
+
+<P>
+In this way we will automatically save one file for each velocity field.
+This file will contain both the unfiltered and the filtered velocities,
+since this will enable us to filter the data at a later stage with
+different parameters (should that be necessary). If we assume that the
+number of images (<IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img65.png"
+ ALT="$ M$">) is large it should be clear that this way of
+processing has it's advantages. The coordinate arrays, x and y, will be
+saved in a separate file, coordinates.mat.
+
+<P>
+If we, on the other hand, are working with AVI-movies, this example
+shows how our script could work:
+<PRE>
+%%%%%%%%%%%%%%%%%%%%% Settings
+T=0.04;       % Time separation between base and cross images.
+met='multin'; % Use interrogation window offset
+wins=[64 64;64 64;32 32;32 32]; %windowsizes to use in the iterations
+woco='worldco1.mat'; % World coordinate file. This may be changed
+                     % within the loop as well, e.g. in the cases 
+                     % where there are two cameras
+snrtrld=1.2;  % threshold for use with snr-filtering
+globtrld=3;   % threshold for use with globalfiltering
+loctrld=1.7;  % threshold for use with local filtering
+med='median'; % Use median filtering in localfilt
+int='linear'; % interpolate outliers using linear interpolation
+maskfile='polymask.mat'; % name of file containing the pre-defined mask
+A=aviread('myfile.avi'));  % load the movie. If the movie is large
+                           % this should be done inside the loop
+%%%%%%%%%%%%%%%%%%%%
+for i=1:length(A)-1
+  % PIV calculation
+  [x,y,u,v,snr]=matpiv(A(i).cdata,A(i+1).cdata,wins,T,0.5,met,woco,maskfile);'])
+  % SnR filter:
+  [su,sv]=snrfilt(x,y,u,v,snr,snrtrld);
+  % global filter:
+  [gu,gv]=globfilt(x,y,su,sv,globtrld);
+  % local median filter:
+  [lu,lv]=localfilt(gu,gv,loctrld,med,x,y);'])
+  % interpolate outliers
+  [fu,fv]=naninterp(lu,lv,int,maskfile,x,y);'])
+
+  save(['vel_field',num2str(i),'.mat'],'u','v','snr','fu','fv');
+
+  if i==1
+     save coordinates.mat x y
+  end
+end
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html582"
+  HREF="node39.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html578"
+  HREF="node17.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html572"
+  HREF="node37.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html580"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html583"
+  HREF="node39.html">Using a parameter-file as</A>
+<B> Up:</B> <A NAME="tex2html579"
+  HREF="node17.html">MatPIV behind the scenes</A>
+<B> Previous:</B> <A NAME="tex2html573"
+  HREF="node37.html">mnanmedian.m and mnanmean.m</A>
+ &nbsp; <B>  <A NAME="tex2html581"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

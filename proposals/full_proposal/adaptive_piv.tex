@@ -2,6 +2,12 @@
 
 \usepackage{pdfsync}
 \usepackage{natbib}
+\usepackage{hyperref}
+
+% dot graphs
+\usepackage{dot2texi}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
 
 \begin{document}
 	\author{Robin Deits\\ rdeits@csail.mit.edu}
@@ -12,18 +18,97 @@
 	\section{Background: PIV} % (fold)
 	\label{sec:background}
 	Particle Image Velocimetry (PIV) is an optical approach to measuring the flow field of a fluid, and has been used in the study of combustion, water flow, robotics, and many other fields. It involves seeding a fluid with tracking particles and using a laser or other planar lighting system to capture sequential images of the particle positions in a single thin 2D slice of the fluid. By comparing the change in position of groups of particles between the subsequent frames, a measurement of the local flow vector can be computed for each region of the fluid. This process of determining the movement of each section of the image is extremely time-consuming in a sequential programming system, but can be readily parallelized to significantly improve performance \citep{Yu:2006tb}
+
+	Each PIV computation is performed on a pair of sequential images. Computation of the fluid flow begins by dividing the image up into small windows of, for example, 64px on a side. A small window size helps ensure that all of the particles within the window move with the same velocity between the two frames. For each window, we extract the subimage corresponding to that window from the first image in the pair. We will call this subimage $A$. We then extract a set of subimages $B_{\Delta x,  \Delta y}$ by shifting the original window in two dimensions and extracting the corresponding subimages from the second image in the pair. We can then perform a cross-correlation between $A$ and each $B_{i, j}$ and determine the shift in $x$ and $y$ which maximizes the correlation. This gives the most likely location of the particles from window $A$ in the second frame, and thus indicates the movement of that section of the fluid between the frames.
 	% section background (end)
 
 	\section{Adaptive PIV} % (fold)
 	\label{sec:adaptive_piv}
-	Theunissen et al. proposed a method for improving the performance of PIV in sub-optimial conditions, called Adaptive PIV \citep{Theunissen:2009cr}. Their method uses information about the current density of seeding particles and the prior estimate of the velocity field to update the size and spatial frequency of the sections of the images which are compared to determine local flow. This has the effect of increasing the number of data points in the busiest (highest particle density and highest velocity) parts of the fluid and reducing the number of samples in the most stable areas of the fluid, which can improve the amount of relevant data collected per computational unit. 
+	Standard PIV algorithms involve an even spatial distribution of interrogation windows $A$ with a fixed window size and some fixed overlap, such as 64\,px windows beginning every 16\,px. However, in order to achieve sufficient accuracy in busy fluid flows, it can be necessary to choose very small windows or very high degrees of overlap, which increases the computational demands by requiring far more cross-correlation computations. 	Theunissen et al. proposed a method for improving the performance of PIV in sub-optimial conditions, called Adaptive PIV \citep{Theunissen:2009cr}. Their method uses information about the current density of seeding particles and the prior estimate of the velocity field to update the size and spatial frequency of the interrogation windows $A$. This has the effect of increasing the number of data points in the busiest (highest particle density and highest velocity) parts of the fluid and reducing the number of samples in the most stable areas of the fluid, which can improve the amount of relevant data collected per computational unit. 
 
 	In this project, I will focus on implementing Adaptive PIV on an FPGA to improve computational performance, with the ultimate goal of allowing accurate real-time fluid tracking. I will be expanding on prior work implementing a standard PIV algorithm on an FPGA \citep{Yu:2006tb}. I will also be using a recent \textsc{Matlab} implementation of the Adaptive PIV algorithm by Samvaran Sharma of the Robot Locomotion Group at MIT CSAIL as the reference code for my implementation. 
 
 	The primary benefit of this project should be the parallelization and speedup of the Adaptive PIV algorithm. In order to achieve the desired image size and accuracy, Sharma's current software requires approximately 2.5 seconds per pair of frames, which makes real-time analysis of the fluid flow impossible. In contrast, Yu et al. were able to compute 15 image pairs per second using their FPGA implementation. My goal will be to achieve this result with the added benefits of the adaptive algorithm's focus on the most important areas of the fluid flow.
 	% section adaptive_piv (end)
 
+	\section{Design Plan} % (fold)
+	Over the course of this project, I will iterate through the transformation from a reference sequential program into an FPGA implementation of the PIV algorithm. At each step, I will use a consistent set of reference images to ensure correct PIV results. A rough outline of the design iterations is as follows:
+	\begin{itemize}
+	\item Adapt the reference algorithm to use fixed-point arithmetic. This will be accomplished by the use of the \textsc{Matlab} fixed point toolbox, described in \citep{MatlabFP}.
+	\item Move cross-correlation computation to the FPGA. Using the existing reference code, I will select the windows $A$ and a single $B_{i, j}$ and pass them as arrays over the Scemi interface to the FPGA. The chip will then compute the cross-correlation and return a fixed-point result. 
+	\item Parallelize/pipeline cross-correlation computation. Rather than transmitting a single pair of windows $A$ and $B_{i, j}$, I will transmit both whole images and the position of window $A$ over the Scemi interface and determine the position of the window $B_{i, j}$ with the highest cross-correlation.
+	\item Parallelize/pipeline window selection. At this point, I should be able to implement the adaptive window selection algorithm on the FPGA. The reference algorithm will send only the image pair and the prior velocity estimate, and the FPGA will perform the selection of each window $A$ and the calculation of its best corresponding window $B$. 
+	\end{itemize}
 
+	\section{System Diagram}
+	\label{sec:system_diagrams}
+
+	A general outline of the Adaptive PIV system is as follows:
+
+	\begin{figure}[h!]
+	\begin{dot2tex}[dot,options=--autosize]
+	digraph G {
+	node [shape="box"];
+	subgraph cluster0 {
+		node [shape="box"];
+		node [texlbl="Window selection"] win_sel;
+		node [texlbl="A"] a;
+		node [texlbl="$B_{0,0}$"] b00;
+		node [texlbl="$B_{0,1}$"] b01;
+		node [texlbl="$B_{0,2}$"] b02;
+		node [texlbl="$B_{1,0}$"] b10;
+		node [texlbl="Cross\ correlation"] corr0;
+		node [texlbl="Cross\ correlation"] corr1;
+		node [texlbl="Cross\ correlation"] corr2;
+		node [texlbl="Cross\ correlation"] corr3;
+		node [texlbl="argmax"] argmax;
+		node [texlbl="Displacement\ of\ window\ A"] disp_a;
+		win_sel -> a;
+		win_sel -> b00;
+		win_sel -> b01;
+		win_sel -> b02;
+		win_sel -> b10;
+		a -> corr0;
+		a -> corr1;
+		a -> corr2;
+		a -> corr3;
+		b00 -> corr0;
+		b01 -> corr1;
+		b02 -> corr2;
+		b10 -> corr3;
+		corr0 -> argmax;
+		corr1 -> argmax;
+		corr2 -> argmax;
+		corr3 -> argmax;
+		argmax -> disp_a;
+		color=blue;
+		label="latex";
+		texlbl="\hspace{4 in}Repeat for each window A";
+		edge [style=invis]
+		rank=same {a->b00->b01->b02->b10}
+	}
+	node [label="Image pair"] im_pair;
+	im_pair -> win_sel;
+	node [label="Prior velocity estimate"] prior;
+	prior -> win_sel;
+	node [label="Velocity field"] vel_field;
+	disp_a -> vel_field;
+	}
+	\end{dot2tex}
+	\caption{An outline of the adaptive PIV system. Initially, only the cross-correlation will be implemented on the FPGA, but this eventually be expanded to encompass everything within the blue box.}
+	\end{figure}
+	% section system_diagrams (end)
+
+	\section{Testing Plan} % (fold)
+	\label{sec:testing_plan}
+	There are a number of existing options for testing PIV algorithms using standardized experimental data or synthetic data. The following resources all provide sample test input for PIV algorithms:
+	\begin{itemize}
+	\item \url{http://pivlab.blogspot.com/}: a \textsc{Matlab} package which provides sample data and a tool to generate synthetic data corresponding to vortices and linear flows.
+	\item \url{http://www.pivchallenge.org/}: a large collection of sample images, both experimental and synthetic, which are used to compare PIV algorithms.
+	\item \url{http://www.meol.cnrs.fr/LML/EuroPIV2/SIG/doc/SIG_Main.htm}: a standalone C program to generate synthetic images as input to PIV algorithms
+	\end{itemize}
+	I will choose a suitable set of images which can provide both the image pair for analysis and the prior velocity field estimate. 
+	% section testing_plan (end)
 
 	\bibliographystyle{plain}
 	\bibliography{refs}

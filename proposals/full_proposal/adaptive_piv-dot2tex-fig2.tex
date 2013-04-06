@@ -1,0 +1,48 @@
+
+\begin{tikzpicture}[>=latex,line join=bevel,]
+%%
+\begin{scope}
+  \pgfsetstrokecolor{black}
+  \definecolor{strokecol}{rgb}{0.83,0.83,0.83};
+  \pgfsetstrokecolor{strokecol}
+  \definecolor{fillcol}{rgb}{0.83,0.83,0.83};
+  \pgfsetfillcolor{fillcol}
+  \filldraw (8bp,64bp) -- (8bp,356bp) -- (98bp,356bp) -- (98bp,64bp) -- cycle;
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (53bp,338bp) node {\LaTeX};
+\end{scope}
+\begin{scope}
+  \pgfsetstrokecolor{black}
+  \definecolor{strokecol}{rgb}{0.0,0.0,1.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (133bp,64bp) -- (133bp,356bp) -- (208bp,356bp) -- (208bp,64bp) -- cycle;
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (171bp,338bp) node {process \#2};
+\end{scope}
+  \node (a_3) at (63bp,90bp) [draw=white,fill=white,ellipse] {$a_3$};
+  \node (a_2) at (63bp,162bp) [draw=white,fill=white,ellipse] {$a_2$};
+  \node (a_1) at (63bp,234bp) [draw=white,fill=white,ellipse] {$a_1$};
+  \node (a_0) at (63bp,306bp) [draw=white,fill=white,ellipse] {$a_0$};
+  \node (end) at (115bp,18bp) [draw,rectangle] {end};
+  \node (start) at (116bp,382bp) [draw,diamond] {${\frac{\sqrt{\gamma+\beta}}{x^2+y^2}}$};
+  \node (b_0) at (170bp,306bp) [draw,fill=gray,ellipse] {$b_0$};
+  \node (b_1) at (171bp,234bp) [draw,fill=gray,ellipse] {$b_1$};
+  \node (b_2) at (173bp,162bp) [draw,fill=gray,ellipse] {$b_2$};
+  \node (b_3) at (168bp,90bp) [draw,fill=gray,ellipse] {$b_3$};
+  \draw [->] (b_1) ..controls (171.71bp,207.98bp) and (171.98bp,198.71bp)  .. (b_2);
+  \draw [->] (a_3) ..controls (41.039bp,115.9bp) and (31.381bp,129.75bp)  .. (27bp,144bp) .. controls (12.892bp,189.88bp) and (12.892bp,206.12bp)  .. (27bp,252bp) .. controls (30.286bp,262.69bp) and (36.54bp,273.15bp)  .. (a_0);
+  \draw [->] (b_2) ..controls (171.21bp,135.98bp) and (170.55bp,126.71bp)  .. (b_3);
+  \draw [->] (start) ..controls (99.394bp,357.81bp) and (88.861bp,343.11bp)  .. (a_0);
+  \draw [->] (a_0) ..controls (63bp,279.98bp) and (63bp,270.71bp)  .. (a_1);
+  \draw [->] (a_3) ..controls (80.835bp,64.991bp) and (88.788bp,54.286bp)  .. (end);
+  \draw [->] (a_2) ..controls (63bp,135.98bp) and (63bp,126.71bp)  .. (a_3);
+  \draw [->] (b_0) ..controls (170.36bp,279.98bp) and (170.49bp,270.71bp)  .. (b_1);
+  \draw [->] (start) ..controls (132.92bp,357.81bp) and (143.65bp,343.11bp)  .. (b_0);
+  \draw [->] (b_3) ..controls (149.82bp,64.991bp) and (141.72bp,54.286bp)  .. (end);
+  \draw [->] (b_2) ..controls (136.33bp,137.67bp) and (110.24bp,121.06bp)  .. (a_3);
+  \draw [->] (a_1) ..controls (92.741bp,192.78bp) and (128.75bp,144.08bp)  .. (b_3);
+  \draw [->] (a_1) ..controls (63bp,207.98bp) and (63bp,198.71bp)  .. (a_2);
+%
+\end{tikzpicture}

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Masking out regions of the flow</TITLE>
+<META NAME="description" CONTENT="Masking out regions of the flow">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node13.html">
+<LINK REL="previous" HREF="node11.html">
+<LINK REL="up" HREF="node10.html">
+<LINK REL="next" HREF="node13.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html241"
+  HREF="node13.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html237"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html231"
+  HREF="node11.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html239"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html242"
+  HREF="node13.html">Calculating velocities</A>
+<B> Up:</B> <A NAME="tex2html238"
+  HREF="node10.html">The not so easy</A>
+<B> Previous:</B> <A NAME="tex2html232"
+  HREF="node11.html">Specifying the coordinate system</A>
+ &nbsp; <B>  <A NAME="tex2html240"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00522000000000000000">
+Masking out regions of the flow</A>
+</H2>
+We observe that there is an area above the water surface where there
+are no particles. In this region we do not want to perform our PIV
+calculations and hence we can use the file <I>mask.m</I><A NAME="tex2html3"
+  HREF="footnode.html#foot461"><SUP>2.1</SUP></A> to mask out this
+region of the flow. The file displays the image and the mask is
+defined by clicking with the left mouse button, and defining the final
+point using the middle mouse button. Figure&nbsp;<A HREF="#fig:maskim">2.3</A>
+
+<P>
+<PRE>
+&gt;&gt; mask('mpim1b.bmp','worldco.mat');
+Mark your polygon points with the left mouse button.
+Press the middle button when you are finished, press
+&lt;BACKSPACE&gt; or &lt;DELETE&gt; to remove the previously selected vertex.
+Do you whish to add another field to mask? (1 = yes, 0 = no) &gt;&gt; 0
+* Calculating the pixel to world transformation using linear mapping - DONE
+</PRE>
+
+<DIV ALIGN="CENTER"><A NAME="fig:maskim"></A><A NAME="463"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.3:</STRONG>
+Masked image. Red region will be
+excluded in the subsequent calculations.</CAPTION>
+<TR><TD><IMG
+ WIDTH="440" HEIGHT="362" BORDER="0"
+ SRC="img7.png"
+ ALT="\begin{figure}\makebox{\setlength{\unitlength}{1mm}
+\begin{picture}(100,100)(0,0)
+\put(15,5){\epsfig{figure=maskim.eps,height=8cm}}
+\end{picture}}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

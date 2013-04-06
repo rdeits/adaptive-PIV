@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Signal-to-Noise ratio</TITLE>
+<META NAME="description" CONTENT="Signal-to-Noise ratio">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node26.html">
+<LINK REL="previous" HREF="node24.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html419"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html415"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html409"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html417"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html420"
+  HREF="node26.html">Global histogram operator</A>
+<B> Up:</B> <A NAME="tex2html416"
+  HREF="node24.html">Filters in MatPIV</A>
+<B> Previous:</B> <A NAME="tex2html410"
+  HREF="node24.html">Filters in MatPIV</A>
+ &nbsp; <B>  <A NAME="tex2html418"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00631000000000000000">
+Signal-to-Noise ratio</A>
+</H2>
+The output from <B>MatPIV</B> can, apart from the velocities, also
+include the Signal-To-Noise ratio and the peak-height for use in
+validation of the vector field. The file <EM>snrfilt.m</EM> is used to
+validate the vector field with regards to the Signal-To-Noise ratio
+output from <EM>matpiv</EM>. The calling sequence looks like:
+<PRE>
+[su,sv]=snrfilt(x,y,u,v,snr,threshold,actions);
+</PRE>
+
+<P>
+Here the final input <EM>actions</EM> can be ommited (typically in batch
+processing), or specified as 'loop'. The 'loop' option will allow the
+user to change the threshold value interactively and view the effect the
+changes has on the vector field. All the ``invalid'' velocity vectors
+(with a SnR lower than the threshold) are replaced with NaN (Not A
+Number). Keane and Adrian&nbsp;<A
+ HREF="node40.html#Keane:1992">Keane and Adrian (1992)</A> suggest that a threshold
+value of about <IMG
+ WIDTH="24" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="$ 1.3$"> is appropriate, so that normally something like
+<PRE>
+&gt;&gt; [su,sv]=snrfilt(x,y,u,v,snr,1.3);
+</PRE>
+will give good results, but this will obviously depend on the quality of
+your images.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,381 @@
+% This is file JFM2enot.tex
+% first release v1.0, 20th October 1996
+%   (based on JFMnot.tex v3.2 for LaTeX2.09)
+% Copyright (C) 1996 Cambridge University Press
+
+\NeedsTeXFormat{LaTeX2e}
+
+\documentclass{jfm}
+
+% See if the author has the AMS 'amsbsy' package installed: If they have,
+% use it to provide better bold math support (with \boldsymbol).
+
+\ifCUPmtlplainloaded \else
+  \IfFileExists{amsbsy.sty}
+    {\typeout{^^JFound the 'amsbsy' package on the system, using it.^^J}%
+     \usepackage{amsbsy}}
+    {\providecommand\boldsymbol[1]{\mbox{\boldmath $##1$}}}
+\fi
+
+\providecommand\bnabla{\boldsymbol{\nabla}}
+\newcommand\etal{\mbox{\textit{et al.}}}
+
+\title[Notation and style guide]{Journal of Fluid Mechanics:\\%
+       notation and style guide}
+\author[L. J. Drath]{L.\ns J.\ns D\ls R\ls A\ls T\ls H}
+\affiliation{Department of Applied Mathematics and Theoretical Physics, \\%
+       Silver Street, Cambridge CB3 9EW, UK}
+\pubyear{1993}
+\volume{0}
+\date{8 September 1993}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+This document describes \textit{Journal of Fluid Mechanics}
+house style and notation, i.e.\ editorial matters concerning the content of
+the paper. It is intended to complement the Input Guide to the
+\textit{JFM} \LaTeX\ style file, and so does not include general matters of
+layout and numbering which the style file handles automatically, or
+information on using \LaTeX, which can be found in the Input Guide or the
+\LaTeX\ Manual.
+
+Most editorial queries concerning notation and house style can be answered by
+looking at recent pages in the \textit{Journal}. The more important points are
+noted in the following sections, and further information and examples
+can be found in the Input Guide (JFM2egui.tex) and sample pages (JFM2esam.tex).
+
+It is very important that the guidance on style given in these pages
+is followed:
+editorial changes to the author's file will normally be done by the
+printer, but if there are many of them, the disk may be returned to
+the author for correction, thus delaying publication.
+
+For quick reference, a summary of the most important points to note follows:
+\begin{itemize}
+\item Use a roman typeface in maths for:  the d (or D) in
+differentials and integrals; i (square root of -1); e (exponential);
+units and abbreviations (but all sub- and superscripts, apart from
+those just listed, are italic)(see \S\,5.2.1).
+
+\item  Use the appropriate typeface for vectors, matrices and tensors
+(\S\,5.2.1).
+
+\item  Use $(......)^{\frac{1}{2}}$   not  $\sqrt{.....}$ (\S\,5.2.2).
+
+\item  Put punctuation after equations where appropriate (\S\,5.1).
+
+\item  Do not use small fractions  ($\frac{gh}{u}$),  except for
+numerals ($\frac{1}{2}$,  $\frac{2}{3}$ etc.\ ): in the text use $gh/u$
+and in displayed maths use $gh/u$ or normal sized fractions (\S\,5.1).
+
+\item  Letters (\textit{a, b}, etc.) associated with  equation numbers,
+figure or table  numbers and references are italic, and for figures
+and tables are in brackets unless they are in a phrase that is already
+in brackets (\S\S\, 5.1,  3, 4).
+
+\item Use British spelling (centre, behaviour, modelling, emphasize,
+etc.)  (\S\,8).
+
+\item  Hyphenate compound adjectives, e.g.\ high-frequency wave,
+solid-body rotation; and use a double hyphen (en rule) to indicate
+`and' or `to', e.g.\ Navier--Stokes, pressure--strain, pages 45--56 (\S\,9).
+
+\item  When a reference has three authors, on first mention in the
+text \emph{all three} authors must be listed, and \etal\ used
+thereafter; use \etal\ from the start if there are four or more authors
+(\S\,2.7.2).
+
+\item  If a string of references in the text is in brackets, do not put
+brackets round the dates; separate the entries by semicolons (\S\,2.7.2).
+
+\item  Follow \textit{JFM} style in the form and ordering of the list of
+References (\S\,2.7.1).
+\end{itemize}
+
+\section{General structure}
+
+\subsection{Title}
+
+The title should be simple and concise. Only the first word is
+capitalized, apart from proper names. If the paper is part of a series
+then the title is styled `Annular flow. Part 3. Experiments'.
+
+\subsection{Authors and affiliations}
+
+Authors' names appear together on the same line, capitalized.
+Addresses are listed separately below, with a superscript numeral to
+link each author to the appropriate address if there are more than one.
+Postal addresses must be given in full, including zip codes or the
+equivalent, and the country. A new address can be indicated in a footnote
+to the author's name if necessary.
+
+The `received' and `revised' dates will be inserted by the Editorial Office.
+
+\subsection{Abstract}
+
+The abstract should be self-contained and self-explanatory and contain a
+summary of purpose, methodology, results and conclusions. References and
+displayed equations should be avoided.
+
+\subsection{Section headings}
+
+Only the first word of the heading is capitalized, apart from proper names.
+\emph{In the text} use the symbol \S \, instead of spelling out the word
+section, except at the start of a sentence. Section headings are bold, so any
+maths symbols not normally bold, i.e.\ not vectors, should be changed to
+italic (see Input Guide).
+
+\subsection{Acknowledgements}
+
+Any financial support should be mentioned here. Dedications are not normally
+permitted.
+
+\subsection{Appendices}
+
+Any appendices appear between the acknowledgements and the references.
+
+\emph{Long detailed appendices of interest to a few readers only are not
+printed, but are held in the Editorial Office and made available on request.}
+
+\subsection{References}
+
+\subsubsection{The list of references}
+
+Most papers submitted to the \emph{Journal} require editorial changes to the
+references, so please take particular care in the preparation of the list.
+
+References are listed at the end of the paper in strict alphabetical
+order (i.e.\ not ordered according to the number of authors or date). If the
+same author(s) has more than one publication in the same year, then \textit{a,
+b,} etc.\ should be added after the year.  Private communications are not
+included in the References; when they are mentioned in the text, initials of
+first names must be given. Articles that are `submitted' or `in press' may be
+included provided that the full title and the name of the Journal are given.
+Non-published material not widely available should be avoided.
+
+The style of the References can be seen in any recent volume of the
+\emph{Journal} and examples are given at the end of the Input Guide. Titles
+and last page numbers of articles are preferred, but can be omitted  if
+done consistently. Titles of theses must be included. There is no need to
+add any part of the address of the publisher, nor words such as `Press' or
+`Verlag' that follow the publisher's name (except for University Presses,
+where omission of Press could cause confusion). Conference proceedings must
+include the editor(s) and publisher.
+
+Short titles of Journals are based in general on the style of the \emph{World
+List of Scientific Periodicals}. Note that letters denoting series are
+printed in roman type, e.g.\ \emph{Proc.\ R. Soc.\ Lond.} A \textbf{432}, and
+that contractions (e.g.\ Engng, Intl) are not followed by a point.
+
+\subsubsection{References in the text}
+
+The Input Guide gives details of using a key to cross-reference entries
+in the References and the text.
+
+References in the text should include the author(s) name, and the
+year in parentheses, unless the reference is already in parentheses, e.g.\
+see Smith (1989) or (see Smith 1989). Strings of references in parentheses
+should be separated by semicolons, with no commas before the dates, e.g.\
+(Jones 1967, 1978; Tam 1980; Dog 1991). Any page or section numbers etc.\
+referred to should follow the date, after a comma e.g.\ Smith (1987,
+p.~234).
+
+If there are three authors, all the names are given at first mention, then
+just the first name and \etal\ subsequently. When there are four or
+more authors \etal\ is used from the start.
+
+
+\section{Figures}
+
+Figures cannot at present be handled in electronic form, so hard copies
+need to be provided. However, they should be included in the text in the
+form of a dummy amount of blank vertical space with the caption.
+
+Colour pictures have to be paid for by the author and can be separate
+glossy plates or printed within the text like other figures.
+
+Figures must be numbered sequentially in the order in which they are
+mentioned in the text, each with a caption.
+
+Large areas of white space should be avoided, and complicated information
+should appear in the caption rather than on the figure. Avoid duplicating
+information on the figure and in the caption. Groups of similar
+figures should be numbered as parts (\textit{a}), (\textit{b}), etc.\ of
+the same figure, with a single caption.
+
+In the text, the word `figure' is never abbreviated, and only capitalized at
+the start of a sentence. Do not put parentheses around  \textit{a, b}
+etc.\ if the phrase is already in parentheses. The following are
+examples of forms: figure 1; figure 1\,(\textit{a,\,b});
+figure 1\,(\textit{a--e}); figures 1\,(\textit{a}) and 1\,(\textit{b});
+(figure 1\,\textit{a,\,b}); (figures 1\,\textit{a} and 1\,\textit{b}).
+
+\section{Tables}
+
+Tables, however small, must be numbered sequentially in the order in which
+they are mentioned in the text (where the word `table' is only capitalized at
+the start of a sentence). Each should have a caption.
+
+There should be zeros before decimal points for numbers less than one, and
+powers of 10 rather than `e-4' etc.\ should be used.
+
+\emph{Extensive detailed tables of interest to a few readers only
+will be held in the Editorial Office and made available on request.}
+
+\section{Mathematics}
+
+Details of how to use \LaTeX\ to obtain the notation and style described in
+this section can be found in the JFM Input Guide or the \LaTeX\ Manual.
+
+\subsection{Layout of equations}
+
+Long, complicated or important equations are displayed, but
+punctuated as part of the text. Numbered equations appear on separate lines,
+but related equations may be denoted (2\,\textit{a}), (2\,\textit{b}), etc. In
+this case, if they are short, they should be on the same line, separated by a
+space, and then numbered in the style (2\,\textit{a,\,b}), (2\,\textit{a--c})
+etc. Two or more equations on separate lines but with the same number should
+be braced together. Dislayed equations are centred and long ones should be
+broken before a $+$ or a $-$ sign. The symbol $\times $ should be used if the
+break has to be at a product. Words such as `for', `as' should be roman type
+with an em space on each side (see \S 5.2.1 for other details on typefaces).
+
+Small fractions should only be used for numerals. To save space, short simple
+fractions should be typed with a slash rather than on two lines.
+
+Complicated expressions should be represented by a symbol rather than being
+written out in full each time.
+
+\vspace{3 mm}
+
+When equations are referred to \emph{in the text}, only the number in
+parentheses need be given, e.g.\ `substituting (3.12) into (3.20) we
+obtain...' (avoid using numerals in parentheses for any other reason): the
+word `Equation' is only needed at the start of a sentence and should never
+be abbreviated. Non-displayed equations within the text must be short and
+simple, and fractions must be on one line only, with a slash.
+
+\subsection{Mathematical notation}
+
+\subsubsection{Fonts}
+
+Mathematical symbols are usually printed in the italic or sloping greek
+type normally produced by \LaTeX. Avoid multiletter symbols such as
+$KE$ for kinetic energy -- use $E_{K}$ instead. However, they are
+sometimes used for dimensionless numbers such as \textit{Re, Pr} for Reynolds
+or Prandtl numbers, and then spacing between the two letters should
+be smaller than in normal \LaTeX\ maths mode -- see the Input Guide.
+
+Non-italic fonts should be used as follows (see the Input Guide for
+how to obtain these fonts):
+\begin{itemize}
+\item
+\emph{Roman}: roman type should be used for the following:
+  \begin{description}
+    \item to denote mathematical operations, e.g.\ sin, log, d (differential);
+    \item constants e.g.\ i ($\sqrt{-1}$), exp or e;
+    \item Ai, Bi (Airy functions);
+    \item Re, Im (real, imaginary);
+    \item physical units (cm, s, etc);
+    \item abbreviations such as c.c.\ (complex conjugate) and h.o.t.\
+          (higher-order terms).
+  \end{description}
+
+(Note that some sub- and superscripts used to be printed in roman type
+but they are now italic, apart from any in one of the above
+categories.)
+
+Greek letters are styled equivalently, i.e.\ slanted for mathematical
+variables, but constants such as pi and mu (micro) and operators such
+as $\Delta$ (difference) are upright.
+\item
+\emph{Bold italic or bold sloping greek}: for vectors
+($\bnabla$ should also be bold, but not $\nabla^{2}$).
+\item
+\emph{Bold sloping sans serif}: for tensors and matrices.
+\item
+\emph{Script}: an alternative to italic when the same letter is used
+to denote different quantities.
+\end{itemize}
+
+\subsubsection{Symbols}
+
+Square roots should be denoted by brackets and a fractional exponent
+$(...)^{\frac{1}{2}}$ rather than the root sign $\sqrt{...}$.
+
+A symbol is not normally used to denote a product: use a multiplication
+symbol only when breaking a displayed equation, for vector products or
+between numbers, e.g.\ $106 \times 10^{4}$; use a point only for the scalar
+product of vectors.
+
+Use $\approx$ to denote `approximately equal to '
+
+Use $\sim$ to denote `asymptotically equal to'
+
+Use \textit{O} to denote `of the order of'.
+
+\section{Units}
+
+The International System of Units (SI) should normally be used.
+An exponent is preferred to a solidus, e.g.\ cm s$^{-1}$. There should be
+a space between a number and its units, and there is no need to repeat the
+units in a list, e.g.\ 5 and 6$\;$cm.
+
+Use a low rather than centred decimal point.
+
+Use \% instead of writing out `percent' and $^{\circ}$  instead of `degrees'.
+On a figure the axis label should be (deg.), though, rather than using the
+symbol by each number.
+
+\section{Abbreviations}
+
+Only commonly accepted abbreviations can be used, and they must be
+defined at first occurrence. There should be points between lower-case
+letters in an abbreviation, but not between capital letters. There is no
+point after a contraction, engng for example.
+
+Do not use the following abbreviations: 2-D, 3-D, l.h.s., r.h.s., fig., eq.
+
+\section{Spelling and capitalization}
+
+Use British spelling conforming to the preferred spelling in the
+\emph{Shorter Oxford English Dictionary}. Examples include behaviour, colour,
+centre, travelling, modelling, emphasize, zeroth, analyse.
+
+Use initial capital letters for proper names and their derivatives, e.g.
+Gaussian, Lagrangian, Cartesian, Pitot, Perspex, Plexiglas. Figure, table,
+section should not be capitalized.
+
+\section{Punctuation and hyphenation}
+
+Hyphens should be used between compound adjectives, e.g. large-scale
+region, low-frequency wave, solid-body rotation, first-order equation (but
+only when preceding the noun, e.g. 'equation of first order' has no hyphen).
+Self, cross and half are always followed by a hyphen (e.g.\ self-interaction,
+cross-section, half-width), and a hyphen s follow `non', apart
+from nonlinear. Nouns with prefixes and compound nouns should normally be one
+word (e.g.\ coordinate, cutoff, breakup, predetermined, bandwidth, subgrid)
+unless there is a repeated letter (e.g.\ semi-infinite, over-relaxation).
+Other examples of nouns that are normally printed as one word include
+wavenumber, wavelength, sidewall, arclength.
+
+En rules (keyed as a double hyphen) should be used when replacing `and' or
+`to', e.g.\ gravity--capillary, Navier--Stokes, 10--20 cm. A comma is not
+needed after an abbreviating point, for example e.g.\ i.e.\ or cf.\ nor
+between lists of adjectives, e.g.\ long thin slow-moving cylinder. When a
+complete sentence is inside parentheses, then so is the final full stop.
+
+\section{Some miscellaneous style points}
+
+Avoid footnotes since they interrupt the reading of the text.
+
+Separate lists of nomenclature are not normally permitted. Symbols should be
+defined and explained on first appearance in the text.
+
+Italics should seldom be used for emphasis, but may be needed in definitions
+and for foreign words.
+
+\end{document}

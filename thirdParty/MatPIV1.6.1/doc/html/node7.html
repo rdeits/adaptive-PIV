@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Adding the path to Matlab</TITLE>
+<META NAME="description" CONTENT="Adding the path to Matlab">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="previous" HREF="node6.html">
+<LINK REL="up" HREF="node4.html">
+<LINK REL="next" HREF="node8.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html168"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html164"
+  HREF="node4.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html160"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html166"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html169"
+  HREF="node8.html">An example session</A>
+<B> Up:</B> <A NAME="tex2html165"
+  HREF="node4.html">Installation</A>
+<B> Previous:</B> <A NAME="tex2html161"
+  HREF="node6.html">Windows</A>
+ &nbsp; <B>  <A NAME="tex2html167"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00430000000000000000">
+Adding the path to Matlab</A>
+</H1>
+Subsequently you need to add this directory and all it's subdirectories
+to the <B>Matlab</B> path. This can be done in a few different ways.
+Firstly, if you are running <B>Matlab</B> with it's full desktop, you can
+click 'File', 'Set Path', followed by 'Add with sub-folders' and finally
+adding your newly created directory.
+
+<P>
+Alternatively for Unix/Linux users, you can add a file named <EM>startup.m</EM> to your home-directory, containing the following lines
+<PRE>
+p=genpath('/the/path/where/you/installed/MatPIV1.6.1');
+addpath(p);
+</PRE>
+This assumes you always start up <B>Matlab</B> from the root of your
+home-directory. If not, the paths are not added.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

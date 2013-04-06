@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Filtering the result</TITLE>
+<META NAME="description" CONTENT="Filtering the result">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node15.html">
+<LINK REL="previous" HREF="node13.html">
+<LINK REL="up" HREF="node10.html">
+<LINK REL="next" HREF="node15.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html265"
+  HREF="node15.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html261"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html255"
+  HREF="node13.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html263"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html266"
+  HREF="node15.html">Visualizing the results</A>
+<B> Up:</B> <A NAME="tex2html262"
+  HREF="node10.html">The not so easy</A>
+<B> Previous:</B> <A NAME="tex2html256"
+  HREF="node13.html">Calculating velocities</A>
+ &nbsp; <B>  <A NAME="tex2html264"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00524000000000000000">
+Filtering the result</A>
+</H2>
+
+<P>
+The next step is to filter the velocity-fields to remove so called
+spurious vectors. These are vectors that occur primarily due to low
+image quality in some parts of the image(s). We may, for example, have
+regions with insufficient seeding (not enough particles to create a good
+pattern for matching), or too many particles so that the image is
+saturated locally. Most users should find that applying some or all the
+following should work well. In the final step we replace the missing
+vector values using a nearest neighbor interpolation.
+
+<P>
+<PRE>
+&gt;&gt; [su,sv]=snrfilt(x,y,u,v,snr,1.3);
+ SnR filter running with threshold value = 1.3  - finished... 
+391 outliers identified
+
+&gt;&gt; [pu,pv]=peakfilt(x,y,su,sv,pkh,0.5);
+ Peak height filter running ....... 
+329 vectors changed 
+
+&gt;&gt; [gu,gv]=globfilt(x,y,pu,pv,3);
+ Global filter running - with limit: 3 *std [U V] ..... 
+1 vectors changed
+
+&gt;&gt; [mu,mv]=localfilt(x,y,gu,gv,2,'median',3,'polymask.mat');
+ Local median filter running: ..............................
+............................................................
+............................................................
+.........1464 vectors changed.
+
+&gt;&gt; [fu,fv]=naninterp(mu,mv,'linear','polymask.mat',x,y);
+ Interpolating outliers: ....................................
+....................2161 Nan's interpolated.
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

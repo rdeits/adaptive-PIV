@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Vorticity</TITLE>
+<META NAME="description" CONTENT="Vorticity">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node32.html">
+<LINK REL="previous" HREF="node30.html">
+<LINK REL="up" HREF="node29.html">
+<LINK REL="next" HREF="node32.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html497"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html493"
+  HREF="node29.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html487"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html495"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html498"
+  HREF="node32.html">Other files included</A>
+<B> Up:</B> <A NAME="tex2html494"
+  HREF="node29.html">Integral and differential quantities</A>
+<B> Previous:</B> <A NAME="tex2html488"
+  HREF="node30.html">Streamlines</A>
+ &nbsp; <B>  <A NAME="tex2html496"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00642000000000000000">
+Vorticity</A>
+</H2>
+We start by exploiting the possibility of extracting the vorticity
+from our 2-D measurement. Vorticity can be estimated by calculating
+<!-- MATH
+ \begin{displaymath}
+\omega = \frac{\partial V}{\partial X} - \frac{\partial U}{\partial Y}.
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="113" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img56.png"
+ ALT="$\displaystyle \omega = \frac{\partial V}{\partial X} - \frac{\partial U}{\partial Y}.
+$">
+</DIV><P></P>
+Several numerical schemes exist for performing this calculation, and three
+different methods have been implemented in <B>MatPIV</B>. The first is
+estimation by using Stokes theorem:
+<!-- MATH
+ \begin{displaymath}
+\omega_{i,j} = \frac{1}{8*\Delta{X} \Delta{Y}} [\Delta{X}(U_{i-1,j-1}
++2U_{i,j-1}+U_{i+1,j-1}) 
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="381" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img57.png"
+ ALT="$\displaystyle \omega_{i,j} = \frac{1}{8*\Delta{X} \Delta{Y}} [\Delta{X}(U_{i-1,j-1}
++2U_{i,j-1}+U_{i+1,j-1}) $">
+</DIV><P></P>
+<!-- MATH
+ \begin{displaymath}
++ \Delta{Y}(V_{i+1,j-1} +2V_{i+1,j}+V_{i+1,j+1})
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="255" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$\displaystyle + \Delta{Y}(V_{i+1,j-1} +2V_{i+1,j}+V_{i+1,j+1}) $">
+</DIV><P></P> 
+<!-- MATH
+ \begin{displaymath}
+- \Delta{X}(U_{i+1,j+1} +2U_{i,j+1}+U_{i-1,j+1})
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="262" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$\displaystyle - \Delta{X}(U_{i+1,j+1} +2U_{i,j+1}+U_{i-1,j+1}) $">
+</DIV><P></P>
+<!-- MATH
+ \begin{displaymath}
+- \Delta{Y}(V_{i-1,j+1} +2V_{i-1,j}+V_{i-1,j-1})].
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="265" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img60.png"
+ ALT="$\displaystyle - \Delta{Y}(V_{i-1,j+1} +2V_{i-1,j}+V_{i-1,j-1})]. $">
+</DIV><P></P>
+This approach integrates to find the circulation around a
+point. Alternatively we can use a standard differentiation scheme,
+such as forward or centered differences. <B>MatPIV</B> uses two
+different and more accurate differential operators, namely least
+squares and Richardson extrapolation. With the former of these schemes
+the vorticity can be estimated by
+<!-- MATH
+ \begin{displaymath}
+\omega_{i,j} = \frac{1}{10\Delta X} (2v_{i+2,j} +v_{i+1,j} -v_{i-1,j} -2v_{i-2,j})
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="340" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$\displaystyle \omega_{i,j} = \frac{1}{10\Delta X} (2v_{i+2,j} +v_{i+1,j} -v_{i-1,j} -2v_{i-2,j})$">
+</DIV><P></P>
+<!-- MATH
+ \begin{displaymath}
+- \frac{1}{10\Delta Y} (2u_{i,j+2}+u_{i,j+1} -u_{i,j-1} -2u_{i,j-2}),
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="314" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$\displaystyle - \frac{1}{10\Delta Y} (2u_{i,j+2}+u_{i,j+1} -u_{i,j-1} -2u_{i,j-2}),$">
+</DIV><P></P>
+while the latter uses
+<!-- MATH
+ \begin{displaymath}
+\omega_{i,j} = \frac{1}{12\Delta X} (-v_{i+2,j} +8v_{i+1,j} -8v_{i-1,j} +v_{i-2,j})
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="352" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$\displaystyle \omega_{i,j} = \frac{1}{12\Delta X} (-v_{i+2,j} +8v_{i+1,j} -8v_{i-1,j} +v_{i-2,j})$">
+</DIV><P></P>
+<!-- MATH
+ \begin{displaymath}
+- \frac{1}{12\Delta Y} (-u_{i,j+2}+8u_{i,j+1} -8u_{i,j-1} +u_{i,j-2}).
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="327" HEIGHT="50" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$\displaystyle - \frac{1}{12\Delta Y} (-u_{i,j+2}+8u_{i,j+1} -8u_{i,j-1} +u_{i,j-2}).$">
+</DIV><P></P>
+The major difference between the two last operators is that the
+Richardson extrapolation is designed to produce a smaller truncation
+error, while the least squares operator reduces the effect of
+fluctuations. The latter reason is why the least squares operator is
+often used with PIV measurements and is chosen as the default
+calculation method in <B>MatPIV</B>.
+
+<P>
+The file <EM>vorticity.m</EM> calculates vorticity. Calling should look
+like:
+<PRE>
+[vorticity]=vorticity(x,y,u,v,method).
+</PRE>
+Method should be one of 'centered', 'circulation', 'richardson' or
+'leastsq', where the latter is the default. The former of the methods is
+just an overloaded call to the MATLAB file curl.m (type <EM>help curl</EM>
+at the command prompt). This file uses a centered differences approach
+and will perform well if the velocities are smooth. 
+
+<P>
+If no output argument is included, a figure window will appear showing
+the result.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html497"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html493"
+  HREF="node29.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html487"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html495"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html498"
+  HREF="node32.html">Other files included</A>
+<B> Up:</B> <A NAME="tex2html494"
+  HREF="node29.html">Integral and differential quantities</A>
+<B> Previous:</B> <A NAME="tex2html488"
+  HREF="node30.html">Streamlines</A>
+ &nbsp; <B>  <A NAME="tex2html496"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

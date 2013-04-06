@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>The easy way</TITLE>
+<META NAME="description" CONTENT="The easy way">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node10.html">
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="node8.html">
+<LINK REL="next" HREF="node10.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html200"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html196"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html190"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html198"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html201"
+  HREF="node10.html">The not so easy</A>
+<B> Up:</B> <A NAME="tex2html197"
+  HREF="node8.html">An example session</A>
+<B> Previous:</B> <A NAME="tex2html191"
+  HREF="node8.html">An example session</A>
+ &nbsp; <B>  <A NAME="tex2html199"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00510000000000000000">
+The easy way</A>
+</H1>
+We can quite easily perform our first PIV-calculation by changing to the
+<EM>Demo3</EM> directory and executing the command
+<PRE>
+&gt;&gt; [x,y,u,v]=matpiv('mpim1b.bmp','mpim1c.bmp',64,0.0012,0.5,'single');
+</PRE>
+This will interrogate the images in a single pass using <!-- MATH
+ $64\times64$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ 64\times64$">
+pixels large interrogation windows with <IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$ 50\%$"> overlap. The term
+``single pass'' refers to the fact that the calculation is performed by
+looping over the images with only one iteration. It is normally better
+to use more iterations and achieve higher accuracy, but we shall return
+to these subjects at a later stage.
+
+<P>
+The result consists of four matrices <EM>x, y, u</EM> and <EM>v</EM> which
+are measured in pixels and pixels/second. The result can be visualized
+by issuing the following command:
+<PRE>
+&gt;&gt; quiver(x,y,u,v)
+</PRE>
+
+<P>
+This is all well, but normally we prefer to know velocities and
+positions in engineering units such as centimeters and seconds. To do
+this we need to know how large each pixel in our image is, measured in
+physical coordinates. Furthermore, it may in some cases be nice to mask
+out particular regions of the flow, in order to save computational time.
+For example, there is no need to perform our calculations in the airy
+part above the wave-crest in figure&nbsp;<A HREF="node10.html#fig:mpimages">2.1</A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html200"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html196"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html190"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html198"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html201"
+  HREF="node10.html">The not so easy</A>
+<B> Up:</B> <A NAME="tex2html197"
+  HREF="node8.html">An example session</A>
+<B> Previous:</B> <A NAME="tex2html191"
+  HREF="node8.html">An example session</A>
+ &nbsp; <B>  <A NAME="tex2html199"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

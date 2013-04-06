@@ -1,0 +1,47 @@
+digraph G {
+node [shape="box"];
+subgraph cluster0 {
+node [shape="box"];
+node [texlbl="Window selection"] win_sel;
+node [texlbl="A"] a;
+node [texlbl="$B_{0,0}$"] b00;
+node [texlbl="$B_{0,1}$"] b01;
+node [texlbl="$B_{0,2}$"] b02;
+node [texlbl="$B_{1,0}$"] b10;
+node [texlbl="Cross\ correlation"] corr0;
+node [texlbl="Cross\ correlation"] corr1;
+node [texlbl="Cross\ correlation"] corr2;
+node [texlbl="Cross\ correlation"] corr3;
+node [texlbl="argmax"] argmax;
+node [texlbl="Displacement\ of\ window\ A"] disp_a;
+win_sel -> a;
+win_sel -> b00;
+win_sel -> b01;
+win_sel -> b02;
+win_sel -> b10;
+a -> corr0;
+a -> corr1;
+a -> corr2;
+a -> corr3;
+b00 -> corr0;
+b01 -> corr1;
+b02 -> corr2;
+b10 -> corr3;
+corr0 -> argmax;
+corr1 -> argmax;
+corr2 -> argmax;
+corr3 -> argmax;
+argmax -> disp_a;
+color=blue;
+label="latex";
+texlbl="\hspace{4 in}Repeat for each window A";
+edge [style=invis]
+rank=same {a->b00->b01->b02->b10}
+}
+node [label="Image pair"] im_pair;
+im_pair -> win_sel;
+node [label="Prior velocity estimate"] prior;
+prior -> win_sel;
+node [label="Velocity field"] vel_field;
+disp_a -> vel_field;
+}

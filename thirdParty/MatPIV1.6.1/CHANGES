@@ -1,0 +1,48 @@
+July 2004
+
+
+Changes from MatPIV 1.6 to 1.61
+-----------------------------------------
+
+
+
+UPDATED FILES:
+-------------
+
+PIXEL2WORLD - updated to also accept a filename as input.
+
+MATPIV - Can now also take a velocity field as input for the initial
+window shift. Useful when processing time series where the velocity
+field only changes a little from image to image. At the moment this only
+works for the 'multin' option.
+New option added - 'norm'. Calculates normalized correlations in a
+single pass through the images
+Parameter-file as input should now work. Briefly tested though...
+
+MULTIPASSX - see above. Also fixed a bug in the image reading where if
+you passed an RGB-image (already loaded) instead of the filename, then
+the RGB was not converted to grayscale before calculations. This
+resulted in Mx3N sized images in the calculations. 
+
+GLOBFILT - Changed the appearance of nanmean to mnanmean.
+
+MSMOOTH - smoothing filter to smooth velocity fields.
+
+DEFINEWOCO - added a hack to the '.' option where you now can specify
+approximatly how wide your coordinate points are. This is good if your
+points are "very" wide (like 20 pixels or more).
+
+
+NEW FILES:
+---------
+
+AUTOMASK and DYNAMASK - various tries at automatic masking of images.
+These will only work if your surface/line does not have too many holes
+in it etc. These are very basic tries at automatic masking and they will
+be updated in the next release.
+
+MSTREAMLINE - small perturbation of Matlabs original streamline
+function. Attempts to guess proper starting values for the
+streamlines.
+
+RUNFILE_AVI - example of a runfile for use with an AVI-movie

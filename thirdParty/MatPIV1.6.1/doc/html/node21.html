@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>matpiv.m</TITLE>
+<META NAME="description" CONTENT="matpiv.m">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node22.html">
+<LINK REL="previous" HREF="node20.html">
+<LINK REL="up" HREF="node20.html">
+<LINK REL="next" HREF="node22.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html369"
+  HREF="node22.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html365"
+  HREF="node20.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html359"
+  HREF="node20.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html367"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html370"
+  HREF="node22.html">definewoco.m - defining the</A>
+<B> Up:</B> <A NAME="tex2html366"
+  HREF="node20.html">The core files</A>
+<B> Previous:</B> <A NAME="tex2html360"
+  HREF="node20.html">The core files</A>
+ &nbsp; <B>  <A NAME="tex2html368"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00621000000000000000">
+matpiv.m</A>
+</H2>
+The <I>matpiv.m </I> file acts merely as a shell (or batch-file) from
+which the different calculation files are called. The calling of
+MatPIV should look like:
+<PRE>
+[x,y,u,v]=matpiv(image1,image2,windowsize,Dt,...
+WinOverlap,Method,worldcoordfile,maskfile);
+</PRE>
+
+<P>
+Here <EM>image1</EM> and <EM>image2</EM> should be either two matrices
+containing your preloaded images or two strings containing the names of
+the images you wish to use.
+
+<P>
+The parameter <EM>windowsize</EM> should be a number representing the size
+of the sub-window to be used. However, this depends slightly on the
+evaluation technique (<EM>Method</EM>) to be applied (see <EM>Method</EM>).
+<EM>windowsize</EM> is usually set to <!-- MATH
+ $16, 32, 64$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img34.png"
+ ALT="$ 16, 32, 64$"> or <IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img35.png"
+ ALT="$ 128$">. 
+
+<P>
+<EM>Dt</EM> is the time between the start of exposure of <EM>image1</EM> and
+<EM>image2</EM>.
+
+<P>
+<EM>WinOverlap</EM> is a number between 0 and 1 denoting the overlap of the
+interrogation regions (sub-windows). Usually this parameter is set to
+<IMG
+ WIDTH="24" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img36.png"
+ ALT="$ 0.5$"> or <IMG
+ WIDTH="32" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img37.png"
+ ALT="$ 0.75$"> which means <IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$ 50\%$"> or <IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.png"
+ ALT="$ 75\%$"> overlap of the
+interrogation windows. We note that <EM>WinOverlap</EM> multiplied by the
+<EM>windowsize</EM> needs to be an integer number.
+
+<P>
+<EM>Method</EM> should be an integer string with one of the following options:
+
+<UL>
+<LI><EM>'single'</EM> - this performs PIV calculations with a single
+iteration through the images, using equation&nbsp;<A HREF="node19.html#correlation">3.2</A>. This
+equation is also the basis for the method
+</LI>
+<LI><EM>'multi'</EM> - which does PIV with three iterations through the
+images. This will start off using whatever <EM>windowsize</EM> you specify,
+but the final iteration will be performed using half this size. An
+extension of this is called
+</LI>
+<LI><EM>'multin'</EM> - and does PIV with <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img39.png"
+ ALT="$ n$"> iterations through the
+images. In this case <EM>windowsize</EM> needs to be a <IMG
+ WIDTH="33" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img40.png"
+ ALT="$ n \cdot 2$"> sized
+vector, implying that you have to manually give the size of the
+sub-window for each iteration. This comes with the added option of using
+non-quadratic sub-windows. A typical <EM>windowsize</EM>-vector will be
+something like <!-- MATH
+ $[64\mbox{ } 64;32\mbox{ } 32;16\mbox{ } 16;16\mbox{ }
+16]$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img41.png"
+ ALT="$ [64$">&nbsp;&nbsp;<IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img42.png"
+ ALT="$ 64;32$">&nbsp;&nbsp;<IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img43.png"
+ ALT="$ 32;16$">&nbsp;&nbsp;<IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img44.png"
+ ALT="$ 16;16$">&nbsp;&nbsp;<IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$ 16]$">, which means that we will use 4 iterations starting with
+<!-- MATH
+ $64\times64$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ 64\times64$"> windows and finishing with <!-- MATH
+ $16\times16$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$ 16\times16$">. Note that you can
+also use something like <!-- MATH
+ $[64\mbox{ } 32;32\mbox{ } 32;32\mbox{ }
+16:32\mbox{ } 16]$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img41.png"
+ ALT="$ [64$">&nbsp;&nbsp;<IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img46.png"
+ ALT="$ 32;32$">&nbsp;&nbsp;<IMG
+ WIDTH="43" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img46.png"
+ ALT="$ 32;32$">&nbsp;&nbsp;<IMG
+ WIDTH="49" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img47.png"
+ ALT="$ 16:32$">&nbsp;&nbsp;<IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$ 16]$">. Additionally we can use the method
+</LI>
+<LI><EM>'mqd'</EM> - which does the PIV calculation in a single pass
+using equation&nbsp;<A HREF="node19.html#mqd">3.1.1</A>. Similarly we can use
+</LI>
+<LI><EM>'norm'</EM> - to do the very same thing using
+equation&nbsp;<A HREF="node19.html#normcorr">3.3</A>.
+</LI>
+</UL>
+
+<P>
+<EM>worldcoordfile</EM> should be the name of a file containing the mapping
+between pixels (camera coordinates) to centimeters (world coordinates).
+This file is automatically produced when you use the file <EM>definewoco.m</EM>.
+
+<P>
+<EM>maskfile</EM> should be the name of a file containing the mask you wish
+to apply to your images (in other words, containing the region where you
+do not wish to perform your calculations). This file is produced when
+you apply the function <EM>mask.m</EM>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html369"
+  HREF="node22.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html365"
+  HREF="node20.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html359"
+  HREF="node20.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html367"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html370"
+  HREF="node22.html">definewoco.m - defining the</A>
+<B> Up:</B> <A NAME="tex2html366"
+  HREF="node20.html">The core files</A>
+<B> Previous:</B> <A NAME="tex2html360"
+  HREF="node20.html">The core files</A>
+ &nbsp; <B>  <A NAME="tex2html368"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

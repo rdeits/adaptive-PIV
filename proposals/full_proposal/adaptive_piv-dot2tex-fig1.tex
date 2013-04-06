@@ -1,0 +1,50 @@
+
+\begin{tikzpicture}[>=latex,line join=bevel,]
+%%
+\begin{scope}
+  \pgfsetstrokecolor{black}
+  \definecolor{strokecol}{rgb}{0.0,0.0,1.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (8bp,44bp) -- (8bp,316bp) -- (455bp,316bp) -- (455bp,44bp) -- cycle;
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (229bp,291bp) node {\hspace{4 in}Repeat for each window A};
+\end{scope}
+  \node (a) at (231bp,213bp) [draw,rectangle] {A};
+  \node (corr2) at (281bp,161bp) [draw,rectangle] {Cross\ correlation};
+  \node (corr1) at (182bp,161bp) [draw,rectangle] {Cross\ correlation};
+  \node (corr0) at (83bp,161bp) [draw,rectangle] {Cross\ correlation};
+  \node (prior) at (280bp,332bp) [draw,rectangle] {Prior velocity estimate};
+  \node (argmax) at (231bp,111bp) [draw,rectangle] {argmax};
+  \node (im_pair) at (182bp,332bp) [draw,rectangle] {Image pair};
+  \node (corr3) at (380bp,161bp) [draw,rectangle] {Cross\ correlation};
+  \node (b01) at (193bp,213bp) [draw,rectangle] {$B_{0,1}$};
+  \node (b00) at (150bp,213bp) [draw,rectangle] {$B_{0,0}$};
+  \node (b02) at (269bp,213bp) [draw,rectangle] {$B_{0,2}$};
+  \node (win_sel) at (231bp,265bp) [draw,rectangle] {Window selection};
+  \node (b10) at (351bp,213bp) [draw,rectangle] {$B_{1,0}$};
+  \node (vel_field) at (231bp,8bp) [draw,rectangle] {Velocity field};
+  \node (disp_a) at (231bp,60bp) [draw,rectangle] {Displacement\ of\ window\ A};
+  \draw [->] (a) ..controls (244.7bp,198.3bp) and (257.8bp,185.2bp)  .. (corr2);
+  \draw [->] (prior) ..controls (266.71bp,313.38bp) and (252.01bp,293.88bp)  .. (win_sel);
+  \draw [->] (argmax) ..controls (231bp,98.017bp) and (231bp,87.345bp)  .. (disp_a);
+  \draw [->] (win_sel) ..controls (240.94bp,250.92bp) and (249.75bp,239.32bp)  .. (b02);
+  \draw [->] (corr3) ..controls (335.07bp,145.53bp) and (287.92bp,130.34bp)  .. (argmax);
+  \draw [->] (a) ..controls (217.64bp,198.37bp) and (204.99bp,185.46bp)  .. (corr1);
+  \draw [->] (b02) ..controls (272.56bp,197.16bp) and (275.09bp,186.61bp)  .. (corr2);
+  \draw [->] (b01) ..controls (189.73bp,197.16bp) and (187.42bp,186.61bp)  .. (corr1);
+  \draw [->] (corr0) ..controls (127.63bp,145.53bp) and (174.47bp,130.34bp)  .. (argmax);
+  \draw [->] (corr2) ..controls (266.77bp,146.34bp) and (253.81bp,133.89bp)  .. (argmax);
+  \draw [->] (b00) ..controls (129.1bp,196.4bp) and (112.05bp,183.68bp)  .. (corr0);
+  \draw [->] (a) ..controls (220.55bp,206.8bp) and (217.16bp,205.24bp)  .. (214bp,204bp) .. controls (180.7bp,190.89bp) and (141.49bp,178.74bp)  .. (corr0);
+  \draw [->] (b10) ..controls (359.74bp,196.92bp) and (366.13bp,185.91bp)  .. (corr3);
+  \draw [->] (win_sel) ..controls (221.06bp,250.92bp) and (212.25bp,239.32bp)  .. (b01);
+  \draw [->] (disp_a) ..controls (231bp,44.974bp) and (231bp,34.942bp)  .. (vel_field);
+  \draw [->] (win_sel) ..controls (266.63bp,249.15bp) and (305.11bp,233.12bp)  .. (b10);
+  \draw [->] (corr1) ..controls (195.87bp,146.41bp) and (208.4bp,134.14bp)  .. (argmax);
+  \draw [->] (im_pair) ..controls (195.29bp,313.38bp) and (209.99bp,293.88bp)  .. (win_sel);
+  \draw [->] (win_sel) ..controls (208.71bp,250.24bp) and (187.27bp,237bp)  .. (b00);
+  \draw [->] (a) ..controls (241.44bp,206.79bp) and (244.84bp,205.24bp)  .. (248bp,204bp) .. controls (281.55bp,190.84bp) and (321.05bp,178.69bp)  .. (corr3);
+  \draw [->] (win_sel) ..controls (231bp,251.05bp) and (231bp,239.74bp)  .. (a);
+%
+\end{tikzpicture}

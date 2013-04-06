@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Visualizing the results</TITLE>
+<META NAME="description" CONTENT="Visualizing the results">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="previous" HREF="node14.html">
+<LINK REL="up" HREF="node10.html">
+<LINK REL="next" HREF="node16.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html275"
+  HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html271"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html267"
+  HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html273"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html276"
+  HREF="node16.html">The need-to-know basics</A>
+<B> Up:</B> <A NAME="tex2html272"
+  HREF="node10.html">The not so easy</A>
+<B> Previous:</B> <A NAME="tex2html268"
+  HREF="node14.html">Filtering the result</A>
+ &nbsp; <B>  <A NAME="tex2html274"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00525000000000000000">
+Visualizing the results</A>
+</H2>
+Figure&nbsp;<A HREF="#fig:velo">2.4</A> shows <IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$ 1/4$"> of the velocity-vectors plotted using
+the <B>Matlab</B> command <EM>quiver</EM>. In this case only every fourth
+vector is shown due to the high number of vectors present. The figure
+was created with the following commands:
+<PRE>
+&gt;&gt; quiver(x(1:4:end),y(1:4:end),fu(1:4:end),fv(1:4:end),2); axis tight
+</PRE>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:velo"></A><A NAME="110"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.4:</STRONG>
+Filtered and interpolated velocity-field.</CAPTION>
+<TR><TD><IMG
+ WIDTH="271" HEIGHT="214" BORDER="0"
+ SRC="img11.png"
+ ALT="\begin{figure}\begin{center}
+{\psfig{file=velofield.ps ,width=6cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+It is also possible to use the function <EM>magnitude.m</EM> to calculate
+the magnitude of each velocity vector,
+<!-- MATH
+ $(\mbox{fu}^2+\mbox{fv}^2)^{1/2}$
+ -->
+<IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$ ($">fu<IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$ ^2+$">fv<IMG
+ WIDTH="37" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$ ^2)^{1/2}$">. Figure&nbsp;<A HREF="#fig:magn">2.5</A> was created
+using the following commands:
+<PRE>
+&gt;&gt; w=magnitude(x,y,fu,fv);
+&gt;&gt; pcolor(x,y,w), shading flat, colorbar
+</PRE>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:magn"></A><A NAME="124"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.5:</STRONG>
+Magnitude of velocity.</CAPTION>
+<TR><TD><IMG
+ WIDTH="272" HEIGHT="204" BORDER="0"
+ SRC="img15.png"
+ ALT="\begin{figure}\begin{center}
+{\psfig{file=magnitude.ps ,width=6cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The function <EM>vorticity</EM> can be used to calculate vorticity
+through 4 different numerical schemes. The following commands were
+used to create figure&nbsp;<A HREF="#fig:vort">2.6</A>:
+
+<P>
+<PRE>
+&gt;&gt; w=vorticity(x,y,fu,fv,'circulation');
+&gt;&gt; pcolor(x(2:end-1,2:end-1),y(2:end-1,2:end-1),w), shading flat, colorbar
+</PRE>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:vort"></A><A NAME="135"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.6:</STRONG>
+Vorticity.</CAPTION>
+<TR><TD><IMG
+ WIDTH="271" HEIGHT="204" BORDER="0"
+ SRC="img16.png"
+ ALT="\begin{figure}\begin{center}
+{\psfig{file=vorticity.ps ,width=6cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+To calculate streamlines from the flow field one can use the <B>Matlab</B> command <EM>streamline</EM>. This function requires the user to
+define starting points for each streamline she/he will plot, but this
+is often a bit tedious to do manually. <B>MatPIV</B> comes with a
+function named <EM>mstreamline</EM> that finds all the boundaries of the
+flow and uses these as starting points in <EM>streamline</EM>. The
+following commands were used to create figure&nbsp;<A HREF="#fig:streaml">2.7</A>:
+<PRE>
+&gt;&gt; h=mstreamline(x,y,fu,fv,2);
+</PRE>
+Again the number of vectors in the velocity-field is so large that it
+is feasible to plot only every second streamline.
+
+<DIV ALIGN="CENTER"><A NAME="fig:streaml"></A><A NAME="150"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.7:</STRONG>
+Streamlines.</CAPTION>
+<TR><TD><IMG
+ WIDTH="272" HEIGHT="217" BORDER="0"
+ SRC="img17.png"
+ ALT="\begin{figure}\begin{center}
+{\psfig{file=streamline.ps ,width=6cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html275"
+  HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html271"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html267"
+  HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html273"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html276"
+  HREF="node16.html">The need-to-know basics</A>
+<B> Up:</B> <A NAME="tex2html272"
+  HREF="node10.html">The not so easy</A>
+<B> Previous:</B> <A NAME="tex2html268"
+  HREF="node14.html">Filtering the result</A>
+ &nbsp; <B>  <A NAME="tex2html274"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

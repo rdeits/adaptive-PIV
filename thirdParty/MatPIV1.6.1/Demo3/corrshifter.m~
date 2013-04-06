@@ -1,0 +1,45 @@
+% create image shifting figure for LOV conference
+
+a=double(imread('mpim1b.bmp'));
+b=double(imread('mpim1c.bmp'));
+
+A=a(250:313,600:663);     
+B=b(250:313,600:663);
+
+figure
+C=A-mean2(A);
+D=B-mean2(B);
+R=xcorrf2(C,D)/(64*64*std2(A)*std2(B));
+
+subplot(1,2,1)
+
+tmp=ones(size(A)*3 - 2);
+tmp(64:127,64:127)=A+1;
+axis off, colormap(gray)
+stad1=std2(A); stad2=std2(B);
+tel=1;
+subplot(1,2,2)
+hold on
+
+for j=1:126
+    for i=1:126
+        tmp2=tmp;
+        tmp2(j:64+j-1,i:64+i-1)=B.*tmp(j:64+j-1,i:64+i-1);
+        tmp2(tmp2>255)=tmp2(tmp2>255)/200;
+        subplot(1,2,1)
+        %imshow(tmp2/255,'notruesize')
+        imagesc(tmp2)
+        caxis([50 300])
+        axis off
+        drawnow
+        subplot(1,2,2)
+        imagesc([i:i+1],[j:j+1],R(j:j+1,i:i+1))
+        caxis([0 0.5])
+        axis([0.5 128.5 0.5 128.5])
+        axis off
+        drawnow
+        [X,MAP]=capture;
+        M(tel)=;
+        tel=tel+1;
+    end
+end

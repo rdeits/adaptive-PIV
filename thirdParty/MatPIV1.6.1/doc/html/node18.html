@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>How does it work?</TITLE>
+<META NAME="description" CONTENT="How does it work?">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node20.html">
+<LINK REL="previous" HREF="node17.html">
+<LINK REL="up" HREF="node17.html">
+<LINK REL="next" HREF="node19.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html331"
+  HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html327"
+  HREF="node17.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html321"
+  HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html329"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html332"
+  HREF="node19.html">Pattern Matching - the</A>
+<B> Up:</B> <A NAME="tex2html328"
+  HREF="node17.html">MatPIV behind the scenes</A>
+<B> Previous:</B> <A NAME="tex2html322"
+  HREF="node17.html">MatPIV behind the scenes</A>
+ &nbsp; <B>  <A NAME="tex2html330"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00610000000000000000">
+How does it work?</A>
+</H1>
+
+<P>
+The fundamentals of Particle Image Velocimetry relies on basic pattern
+matching. This is a topic touched upon by most introductory books on
+image processing&nbsp;(see for example <A
+ HREF="node40.html#Gonzales:1992">Gonzales and Woods, 1992</A>). The important
+thing to understand about PIV is that it is nothing but an application
+of these techniques to experiments in fluid (or solid) mechanics. It is
+very easy to get confused over the fact that to use PIV you need a grasp
+of digital cameras, particles, lasers (or other illumination devices) as
+well as the physics of your experiment. In the present text we aim to
+emphasize that you should treat the PIV technique as a generic tool to
+measure your experiments. It is generic in the way that we apply
+principles of pattern matching (which is a software-issue) and these
+principles have nothing to do with the way we do our experiment (which
+depends on hardware-issues). The first step is to add some tracer into
+our flow field. To measure the motion of this tracer we normally have to
+illuminate it and film it with a camera. Since most cameras record on a
+2-dimensional plane, we usually restrict our illumination to a
+2-dimensional plane as well - hereafter known as a ``light sheet''. To
+accomplish this we may need to use optics, and to film it we may need
+some technological insight (like knowing how to use a video camera), but
+at the end of the day we go through all these steps in order to generate
+a pattern in our flow field and registering the motion of it. This
+pattern is subsequently used for pattern matching which will tell us
+something about displacements. If we then divide the displacement by the
+time separation between our images (we assume we have taken two images
+in order to match patterns between them) we end up with a velocity.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html333"
+  HREF="node19.html">Pattern Matching - the principles</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html331"
+  HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html327"
+  HREF="node17.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html321"
+  HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html329"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html332"
+  HREF="node19.html">Pattern Matching - the</A>
+<B> Up:</B> <A NAME="tex2html328"
+  HREF="node17.html">MatPIV behind the scenes</A>
+<B> Previous:</B> <A NAME="tex2html322"
+  HREF="node17.html">MatPIV behind the scenes</A>
+ &nbsp; <B>  <A NAME="tex2html330"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

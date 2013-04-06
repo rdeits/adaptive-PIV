@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Using a parameter-file as input</TITLE>
+<META NAME="description" CONTENT="Using a parameter-file as input">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="previous" HREF="node38.html">
+<LINK REL="up" HREF="node17.html">
+<LINK REL="next" HREF="node40.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html592"
+  HREF="node40.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html588"
+  HREF="node17.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html584"
+  HREF="node38.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html590"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html593"
+  HREF="node40.html">Bibliography</A>
+<B> Up:</B> <A NAME="tex2html589"
+  HREF="node17.html">MatPIV behind the scenes</A>
+<B> Previous:</B> <A NAME="tex2html585"
+  HREF="node38.html">Batch-processing with MatPIV</A>
+ &nbsp; <B>  <A NAME="tex2html591"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00660000000000000000">
+Using a parameter-file as input</A>
+</H1>
+
+<P>
+Finally we shall mention that it is also possible to supply an m-file
+containing your parameters as input to matpiv. The file <EM>parameters_example.m</EM> gives an example of how this may be achieved with
+the images in the Demo 1 directory. The user would then execute the
+following:
+<PRE>
+&gt;&gt; [x,y,u,v,snr]=matpiv('parameters_example.m');
+</PRE>
+
+<P>
+Here the file <EM>parameters_example.m</EM> is just a list of the
+parameters we would normally write on the command line:
+
+<P>
+<PRE>
+% Parameter-example file 
+im1= 'Demo1/im00.bmp'; %The "base" image
+im2= 'Demo1/im04.bmp'; %The "cross" image
+Dt=0.04; %Time between images
+winsize=[64 64;64 64;32 32;32 32]; %interrogation region size
+overlap=0.5; % Overlap of interrogation regions
+method='multin'; %Method for interrogation (i.e. multiple passes)
+wocofile='Demo1/worldco.mat'; %file containting the mapping from image to
+                          %world coordinates
+msk='Demo1/polymask.mat'; %file defining the regions to mask from the
+                          %flow.
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>The not so easy way</TITLE>
+<META NAME="description" CONTENT="The not so easy way">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node16.html">
+<LINK REL="previous" HREF="node9.html">
+<LINK REL="up" HREF="node8.html">
+<LINK REL="next" HREF="node11.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html212"
+  HREF="node11.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html208"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html202"
+  HREF="node9.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html210"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html213"
+  HREF="node11.html">Specifying the coordinate system</A>
+<B> Up:</B> <A NAME="tex2html209"
+  HREF="node8.html">An example session</A>
+<B> Previous:</B> <A NAME="tex2html203"
+  HREF="node9.html">The easy way</A>
+ &nbsp; <B>  <A NAME="tex2html211"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00520000000000000000">
+The not so easy way</A>
+</H1>
+We will now go through the complete process of measuring the velocities
+from the accompanying demo-images. The process is in our case started by
+first defining a coordinate system so that we know how far the particles
+move, measured in physical coordinates (centimeters or meters) instead
+of only ``camera'' coordinates (pixels). Thereafter we apply a mask to
+the images to avoid performing calculations where there are no particles
+(outside the flow field). Subsequently the images will be interrogated
+using a window-shifting technique&nbsp;(<A
+ HREF="node40.html#Westerweel:1997">Westerweel et&nbsp;al., 1997</A>). After the
+velocity field has been found, a series of filters are applied before
+finally all the identified outliers are interpolated using a nearest
+neighbor interpolation.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:mpimages"></A><A NAME="458"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.1:</STRONG>
+Surface wave. Field-of-view (FOV) is roughly <IMG
+ WIDTH="51" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ 30*30$"> cm</CAPTION>
+<TR><TD><IMG
+ WIDTH="552" HEIGHT="217" BORDER="0"
+ SRC="img4.png"
+ ALT="\begin{figure}\makebox{\setlength{\unitlength}{1mm}
+\begin{picture}(120,70)(0...
+...}}
+\put(65,5){\epsfig{figure=mpim1b.ps, width=6cm}}
+\end{picture}}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html214"
+  HREF="node11.html">Specifying the coordinate system</A>
+<LI><A NAME="tex2html215"
+  HREF="node12.html">Masking out regions of the flow</A>
+<LI><A NAME="tex2html216"
+  HREF="node13.html">Calculating velocities</A>
+<LI><A NAME="tex2html217"
+  HREF="node14.html">Filtering the result</A>
+<LI><A NAME="tex2html218"
+  HREF="node15.html">Visualizing the results</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

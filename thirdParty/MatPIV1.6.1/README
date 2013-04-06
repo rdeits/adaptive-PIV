@@ -1,0 +1,31 @@
+
+MatPIV 1.6
+---------------------------------
+
+DOWNLOADING
+---
+Registered users can download the latest version of MatPIV from 
+ftp://ftp.math.uio.no/pub/jks/MatPIV
+use 'anonymous' as username and your email-address as password.
+
+
+INSTALLING
+---
+
+Installing MatPIV is VERY easy. Create a directory somewhere on your
+machine and add the path to this directory to the path-list in
+MATLAB using the command addpath.
+For example 
+addpath /your/path/here/MatPIV1.6
+
+Look at the 'Example Session' on the MatPIV web-page for a 
+demonstration of how to use the files.
+
+
+LICENSE
+---
+
+MatPIV is distributed under the GNU General Public License (GPL) and 
+is supplied 'as is' and with no warranties of any kind. Read the 
+accompanying file GNU_license.txt for details regarding the license.
+

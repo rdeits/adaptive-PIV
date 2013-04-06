@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>definewoco.m - defining the mapping between pixels and centimeters</TITLE>
+<META NAME="description" CONTENT="definewoco.m - defining the mapping between pixels and centimeters">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node23.html">
+<LINK REL="previous" HREF="node21.html">
+<LINK REL="up" HREF="node20.html">
+<LINK REL="next" HREF="node23.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html381"
+  HREF="node23.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html377"
+  HREF="node20.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html371"
+  HREF="node21.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html379"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html382"
+  HREF="node23.html">mask.m - Masking out</A>
+<B> Up:</B> <A NAME="tex2html378"
+  HREF="node20.html">The core files</A>
+<B> Previous:</B> <A NAME="tex2html372"
+  HREF="node21.html">matpiv.m</A>
+ &nbsp; <B>  <A NAME="tex2html380"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00622000000000000000"></A>
+<A NAME="define"></A>
+<BR>
+definewoco.m - defining the mapping between pixels and centimeters
+</H2>
+
+<P>
+The purpose of this file is to calculate the transformation from the
+local camera coordinates (pixels) to the physical world coordinates in
+your experiment. Currently only linear mapping is supported. The
+calling sequence for defining the mapping would then look like:
+
+<P>
+<PRE>
+&gt;&gt; definewoco('WorldCoordinateImage.bmp','typeofcoordinate').
+</PRE>
+
+<P>
+The world coordinates may be represented either by distinguishable dots or 
+by a regular grid. For the former case one should specify an o for the 
+<I>typeofcoordinate</I> input, whilst for the latter one should specify a + sign.
+If your image is called <I>WorldCo1.bmp</I> and contains a regular grid 
+the calling should look like
+<PRE>
+&gt;&gt; definewoco('WorldCo1.bmp','+').
+</PRE>
+This will make a window pop up containing the image. The mouse pointer
+will change to a circle, and the left mouse button is used to mark the
+points in the image that mark the World Coordinate system. After you
+have marked all your points you will be asked to type in the physical
+coordinates of each of the points marked with the mouse. These
+coordinates should be on the form [x y], with x being the horizontal and
+y being the vertical coordinate. Figure&nbsp;<A HREF="node11.html#fig:mpwoco">2.2</A> shows the
+example image supplied with <EM>MatPIV</EM>. It can be relatively difficult
+to spot all the points present in the image, The figure shows the points
+that should be used in your mapping marked out with white circles. This
+figure also includes the physical coordinates to some of the points as
+used in that experiment. All numbers are measured in cm.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html381"
+  HREF="node23.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html377"
+  HREF="node20.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html371"
+  HREF="node21.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html379"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html382"
+  HREF="node23.html">mask.m - Masking out</A>
+<B> Up:</B> <A NAME="tex2html378"
+  HREF="node20.html">The core files</A>
+<B> Previous:</B> <A NAME="tex2html372"
+  HREF="node21.html">matpiv.m</A>
+ &nbsp; <B>  <A NAME="tex2html380"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

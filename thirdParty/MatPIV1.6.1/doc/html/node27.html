@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Local filter</TITLE>
+<META NAME="description" CONTENT="Local filter">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node28.html">
+<LINK REL="previous" HREF="node26.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node28.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html443"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html439"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html433"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html441"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html444"
+  HREF="node28.html">Interpolate outliers</A>
+<B> Up:</B> <A NAME="tex2html440"
+  HREF="node24.html">Filters in MatPIV</A>
+<B> Previous:</B> <A NAME="tex2html434"
+  HREF="node26.html">Global histogram operator</A>
+ &nbsp; <B>  <A NAME="tex2html442"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00633000000000000000">
+Local filter</A>
+</H2>
+
+<P>
+The <EM>localfilt</EM>-file incorporates the two different filters,
+namely a median filter and a mean filter. They filter velocities based
+on the squared difference between individual velocity vectors
+and the median or the mean of their surrounding neighbors.
+
+<P>
+This filter is called with the following parameters:
+<PRE>
+[mu,mv]=localfilt(u,v,threshold,method,kernelsize,mask,x,y);
+</PRE>
+
+<P>
+Typically we consider a region <EM>kernelsize * kernelsize</EM> large and
+compare the vector in the middle with the remaining vectors using one of
+the two <EM>methods</EM> 'median' or 'mean'. The threshold determines wich
+vectors are thrown out. In the following example we'll use a 3*3 kernel
+and a threshold of 2.5:
+<PRE>
+&gt;&gt; [lu,lv]=localfilt(gu,gv,2.5,'median',3);
+</PRE>
+
+<P>
+In a vector field, let us consider vector number <IMG
+ WIDTH="24" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$ i,j$"> and compare it to
+the 8 vectors surrounding it (3*3 kernelsize) using the median-option.
+Then the vector is rejected if it is larger than the median of all the 9
+vectors plus the threshold times the standard deviation of all the
+vectors, or if it is smaller than the median minus the threshold times
+the standard deviation. Mathematically we can say that a vector is
+considered an outlier if
+
+<P>
+<!-- MATH
+ \begin{displaymath}
+\mathbf{U}_{i,j} \gtrless \mbox{median}(U_{i-1:i+1,j-1:j+1}) \pm \mbox{threshold} \cdot \mbox{std}(U_{i-1:i+1,j-1:j+1}).
+\end{displaymath}
+ -->
+<P></P>
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="50" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$\displaystyle \mathbf{U}_{i,j} \gtrless$">&nbsp; &nbsp;median<IMG
+ WIDTH="137" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img52.png"
+ ALT="$\displaystyle (U_{i-1:i+1,j-1:j+1}) \pm$">&nbsp; &nbsp;threshold<IMG
+ WIDTH="8" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img53.png"
+ ALT="$\displaystyle \cdot$">&nbsp; &nbsp;std<IMG
+ WIDTH="129" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img54.png"
+ ALT="$\displaystyle (U_{i-1:i+1,j-1:j+1}).
+$">
+</DIV><P></P> 
+
+<P>
+This filter implies that any vector can not be ``too different'' from
+its neighbors. The value of the threshold will determine exactly <EM>how</EM> different. A value between <IMG
+ WIDTH="59" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img55.png"
+ ALT="$ 1.7 and 3$"> will usually be sufficient
+but users should keep in mind that large values here will result in
+fewer outliers than a small number.
+
+<P>
+The kernelsize may be chosen as any odd number, but practically speaking
+a value of 3 (meaning a 3*3 kernel) or 5 will do just fine for most users.
+
+<P>
+Finally the input to localfilt can also include the name of the
+mask-file in order to save some time. If this is not specified,
+localfilt will loop through all the elements in the velocity matrices,
+even if they have already been classified as outliers by earlier
+filters. In this case it is vital that also the coordinate matrices,
+<EM>x</EM> and <EM>y</EM>, are included. Here's an example:
+<PRE>
+&gt;&gt; [lu,lv]=localfilt(gu,gv,2.5,'median',3,'polymask.mat',x,y);
+</PRE>
+
+<P>
+The median of the vectors can easily be replaced with the mean value,
+although the former is the default method since it is more robust to
+other outliers in the neighborhood (see&nbsp;<A
+ HREF="node40.html#Westerweel:1997">Westerweel et&nbsp;al. (1997)</A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html443"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html439"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html433"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html441"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html444"
+  HREF="node28.html">Interpolate outliers</A>
+<B> Up:</B> <A NAME="tex2html440"
+  HREF="node24.html">Filters in MatPIV</A>
+<B> Previous:</B> <A NAME="tex2html434"
+  HREF="node26.html">Global histogram operator</A>
+ &nbsp; <B>  <A NAME="tex2html442"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

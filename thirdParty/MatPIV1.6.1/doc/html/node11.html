@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Specifying the coordinate system</TITLE>
+<META NAME="description" CONTENT="Specifying the coordinate system">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node12.html">
+<LINK REL="previous" HREF="node10.html">
+<LINK REL="up" HREF="node10.html">
+<LINK REL="next" HREF="node12.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html229"
+  HREF="node12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html225"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html219"
+  HREF="node10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html227"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html230"
+  HREF="node12.html">Masking out regions of</A>
+<B> Up:</B> <A NAME="tex2html226"
+  HREF="node10.html">The not so easy</A>
+<B> Previous:</B> <A NAME="tex2html220"
+  HREF="node10.html">The not so easy</A>
+ &nbsp; <B>  <A NAME="tex2html228"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00521000000000000000">
+Specifying the coordinate system</A>
+</H2>
+In this tutorial we will focus on the practical aspects of PIV and
+it's application to real experiments. Our first step to quantify the
+velocity fields from the images is to determine how large each pixel
+is in the images. We can do this by inserting a grid with points into
+the field of view and take an image of it with our camera. Such an
+image is shown in figure&nbsp;<A HREF="#fig:mpwoco">2.2</A>, which shows 10 points that
+are <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="$ 5$">cm apart. We can now use the function <I>definewoco.m</I> to
+calculate how large a pixel is in the image and the orientation of our
+coordinate system.
+
+<DIV ALIGN="CENTER"><A NAME="fig:mpwoco"></A><A NAME="460"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.2:</STRONG>
+Image of coordinate system.</CAPTION>
+<TR><TD><IMG
+ WIDTH="451" HEIGHT="361" BORDER="0"
+ SRC="img6.png"
+ ALT="\begin{figure}\makebox{\setlength{\unitlength}{1mm}
+\begin{picture}(100,100)(...
+...put(15,5){\epsfig{figure=mpwoco_new.ps,height=8cm}}
+\end{picture}}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+In this example we will use the 6 ``dots'' in the image to define our
+coordinate system. In this specific case, the dots are rather large and
+have a flat peak. Therefore we will use a special option in <I>definewoco</I> that cross-correlates the image with a gaussian bell to
+emphasize the center of the peaks. The peaks in question are about 8
+pixels in diameter, so we'll pass this information to definewoco.
+<PRE>
+&gt;&gt; definewoco('mpwoco.bmp','.');
+Please give the approximate width of your points (in pixels -
+default is 20). Type 0 here to get old behaviour of definewoco: 8
+....calculating....this may take a few seconds.
+...Done!
+Now mark the crosses you whish to use as coordinate points
+Please mark your world coordinate points with left mouse button.
+Press ENTER when finished!
+Now you need to give the physical coordinates to each of the points specified!
+-----------------------
+Please enter the world coordinates for the white 
+ circle  marked in the current figure (in square parenthesis): [-10 10]
+Please enter the world coordinates for the white 
+ circle  marked in the current figure (in square parenthesis): [-10 5] 
+Please enter the world coordinates for the white 
+ circle  marked in the current figure (in square parenthesis): [0 10]  
+Please enter the world coordinates for the white 
+ circle  marked in the current figure (in square parenthesis): [0 5]   
+Please enter the world coordinates for the white 
+ circle  marked in the current figure (in square parenthesis): [10 5]
+Please enter the world coordinates for the white 
+ circle  marked in the current figure (in square parenthesis): [10 10]
+Mapping function. (N)onlinear or (L)inear (N/n/L/l): l
+Error (norm) = 0.019268
+Save coordinate file....specify number &gt;&gt; 
+Coordinate mapping factors saved to file:  worldco
+</PRE>
+
+<P>
+In another set of images (Demo 1) included with <B>MatPIV</B> (where the
+coordinate image file is called <I>woco.bmp</I>) the peaks are well
+defined and we would use the more standard approach
+<PRE>
+&gt;&gt; definewoco('woco.bmp','o');
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html229"
+  HREF="node12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html225"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html219"
+  HREF="node10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html227"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html230"
+  HREF="node12.html">Masking out regions of</A>
+<B> Up:</B> <A NAME="tex2html226"
+  HREF="node10.html">The not so easy</A>
+<B> Previous:</B> <A NAME="tex2html220"
+  HREF="node10.html">The not so easy</A>
+ &nbsp; <B>  <A NAME="tex2html228"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Global histogram operator</TITLE>
+<META NAME="description" CONTENT="Global histogram operator">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node27.html">
+<LINK REL="previous" HREF="node25.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node27.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html431"
+  HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html427"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html421"
+  HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html429"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html432"
+  HREF="node27.html">Local filter</A>
+<B> Up:</B> <A NAME="tex2html428"
+  HREF="node24.html">Filters in MatPIV</A>
+<B> Previous:</B> <A NAME="tex2html422"
+  HREF="node25.html">Signal-to-Noise ratio</A>
+ &nbsp; <B>  <A NAME="tex2html430"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00632000000000000000">
+Global histogram operator</A>
+</H2>
+
+<P>
+<EM>Globfilt</EM> is a so called global histogram operator that will
+remove vectors that are significantly larger or smaller than a
+majority of the vectors.
+
+<P>
+There are two basically different methods used in <EM>Globfilt</EM>, The
+first uses a graphical input to specify the acceptance interval of
+velocity vectors. These are plotted in the (u,v) plane and the user
+should specify 4 points, using the left mouse button, that together
+form a 4 sided polygonal region of acceptance. Use 'manual' as input
+parameter for this option.  Alternatively one can make an acceptance
+interval, either based on the standard deviations (x and y) of the
+measurement ensemble or simply by specifying the limits directly. This
+can be done in three different ways, namely 1) by specifying a factor
+(a number), 2) by specifying 'loop' or 3) by specifying a vector with
+the upper and lower velocity limits. In the former case <EM>Globfilt</EM>
+uses the mean of the velocities plus/minus the number times the
+standard deviation as the limits for the acceptance area. In the
+second case <EM>Globfilt</EM> loops and lets the user interactively set
+the factor. This option often performs well if the vector field is not
+heavily contaminated with outliers. The third option is used by
+specifying an input vector [Umin Umax Vmin Vmax] which defines the
+upper and lower limits for the velocities.
+
+<P>
+<PRE>
+[gu,gv]=globfilt(x,y,su,sv,actions);
+</PRE>
+where <I>x</I> and <I>y</I> are the coordinate matrices and <I>su</I> and
+<I>sv</I> the filtered velocity matrices output from the snr-filter.
+
+<P>
+Actions can be (as mentioned above) 
+
+<OL>
+<LI>the string 'manual', 
+</LI>
+<LI>a scalar (threshold) value,
+</LI>
+<LI>the string 'loop' or 
+</LI>
+<LI>a vector. 
+</LI>
+</OL>
+The former option let's the user specify an acceptance region
+graphically using the left mouse button. The second option, a scalar, is
+used to create an acceptance region from the formula <!-- MATH
+ $\bf {U}_{min/max} =
+\mbox{Factor}*std(\bf {U})$
+ -->
+<IMG
+ WIDTH="93" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$ \bf {U}_{min/max} =$">&nbsp; &nbsp;Factor<IMG
+ WIDTH="60" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$ *std(\bf {U})$">. This option is nice for batch processing.
+Alternatively one might use the 'loop' option. This option can
+additionally take an initial scalar as mentioned above and will loop to
+let the user decide the acceptance region based on this
+scalar/threshold. Finally one can simply choose to specify upper and
+lower limits on the velocities. This should be done in a vector [Umin
+Umax Vmin Vmax].
+
+<P>
+In real applications the following will usually produce good results:
+<PRE>
+&gt;&gt; [gu,gv]=globfilt(x,y,su,sv,4);
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html431"
+  HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html427"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html421"
+  HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html429"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html432"
+  HREF="node27.html">Local filter</A>
+<B> Up:</B> <A NAME="tex2html428"
+  HREF="node24.html">Filters in MatPIV</A>
+<B> Previous:</B> <A NAME="tex2html422"
+  HREF="node25.html">Signal-to-Noise ratio</A>
+ &nbsp; <B>  <A NAME="tex2html430"
+  HREF="node2.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

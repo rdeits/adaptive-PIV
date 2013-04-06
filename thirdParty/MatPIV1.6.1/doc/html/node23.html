@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>mask.m - Masking out regions of the flow</TITLE>
+<META NAME="description" CONTENT="mask.m - Masking out regions of the flow">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="previous" HREF="node22.html">
+<LINK REL="up" HREF="node20.html">
+<LINK REL="next" HREF="node24.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html391"
+  HREF="node24.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html387"
+  HREF="node20.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html383"
+  HREF="node22.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html389"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html392"
+  HREF="node24.html">Filters in MatPIV</A>
+<B> Up:</B> <A NAME="tex2html388"
+  HREF="node20.html">The core files</A>
+<B> Previous:</B> <A NAME="tex2html384"
+  HREF="node22.html">definewoco.m - defining the</A>
+ &nbsp; <B>  <A NAME="tex2html390"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00623000000000000000">
+mask.m - Masking out regions of the flow</A>
+</H2>
+
+<P>
+The files <EM>mask.m</EM> and <EM>maskpolyg.m</EM> provide a way of masking
+out a region of your flow after all the calculations have been
+performed. Ideally this should be done before processing to save
+calculation time, but this feature will probably take a while before
+is included in <B>MatPIV</B>.
+
+<P>
+The first step is to create a mask based on the image:
+<PRE>
+[mask,Xverti,Yverti]=mask(Image1,worldcofile);.
+</PRE>
+This will make an image pop up and the user should define the polygon
+that should be excluded from the measurements. This is done using the
+left mouse button and the session is ended by pressing the right
+button. A file called <EM>polymask.mat</EM> will be saved automatically
+and should be used as input to <EM>maskpolyg.m</EM> when processing the
+velocity fields:
+<PRE>
+&gt;&gt; [x,y,u,v]=maskpolyg(x,y,u,v,'polymask.mat');.
+</PRE>
+Alternatively one can use the vectors [Xverti,Yverti] as input directly:
+<PRE>
+&gt;&gt; [x,y,u,v]=maskpolyg(x,y,u,v,[Xverti,Yverti]);.
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

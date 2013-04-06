@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Calculating velocities</TITLE>
+<META NAME="description" CONTENT="Calculating velocities">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node14.html">
+<LINK REL="previous" HREF="node12.html">
+<LINK REL="up" HREF="node10.html">
+<LINK REL="next" HREF="node14.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html253"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html249"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html243"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html251"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html254"
+  HREF="node14.html">Filtering the result</A>
+<B> Up:</B> <A NAME="tex2html250"
+  HREF="node10.html">The not so easy</A>
+<B> Previous:</B> <A NAME="tex2html244"
+  HREF="node12.html">Masking out regions of</A>
+ &nbsp; <B>  <A NAME="tex2html252"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00523000000000000000">
+Calculating velocities</A>
+</H2>
+Now we would like to calculate the velocities from the images. We use
+the window shifting technique mentioned above and start off with
+<!-- MATH
+ $64\times64$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$ 64\times64$"> large images and end with <!-- MATH
+ $16\times16$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$ 16\times16$"> after 6 iterations.
+The images are taken with a time separation of <IMG
+ WIDTH="48" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ 0.0012$">s and we will use
+<IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$ 50\%$"> overlap of the interrogation regions.
+
+<P>
+<PRE>
+&gt;&gt; [x,y,u,v,snr,pkh]=matpiv('mpim1b.bmp','mpim1c.bmp',...
+[64 64;64 64;32 32;32 32;16 16;16 16],...
+0.0012,0.5,'multin','worldco.mat','polymask.mat');  
+
+* Pass No: 1
+ No. of vectors: 1094 , Seconds taken: 19.606562.
+ Global filter running - with limit: 3 *std [U V] ..... 2 vectors changed
+ Local median filter running: ...........................
+............2 vectors changed.
+ Interpolating outliers: ....4 Nan's interpolated.
+   Expanding velocity-field for next pass
+ Interpolating outliers: .1 Nan's interpolated.
+* Pass No: 2
+ No. of vectors: 1094 , Seconds taken: 20.628889.
+ Global filter running - with limit: 3 *std [U V] ..... 0 vectors changed
+ Local median filter running: ...........................
+............3 vectors changed.
+ Interpolating outliers: ...3 Nan's interpolated.
+   Expanding velocity-field for next pass
+ Interpolating outliers: ................218 Nan's interpolated.
+* Pass No: 3
+ No. of vectors: 4402 , Seconds taken: 17.721477.
+ Global filter running - with limit: 3 *std [U V] ..... 1 vectors changed
+ Local median filter running: ...........................
+...............................................
+.....3 vectors changed.
+ Interpolating outliers: ....4 Nan's interpolated.
+   Expanding velocity-field for next pass
+ Interpolating outliers: .1 Nan's interpolated.
+* Pass No: 4
+ No. of vectors: 4402 , Seconds taken: 17.555643.
+ Global filter running - with limit: 3 *std [U V] ..... 0 vectors changed
+ Local median filter running: ...........................
+...............................................
+.....1 vectors changed.
+ Interpolating outliers: .1 Nan's interpolated.
+   Expanding velocity-field for next pass
+ Interpolating outliers: ...............................460 Nan's interpolated.
+* Pass No: 5
+ No. of vectors: 17673 , Seconds taken: 26.574317.
+ Global filter running - with limit: 3 *std [U V] ..... 24 vectors changed
+ Local median filter running: ............................
+..............................................
+..........................................................
+...........................257 vectors changed
+.
+ Interpolating outliers: .................................
+................281 Nan's interpolated.
+* Final Pass
+ - Using 16*16 interrogation windows! 
+ No. of vectors: 17673, Seconds taken: 33.649626 
+* Calculating the pixel to world transformation using linear mapping - DONE
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>

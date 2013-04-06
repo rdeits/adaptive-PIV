@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Filters in MatPIV</TITLE>
+<META NAME="description" CONTENT="Filters in MatPIV">
+<META NAME="keywords" CONTENT="MatPIVtut">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="MatPIVtut.css">
+
+<LINK REL="next" HREF="node29.html">
+<LINK REL="previous" HREF="node20.html">
+<LINK REL="up" HREF="node17.html">
+<LINK REL="next" HREF="node25.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html403"
+  HREF="node25.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="file:/opt/latex2html-2002-2-1/icons/next.png"></A> 
+<A NAME="tex2html399"
+  HREF="node17.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="file:/opt/latex2html-2002-2-1/icons/up.png"></A> 
+<A NAME="tex2html393"
+  HREF="node23.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="file:/opt/latex2html-2002-2-1/icons/prev.png"></A> 
+<A NAME="tex2html401"
+  HREF="node2.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="file:/opt/latex2html-2002-2-1/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html404"
+  HREF="node25.html">Signal-to-Noise ratio</A>
+<B> Up:</B> <A NAME="tex2html400"
+  HREF="node17.html">MatPIV behind the scenes</A>
+<B> Previous:</B> <A NAME="tex2html394"
+  HREF="node23.html">mask.m - Masking out</A>
+ &nbsp; <B>  <A NAME="tex2html402"
+  HREF="node2.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00630000000000000000">
+Filters in <B>MatPIV</B></A>
+</H1>
+
+<P>
+After having performed the calculations it is usually necessary to
+filter the velocity data in order to remove so called spurious vectors
+(aka outliers). This can be done in <B>MatPIV</B> using four different
+filters:
+
+<OL>
+<LI>Signal-To-Noise ratio filter,
+</LI>
+<LI>Peak height filter, 
+</LI>
+<LI>global filter and
+</LI>
+<LI>local filter.
+</LI>
+</OL>
+The two latter of these files include various methods, global or local,
+for removing outliers. In this section we will take a look at how to use
+the velocity filters in <B>MatPIV</B>. We note that all the filters will
+replace the spurious vectors with NaNs (Not A Number).
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html405"
+  HREF="node25.html">Signal-to-Noise ratio</A>
+<LI><A NAME="tex2html406"
+  HREF="node26.html">Global histogram operator</A>
+<LI><A NAME="tex2html407"
+  HREF="node27.html">Local filter</A>
+<LI><A NAME="tex2html408"
+  HREF="node28.html">Interpolate outliers</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Johan K. Sveen
+2004-07-17
+</ADDRESS>
+</BODY>
+</HTML>
