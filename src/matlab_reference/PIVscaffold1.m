@@ -28,12 +28,14 @@ for i = 1:floor(length(allImages)/2),
     %run chosen PIV algorithm
     tic
     if strcmp(PIVtype,'normal'),
-        [X,Y,U,V,edgeSize] = normalPIV1(imageA,imageB);
+        %window size and overlap factor
+        Ws = 64;
+        OF = 0.75;
+        [X,Y,U,V,edgeSize] = normalPIV1(imageA,imageB, Ws, OF);
         edgeX = X;
         edgeY = Y;
     elseif strcmp(PIVtype,'adaptive'),
         [X,Y,U,V,edgeX,edgeY,edgeSize] = adaptivePIV1(imageA,imageB,X,Y,U,V,edgeSize);
-
     end
     toc
     
