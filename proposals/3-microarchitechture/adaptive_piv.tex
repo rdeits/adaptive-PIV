@@ -34,12 +34,33 @@
 	\section{Implementation}
 	I will divide the implementation of the PIV system up into the high-level logic, which will be performed in \textsc{Matlab}, and the computationally intensive and parallelizable cross-correlation which will be performed on the FPGA. This division is shown in Figure~\ref{fig:system}. The host machine will read image pairs from disk (simulating live capture from a camera system), then convert them to 8-bit grayscale. These image pairs will be transmitted over SCEMI to the FPGA, which will store both images in DRAM. The host machine will then select a series of interrogation windows. The exact method of selection will depend on whether we are performing normal or adaptive PIV. The host will transmit the coordinates of the interrogation windows to the DUT. The FPGA will then extract the actual image data for each window, perform the cross-correlation, and locate the peak in the cross-correlation value signifying the displacement of the particles in the window. The FPGA will then send the displacement back to the host. 
 
-	\subsection{Module: Window Store}
-	The FPGA implementation will include two Window Store instances. Each Window Store will handle extracting windows from the source image and providing the individual pixel data for cross-correlation. The Window Store will need to support the following operations: 
-
+	\subsection{Module: Window Tracker}
+	The FPGA will contain many instances of the Window Tracker module, each of which will perform the cross-correlation and displacement extraction for a single interrogation window. The Window Tracker will be implemented as a server with the following operations: 
 	\begin{enumerate}
-		\item loadWindow(x, y): extract an image window from the location (x, y) and store it in slice registers or in block RAM (to be determined).
-		\item getNextPixel(): return the value of the next pixel needed for cross-correlation computation. Since the order in which pixel values are accessed is fixed, this function needs no input.
+		\item put(x, y): begin calculating the cross-correlation and displacement for a new window located at (x, y) in the image
+		\item u, v = get(): get the displacement of the interrogation window which was previously input to put()
+	\end{enumerate}
+	The Window Tracker will have a number of submodules, described below:
+
+	\subsubsection{Module: Window Manager}
+	The Window Manager will be responsible for extracting the correct pixel values from the images stored in the DRAM. It needs to support the following operations: 
+	\begin{enumerate}
+		\item reset(x, y): begin extracting pixels for a new interrogation window located at the point (x, y) in the first image
+		\item px = getNextPixel(): return the value of the next pixel needed for cross-correlation computation. Since the order in which pixel values are accessed is fixed, this function needs no input.
+	\end{enumerate}
+	The fixed access order for pixel values used in the cross-correlation algorithm means that we can easily make the Window Manager's access to the DRAM fully pipelined, and we can also cache values from the DRAM to reduce the number of memory accesses.
+
+	\subsubsection{Module: Accumulator}
+	The Accumulator will take pixel values from the Window Manager and compute a running sum of the product of its pairs of inputs. It will automatically reset its internal total to zero for each element in the cross-correlation matrix output.
+	\begin{enumerate}
+		\item update(px1, px2): add px1 * px2 to the internal total. This total is copied to result and then reset to zero after every $c$ calls to update(), where $c$ is the number of multiplications and additions required per element in the cross-correlation matrix
+		\item result = get(): Return result and then set result to Invalid
+	\end{enumerate}
+
+	\subsubsection{Module: Tracker}
+	The Tracker determines from the output of the Accumulator the current displacement values with the highest cross-correlation between the windows. It polls the get() method of the Accumulator and maintains internal variables for the highest result seen so far and the x and y displacements corresponding to it. Once all cross-correlation computations are finished, it makes its result available. 
+	\begin{enumerate}
+		\item x\_disp, y\_disp = get(): Return the displacement in x and y of the peak of the cross-correlation matrix.
 	\end{enumerate}
 
 
