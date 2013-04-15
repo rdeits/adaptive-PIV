@@ -1,0 +1,6 @@
+#!/bin/bash
+
+./bsim_dut &
+sleep 1
+./tb test_data
+sleep 1
