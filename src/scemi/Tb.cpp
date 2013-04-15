@@ -10,17 +10,6 @@
 #include "ResetXactor.h"
 
 FILE* outfile = NULL;
-bool indone = false;
-
-void out_cb(void* x, const BitT<16>& res) {
-    if (indone && outfile) {
-        fclose(outfile);
-        outfile = NULL;
-    } else {
-        int a = res.get();
-        fputc(a, outfile);
-    }
-}
 
 // Initialize the memories from the given vmh file.
 bool mem_init(const char *filename, InportProxyT<MemInit>& imem)
@@ -63,11 +52,6 @@ bool mem_init(const char *filename, InportProxyT<MemInit>& imem)
 
 int main(int argc, char* argv[])
 {
-    if (argc < 2) {
-        fprintf(stderr, "usage: TestDriver <data-file>\n");
-        return 1;
-    }
-    char* vmh = argv[1];
 
     int sceMiVersion = SceMi::Version( SCEMI_VERSION_STRING );
     SceMiParameters params("scemi.params");
@@ -86,6 +70,7 @@ int main(int argc, char* argv[])
     // Reset the dut.
     reset.reset();
 
+    char* vmh = argv[1];
     // Initialize the memories.
     if (!mem_init(vmh, imem)) {
         fprintf(stderr, "Failed to load memory\n");
@@ -96,6 +81,14 @@ int main(int argc, char* argv[])
         SceMi::Shutdown(sceMi);
         std::cout << "finished" << std::endl;
         return 1;
+    }
+
+    // Handle tohost requests.
+    while (true) {
+        ToHost msg = tohost.getMessage();
+        uint32_t data = msg;
+        fprintf(stdout, "%i\n", data);
+        break;
     }
 
     shutdown.blocking_send_finish();
