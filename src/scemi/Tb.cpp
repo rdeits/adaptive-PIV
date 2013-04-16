@@ -9,6 +9,11 @@
 #include "SceMiHeaders.h"
 #include "ResetXactor.h"
 
+
+int main(int argc, char* argv[])
+{
+
+
 FILE* outfile = NULL;
 
 // Initialize the memories from the given vmh file.
@@ -58,9 +63,11 @@ int main(int argc, char* argv[])
     SceMi *sceMi = SceMi::Init(sceMiVersion, &params);
 
     // Initialize the SceMi ports
-    InportProxyT<MemInit> imem("", "scemi_imem_inport", sceMi);
-    OutportQueueT<ToHost> tohost("", "scemi_tohost_get_outport", sceMi);
-    InportProxyT<FromHost> fromhost("", "scemi_fromhost_put_inport", sceMi);
+    OutportQueueT<Displacements> disp_get("", "scemi_dispget_outport", sceMi);
+    InportProxyT<WindowReq> window_req("", "scemi_windowreq_inport", sceMi);
+    InportProxyT<Data> im_store("", "scemi_imstore_inport", sceMi);
+    InportProxyT<Boolean> im_clear("", "scemi_imclear_inport", sceMi);
+
     ResetXactor reset("", "scemi", sceMi);
     ShutdownXactor shutdown("", "scemi_shutdown", sceMi);
 
@@ -69,6 +76,17 @@ int main(int argc, char* argv[])
 
     // Reset the dut.
     reset.reset();
+
+    im_clear.sendMessage(true);
+    Data msg; 
+    for (int i = 0; i < 4; i++) {
+        msg = i;
+        im_store.sendMessage(msg);
+    }
+
+    WindowReq msg;
+    
+    window_req.
 
     char* vmh = argv[1];
     // Initialize the memories.

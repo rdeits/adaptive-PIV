@@ -29,28 +29,46 @@ module [SceMiModule] mkSceMiLayer();
     SceMiClockPortIfc clk_port <- mkSceMiClockPort(conf);
     DutInterface dut <- buildDutWithSoftReset(mkDutWrapper, clk_port);
 
-    Empty imem <- mkPutXactor(dut.iMemInit.request, clk_port);
-    Empty tohost <- mkCpuToHostXactor(dut, clk_port);
-    Empty fromhost <- mkHostToCpuXactor(dut, clk_port);
+    Empty dispget <- mkCpuToHostXactor(dut, clk_port);
+    Empty windowreq <- mkWindowReqXactor(dut, clk_port);
+    Empty imstore <- mkStoreXactor(dut, clk_port);
+    Empty imclear <- mkClearXactor(dut, clk_port);
 
     Empty shutdown <- mkShutdownXactor();
 endmodule
 
-module [SceMiModule] mkCpuToHostXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
+module [SceMiModule] mkDispXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
 
-    Get#(ToHost) resp = interface Get;
-        method ActionValue#(ToHost) get = piv.cpuToHost();
+    Get#(Displacements) resp = interface Get;
+        method ActionValue#(Displacements) get = piv.getDisplacements();
     endinterface;
 
     Empty get <- mkGetXactor(resp, clk_port);
 endmodule
 
-module [SceMiModule] mkHostToCpuXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
+module [SceMiModule] mkWindowReqXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
 
-    Put#(FromHost) req = interface Put;
-        method Action put(FromHost x) = piv.hostToCpu(x);
+    Put#(WindowReq) req = interface Put;
+        method Action put(WindowReq x) = piv.putWindowReq(x);
     endinterface;
 
     Empty put <- mkPutXactor(req, clk_port);
 endmodule
 
+module [SceMiModule] mkStoreXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
+
+    Put#(Data) req = interface Put;
+        method Action put(Data x) = piv.storeImage(x);
+    endinterface;
+
+    Empty put <- mkPutXactor(req, clk_port);
+endmodule
+
+module [SceMiModule] mkClearXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
+
+    Put#(Bool) req = interface Put;
+        method Action put(Bool x) = piv.clear();
+    endinterface;
+
+    Empty put <- mkPutXactor(req, clk_port);
+endmodule
