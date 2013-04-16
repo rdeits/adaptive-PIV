@@ -29,7 +29,7 @@ module [SceMiModule] mkSceMiLayer();
     SceMiClockPortIfc clk_port <- mkSceMiClockPort(conf);
     DutInterface dut <- buildDutWithSoftReset(mkDutWrapper, clk_port);
 
-    Empty dispget <- mkCpuToHostXactor(dut, clk_port);
+    Empty dispget <- mkDispXactor(dut, clk_port);
     Empty windowreq <- mkWindowReqXactor(dut, clk_port);
     Empty imstore <- mkStoreXactor(dut, clk_port);
     Empty imclear <- mkClearXactor(dut, clk_port);
@@ -66,8 +66,8 @@ endmodule
 
 module [SceMiModule] mkClearXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
 
-    Put#(Bool) req = interface Put;
-        method Action put(Bool x) = piv.clear();
+    Put#(ClearT) req = interface Put;
+        method Action put(ClearT x) = piv.clearImage();
     endinterface;
 
     Empty put <- mkPutXactor(req, clk_port);

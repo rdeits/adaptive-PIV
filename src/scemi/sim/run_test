@@ -2,5 +2,5 @@
 
 ./bsim_dut &
 sleep 1
-./tb test_data
+./tb
 sleep 1

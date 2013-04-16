@@ -26,9 +26,14 @@ typedef Bit#(4) Pixel;
 
 typedef Int#(4) Displacement;
 
+// typedef struct {
+//   Displacement u;
+//   Displacement v;
+// } Displacements deriving (Bits, Eq);
+
 typedef struct {
-  Displacement u;
-  Displacement v;
+  Data u;
+  Data v;
 } Displacements deriving (Bits, Eq);
 
 typedef Server#(
@@ -38,4 +43,6 @@ typedef Server#(
 
 // typedef 480000 PIXELS_PER_IMAGE;
 typedef 4 PIXELS_PER_IMAGE;
+
+typedef Bool ClearT;
 
