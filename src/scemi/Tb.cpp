@@ -9,6 +9,8 @@
 #include "SceMiHeaders.h"
 #include "ResetXactor.h"
 
+#define PIXEL_DEPTH 4
+#define PIXELS_PER_MSG 4
 
 FILE* outfile = NULL;
 
@@ -35,11 +37,33 @@ int main(int argc, char* argv[])
     reset.reset();
 
     im_clear.sendMessage(true);
-    Data msg; 
-    for (int i = 0; i < 4; i++) {
-        msg = i;
-        im_store.sendMessage(msg);
+    char *line;
+    size_t len = 0;
+    int read;
+    int pixel;
+    int msg_val;
+    Data msg;
+    int line_pos = 0;
+    while ((read = getline(&line, &len, stdin)) != -1) {
+        if (read != 0) {
+            if (line_pos == 0) {
+                msg_val = 0;
+            }
+            pixel = atoi(line);
+            msg_val = msg_val + (pixel >> PIXEL_DEPTH) << ((PIXELS_PER_MSG - line_pos - 1) * PIXEL_DEPTH);
+            line_pos++;
+            if (line_pos == PIXELS_PER_MSG) {
+                line_pos = 0;
+                msg = msg_val;
+                // fprintf(stdout, "%i\n", msg_val);
+                im_store.sendMessage(msg);
+            }
+        }
     }
+    // for (int i = 0; i < 4; i++) {
+    //     msg = i;
+    //     im_store.sendMessage(msg);
+    // }
 
     WindowReq winmsg;
     Displacements dispmsg;

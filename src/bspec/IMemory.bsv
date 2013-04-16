@@ -1,33 +1,11 @@
-import Types::*;
-import MemTypes::*;
 import PIVTypes::*;
-// import RegFile::*;
-import MemInit::*;
 import GetPut::*;
 import BRAM::*;
-
-// interface IMemory;
-//     method Data req(Addr a);
-//     interface MemInitIfc init;
-// endinterface
-
-// (* synthesize *)
-// module mkIMemory(IMemory);
-//     RegFile#(Bit#(16), Data) mem <- mkRegFileFull();
-//     MemInitIfc memInit <- mkMemInitRegFile(mem);
-
-//     method Data req(Addr a) if (memInit.done());
-//         return mem.sub(truncate(a>>2));
-//     endmethod
-
-//     interface MemInitIfc init = memInit;
-// endmodule
 
 
 interface IMemory;
   interface Put#(Addr) req;
   interface Get#(Data) resp;
-  // interface MemInitIfc init;
   interface Put#(Data) store;
   method Action clear();
   method Bool is_loading();
@@ -38,7 +16,7 @@ module mkIMemory(IMemory);
   Reg#(Addr) store_addr <- mkReg(0);
   Reg#(Bool) loading <- mkReg(False);
   BRAM_Configure cfg = defaultValue;
-  BRAM1Port#(Bit#(16), Data) bram <- mkBRAM1Server(cfg);
+  BRAM1Port#(Addr, Data) bram <- mkBRAM1Server(cfg);
 
   interface Put req;
     method Action put(Addr a) if (!loading);
@@ -66,9 +44,9 @@ module mkIMemory(IMemory);
         responseOnWrite: False,
         address: truncate(store_addr),
         datain: x});
-      $display("storing %d", x);
+      // $display("storing %d", x);
       store_addr <= store_addr + 1;
-      if (store_addr+1 >= fromInteger(valueOf(PIXELS_PER_IMAGE))) begin
+      if (store_addr+1 >= fromInteger(valueOf(PIXELS_PER_IMAGE) / valueOf(PIXELS_PER_LINE))) begin
         $display("done loading");
         loading <= False;
       end

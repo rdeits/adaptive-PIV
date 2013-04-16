@@ -7,8 +7,6 @@ import SceMi::*;
 import Clocks::*;
 import ResetXactor::*;
 
-import Types::*;
-import MemTypes::*;
 import PIVTypes::*;
 import PIV::*;
 

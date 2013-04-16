@@ -1,5 +1,3 @@
-import Types::*;
-import MemTypes::*;
 import IMemory::*;
 import PIVTypes::*;
 import GetPut::*;

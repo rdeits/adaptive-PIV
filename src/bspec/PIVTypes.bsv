@@ -1,5 +1,3 @@
-import Types::*;
-import MemTypes::*;
 import ClientServer::*;
 import GetPut::*;
 
@@ -12,6 +10,12 @@ interface PIV;
    // method Action hostToCpu(Addr startpc);
    // interface MemInitIfc iMemInit;
 endinterface
+
+typedef 18 AddrSz;
+typedef Bit#(AddrSz) Addr;
+
+typedef 32 DataSz;
+typedef Bit#(DataSz) Data;
 
 typedef struct {
   PixelNdx ndx;
@@ -41,8 +45,12 @@ typedef Server#(
   Displacements
 ) WindowTracker;
 
-// typedef 480000 PIXELS_PER_IMAGE;
-typedef 4 PIXELS_PER_IMAGE;
+typedef 480000 PIXELS_PER_IMAGE;
+
+typedef 4 PIXELS_PER_LINE;
+// typedef 4 PIXELS_PER_IMAGE;
+
+
 
 typedef Bool ClearT;
 

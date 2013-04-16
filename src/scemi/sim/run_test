@@ -2,5 +2,5 @@
 
 ./bsim_dut &
 sleep 1
-./tb
+cat ../../../data/vort_sim/single_vort_sim_0001.txt | ./tb
 sleep 1
