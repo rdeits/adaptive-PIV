@@ -10,7 +10,7 @@
 #include "ResetXactor.h"
 
 #define PIXEL_DEPTH 4
-#define PIXELS_PER_MSG 4
+#define PIXELS_PER_MSG 8
 
 FILE* outfile = NULL;
 
@@ -24,8 +24,9 @@ int main(int argc, char* argv[])
     // Initialize the SceMi ports
     OutportQueueT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
     InportProxyT<WindowReq> window_req("", "scemi_windowreq_put_inport", sceMi);
-    InportProxyT<Data> im_store("", "scemi_imstore_put_inport", sceMi);
+    InportProxyT<ImagePacket> im_store("", "scemi_imstore_put_inport", sceMi);
     InportProxyT<ClearT> im_clear("", "scemi_imclear_put_inport", sceMi);
+    InportProxyT<ClearT> im_done("", "scemi_imdone_put_inport", sceMi);
 
     ResetXactor reset("", "scemi", sceMi);
     ShutdownXactor shutdown("", "scemi_shutdown", sceMi);
@@ -41,25 +42,26 @@ int main(int argc, char* argv[])
     size_t len = 0;
     int read;
     int pixel;
-    int msg_val;
-    Data msg;
+    ImagePacket msg;
     int line_pos = 0;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
-            if (line_pos == 0) {
-                msg_val = 0;
-            }
+            // if (line_pos == 0) {
+            //     msg = 0;
+            // }
             pixel = atoi(line);
-            msg_val = msg_val + (pixel >> PIXEL_DEPTH) << ((PIXELS_PER_MSG - line_pos - 1) * PIXEL_DEPTH);
+            msg[line_pos] = (pixel >> PIXEL_DEPTH);
+            // msg = msg + ((pixel >> PIXEL_DEPTH) << ((PIXELS_PER_MSG - line_pos - 1) * PIXEL_DEPTH));
+            // fprintf(stdout, "got pixel: %x on line_pos: %i. msg: %x\n", pixel, line_pos, msg);
             line_pos++;
             if (line_pos == PIXELS_PER_MSG) {
                 line_pos = 0;
-                msg = msg_val;
-                // fprintf(stdout, "%i\n", msg_val);
+                // fprintf(stdout, "writing message: %x\n", msg);
                 im_store.sendMessage(msg);
             }
         }
     }
+    im_done.sendMessage(true);
     // for (int i = 0; i < 4; i++) {
     //     msg = i;
     //     im_store.sendMessage(msg);
@@ -72,7 +74,7 @@ int main(int argc, char* argv[])
         winmsg.m_ndx = i;
         window_req.sendMessage(winmsg);
         dispmsg = disp_get.getMessage();
-        fprintf(stdout, "%i %i\n", (int)dispmsg.m_v, (int)dispmsg.m_u);
+        fprintf(stdout, "Tb got %x\n", (int)dispmsg.m_v);
     }
 
 

@@ -8,6 +8,7 @@ interface IMemory;
   interface Get#(Data) resp;
   interface Put#(Data) store;
   method Action clear();
+  method Action done_loading();
   method Bool is_loading();
 endinterface
 
@@ -46,12 +47,13 @@ module mkIMemory(IMemory);
         datain: x});
       // $display("storing %d", x);
       store_addr <= store_addr + 1;
-      if (store_addr+1 >= fromInteger(valueOf(PIXELS_PER_IMAGE) / valueOf(PIXELS_PER_LINE))) begin
-        $display("done loading");
-        loading <= False;
-      end
     endmethod
   endinterface
+
+  method Action done_loading() if (loading);
+    loading <= False;
+    $display("done loading");
+  endmethod
 
   method Action clear() if (!loading);
     loading <= True;

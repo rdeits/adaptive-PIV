@@ -1,11 +1,13 @@
 import ClientServer::*;
 import GetPut::*;
+import Vector::*;
 
 interface PIV;
-  method ActionValue#(Displacements) getDisplacements;
-  method Action putWindowReq(WindowReq req);
-  method Action storeImage(Data x);
-  method Action clearImage();
+  method ActionValue#(Displacements) get_displacements;
+  method Action put_window_req(WindowReq req);
+  method Action store_image(ImagePacket x);
+  method Action clear_image();
+  method Action done_loading();
    // method ActionValue#(Data) cpuToHost;
    // method Action hostToCpu(Addr startpc);
    // interface MemInitIfc iMemInit;
@@ -14,8 +16,13 @@ endinterface
 typedef 18 AddrSz;
 typedef Bit#(AddrSz) Addr;
 
+typedef Bit#(4) Pixel;
+typedef 8 ImagePacketSize;
+typedef Vector#(ImagePacketSize, Pixel) ImagePacket;
+
 typedef 32 DataSz;
 typedef Bit#(DataSz) Data;
+// typedef ImagePacket Data;
 
 typedef struct {
   PixelNdx ndx;
@@ -25,8 +32,6 @@ typedef struct {
 typedef Bit#(19) PixelNdx;
 
 typedef Bit#(6) WindowSize;
-
-typedef Bit#(4) Pixel;
 
 typedef Int#(4) Displacement;
 
