@@ -8,28 +8,9 @@ import FIFOF::*;
 
 (* synthesize *)
 module [Module] mkPIV(PIV);
-  FIFOF#(ImagePacket) packet_buffer <- mkFIFOF();
-  // Reg#(UInt#(TAdd#(TLog#(ImagePacketSize), 1))) packet_offset <- mkReg(0);
+  // FIFOF#(ImagePacket) packet_buffer <- mkFIFOF();
   IMemory iMem <- mkIMemory();
-  WindowTracker tracker <- mkWindowTracker(iMem);
-
-  // rule packet_to_bram;
-  //   // let finish = valueOf(ImagePacketSize);
-  //   // let packet = packet_buffer.first();
-  //   // Data new_data = packet[packet_offset]
-  //   // Data new_data = truncate(packet >> (fromInteger(finish) - packet_offset));
-  //   let new_data = packet_buffer.first();
-  //   iMem.store.put(new_data);
-  //   packet_buffer.deq();
-  //   $display("writing to BRAM: %x", new_data);
-  //   // if (packet_offset >= fromInteger(valueOf(TSub#(ImagePacketSize, DataSz)))) begin
-  //   //   packet_offset <= 0;
-  //   //   packet_buffer.deq();
-  //   // end
-  //   // else begin
-  //   //   packet_offset <= packet_offset + fromInteger(valueOf(DataSz));
-  //   // end
-  // endrule
+  WindowTracker tracker <- mkWindowTracker(iMem, 0);
 
   function Bool is_done_loading();
     // let x = !iMem.is_loading && !packet_buffer.notEmpty;

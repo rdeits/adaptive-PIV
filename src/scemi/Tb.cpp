@@ -46,26 +46,16 @@ int main(int argc, char* argv[])
     int line_pos = 0;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
-            // if (line_pos == 0) {
-            //     msg = 0;
-            // }
             pixel = atoi(line);
             msg[line_pos] = (pixel >> PIXEL_DEPTH);
-            // msg = msg + ((pixel >> PIXEL_DEPTH) << ((PIXELS_PER_MSG - line_pos - 1) * PIXEL_DEPTH));
-            // fprintf(stdout, "got pixel: %x on line_pos: %i. msg: %x\n", pixel, line_pos, msg);
             line_pos++;
             if (line_pos == PIXELS_PER_MSG) {
                 line_pos = 0;
-                // fprintf(stdout, "writing message: %x\n", msg);
                 im_store.sendMessage(msg);
             }
         }
     }
     im_done.sendMessage(true);
-    // for (int i = 0; i < 4; i++) {
-    //     msg = i;
-    //     im_store.sendMessage(msg);
-    // }
 
     WindowReq winmsg;
     Displacements dispmsg;
