@@ -17,58 +17,57 @@ interface PIV;
    // interface MemInitIfc iMemInit;
 endinterface
 
-typedef 18 AddrSz;
-typedef Bit#(AddrSz) Addr;
-
+typedef 800 ImageWidth;
+typedef 600 ImageHeight;
 typedef 4 PixelSz;
 typedef Bit#(PixelSz) Pixel;
+
 typedef 8 ImagePacketSize;
 typedef Vector#(ImagePacketSize, Pixel) ImagePacket;
 
 typedef 32 DataSz;
 typedef Bit#(DataSz) Data;
-// typedef ImagePacket Data;
+
+typedef TMul#(ImageWidth, ImageHeight) PixelsPerImage;
+typedef Bit#(TLog#(PixelsPerImage)) PixelNdx;
+typedef TDiv#(DataSz, PixelSz) PixelsPerData;
+
+typedef Bit#(TLog#(ImageWidth)) ColNdx;
+typedef Bit#(TLog#(ImageHeight)) RowNdx;
+
+typedef Bit#(TLog#(TDiv#(PixelsPerImage, PixelsPerData))) Addr;
 
 typedef struct {
   Addr addr;
   TrackerID tracker_id;
 } MemReq deriving (Bits);
 
+
 typedef struct {
   PixelNdx ndx;
-  WindowSize size;
 } WindowReq deriving (Bits, Eq);
 
-typedef Bit#(19) PixelNdx;
+typedef 40 WindowSizeA;
+typedef 32 WindowSizeB;
+typedef TMul#(WindowSizeA, WindowSizeA) PixelsPerWindowA;
+typedef TMul#(WindowSizeB, WindowSizeB) PixelsPerWindowB;
+typedef Bit#(TLog#(PixelsPerWindowA)) WindowPixelAddrA;
+typedef Bit#(TLog#(PixelsPerWindowB)) WindowPixelAddrB;
 
-typedef Bit#(TMul#(WindowSizeSz, WindowSizeSz)) WindowPixelNdx;
-
-typedef 6 WindowSizeSz;
-typedef Bit#(WindowSizeSz) WindowSize;
+typedef TAdd#(TSub#(WindowSizeA, WindowSizeB), 1) CrossCorrWidth;
+typedef Bit#(TMul#(PixelSz, PixelSz)) CrossCorrEl;
 
 typedef Int#(4) Displacement;
 
-// typedef struct {
-//   Displacement u;
-//   Displacement v;
-// } Displacements deriving (Bits, Eq);
-
 typedef struct {
-  Data u;
-  Data v;
+  Displacement u;
+  Displacement v;
 } Displacements deriving (Bits, Eq);
 
 typedef Server#(
   WindowReq,
   Displacements
 ) WindowTracker;
-
-typedef 480000 PIXELS_PER_IMAGE;
-
-typedef 4 PIXELS_PER_LINE;
-// typedef 4 PIXELS_PER_IMAGE;
-
-
 
 typedef Bool ClearT;
 

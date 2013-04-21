@@ -59,12 +59,14 @@ int main(int argc, char* argv[])
 
     WindowReq winmsg;
     Displacements dispmsg;
-    winmsg.m_size = 40;
+    // winmsg.m_size = 40;
     for (int i = 0; i < 4; i++) {
-        winmsg.m_ndx = i;
+        winmsg.m_ndx = i * 8;
         window_req.sendMessage(winmsg);
-        dispmsg = disp_get.getMessage();
-        fprintf(stdout, "Tb got %x\n", (int)dispmsg.m_v);
+        for (int j = 0; j < 4; j++) {
+            dispmsg = disp_get.getMessage();
+            fprintf(stdout, "Tb got %x\n", (int)dispmsg.m_u);
+        }
     }
 
 

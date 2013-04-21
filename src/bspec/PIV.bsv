@@ -27,11 +27,12 @@ module [Module] mkPIV(PIV);
     tracker.request.put(req);
   endmethod
 
-  method Action store_image(ImagePacket p);
-    // packet_buffer.enq(p);
-    iMem.store.put(unpack(pack(p)));
-    $display("writing to BRAM: %x", p);
-    // iMem.store.put(x);
+  method Action store_image_A(ImagePacket p);
+    iMem.store_A.put(unpack(pack(p)));
+  endmethod
+
+  method Action store_image_B(ImagePacket p);
+    iMem.store_B.put(unpack(pack(p)));
   endmethod
 
   method Action clear_image();
