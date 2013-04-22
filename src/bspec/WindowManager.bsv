@@ -71,7 +71,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
 
   rule store_download_B if (!done_storing_B);
     Pixel new_pixel = iMem.queue_first_B(tracker_id);
-    $display("storing download B value %d at %d", new_pixel, bram_write_addr_B);
+    // $display("storing download B value %d at %d", new_pixel, bram_write_addr_B);
     bram_B.portA.request.put(BRAMRequest {
       write: True,
       responseOnWrite: False,
@@ -91,7 +91,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     $display("starting next frame");
     let addr <- sub_frame_pos_counter.get_addr();
     sub_counter_A.reset(addr);
-    sub_counter_B.reset(addr);
+    sub_counter_B.reset(0);
     if (sub_frames_requested >= fromInteger(valueOf(TMul#(CrossCorrWidth, CrossCorrWidth)) - 1)) begin
       done_requesting_output <= True;
     end
@@ -122,7 +122,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     let x1 <- bram_B.portA.response.get();
     out[0] = x0;
     out[1] = x1;
-    $display("adding to output queue: x0 %d, x1 %d\n", x0, x1);
+    $display("%d, %d", x0, x1);
     m2a.enq(out);
   endrule
 

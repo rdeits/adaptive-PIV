@@ -45,7 +45,7 @@ typedef UInt#(TLog#(PixelsPerWindowA)) WindowPixelAddrA;
 typedef UInt#(TLog#(PixelsPerWindowB)) WindowPixelAddrB;
 
 typedef TAdd#(TSub#(WindowSizeA, WindowSizeB), 1) CrossCorrWidth;
-typedef UInt#(TAdd#(PixelSz, PixelSz)) CrossCorrEl;
+typedef UInt#(TAdd#(TAdd#(PixelSz, PixelSz), TMul#(CrossCorrWidth, CrossCorrWidth))) CrossCorrEl;
 
 typedef UInt#(TLog#(CrossCorrWidth)) Displacement;
 
