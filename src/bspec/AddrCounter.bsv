@@ -6,12 +6,12 @@ interface AddrCounter;
   method Bool done();
 endinterface
 
-module mkCounter(Numeric winsize, Numeric imwidth, AddrCounter ifc);
+module mkCounter(Bit#(winsize) dummy1, Bit#(imwidth) dummy2, AddrCounter ifc);
   Reg#(PixelNdx) curr_ndx <- mkRegU();
   Reg#(PixelNdx) start_ndx <- mkRegU();
   Reg#(Bool) has_data <- mkReg(False);
-  Reg#(Bit#(SizeOf#(winsize))) col_pos <- mkRegU();
-  Reg#(Bit#(SizeOf#(winsize))) row_pos <- mkRegU();
+  Reg#(Bit#(winsize)) col_pos <- mkRegU();
+  Reg#(Bit#(winsize)) row_pos <- mkRegU();
 
   method Action reset(PixelNdx ndx);
     has_data <= True;
@@ -27,15 +27,17 @@ module mkCounter(Numeric winsize, Numeric imwidth, AddrCounter ifc);
       col_pos <= 0;
       curr_ndx <= curr_ndx + fromInteger((valueOf(imwidth) - valueOf(winsize)) + 1);
       row_pos <= row_pos + 1;
+      // $display("row pos increments. new row pos: %d, winsize: %d", row_pos + 1, valueOf(winsize));
     end
     else begin
-      curr_addr <= curr_addr + 1;
+      col_pos <= col_pos + 1;
+      curr_ndx <= curr_ndx + 1;
     end
     return ret;
   endmethod
 
   method Bool done();
-    let ret = row_pos >= fromInteger(valueOf(winsize) - 1);
+    let ret = row_pos >= fromInteger(valueOf(winsize));
     return ret;
   endmethod
 endmodule

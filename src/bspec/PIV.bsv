@@ -5,6 +5,14 @@ import WindowTracker::*;
 import ClientServer::*;
 import FIFOF::*;
 
+interface PIV;
+  method ActionValue#(Displacements) get_displacements;
+  method Action put_window_req(WindowReq req);
+  method Action store_image_A(ImagePacket x);
+  method Action store_image_B(ImagePacket x);
+  method Action clear_image();
+  method Action done_loading();
+endinterface
 
 (* synthesize *)
 module [Module] mkPIV(PIV);

@@ -29,7 +29,8 @@ module [SceMiModule] mkSceMiLayer();
 
     Empty dispget <- mkDispXactor(dut, clk_port);
     Empty windowreq <- mkWindowReqXactor(dut, clk_port);
-    Empty imstore <- mkStoreXactor(dut, clk_port);
+    Empty imstoreA <- mkStoreAXactor(dut, clk_port);
+    Empty imstoreB <- mkStoreBXactor(dut, clk_port);
     Empty imclear <- mkClearXactor(dut, clk_port);
     Empty imdone <- mkDoneLoadingXactor(dut, clk_port);
 
@@ -54,12 +55,17 @@ module [SceMiModule] mkWindowReqXactor#(PIV piv, SceMiClockPortIfc clk_port ) (E
     Empty put <- mkPutXactor(req, clk_port);
 endmodule
 
-module [SceMiModule] mkStoreXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
-
+module [SceMiModule] mkStoreAXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
     Put#(ImagePacket) req = interface Put;
-        method Action put(ImagePacket x) = piv.store_image(x);
+        method Action put(ImagePacket x) = piv.store_image_A(x);
     endinterface;
+    Empty put <- mkPutXactor(req, clk_port);
+endmodule
 
+module [SceMiModule] mkStoreBXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
+    Put#(ImagePacket) req = interface Put;
+        method Action put(ImagePacket x) = piv.store_image_B(x);
+    endinterface;
     Empty put <- mkPutXactor(req, clk_port);
 endmodule
 

@@ -24,7 +24,8 @@ int main(int argc, char* argv[])
     // Initialize the SceMi ports
     OutportQueueT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
     InportProxyT<WindowReq> window_req("", "scemi_windowreq_put_inport", sceMi);
-    InportProxyT<ImagePacket> im_store("", "scemi_imstore_put_inport", sceMi);
+    InportProxyT<ImagePacket> im_store_A("", "scemi_imstoreA_put_inport", sceMi);
+    InportProxyT<ImagePacket> im_store_B("", "scemi_imstoreB_put_inport", sceMi);
     InportProxyT<ClearT> im_clear("", "scemi_imclear_put_inport", sceMi);
     InportProxyT<ClearT> im_done("", "scemi_imdone_put_inport", sceMi);
 
@@ -51,7 +52,8 @@ int main(int argc, char* argv[])
             line_pos++;
             if (line_pos == PIXELS_PER_MSG) {
                 line_pos = 0;
-                im_store.sendMessage(msg);
+                im_store_A.sendMessage(msg);
+                im_store_B.sendMessage(msg);
             }
         }
     }
@@ -60,13 +62,11 @@ int main(int argc, char* argv[])
     WindowReq winmsg;
     Displacements dispmsg;
     // winmsg.m_size = 40;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 1; i++) {
         winmsg.m_ndx = i * 8;
         window_req.sendMessage(winmsg);
-        for (int j = 0; j < 4; j++) {
-            dispmsg = disp_get.getMessage();
-            fprintf(stdout, "Tb got %x\n", (int)dispmsg.m_u);
-        }
+        dispmsg = disp_get.getMessage();
+        fprintf(stdout, "Tb got %x\n", (int)dispmsg.m_u);
     }
 
 

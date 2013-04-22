@@ -5,9 +5,13 @@ import ClientServer::*;
 import Vector::*;
 import FIFO::*;
 import WindowManager::*;
-// import Accumulator::*;
-// import Tracker::*;
+import Accumulator::*;
+import DisplacementTracker::*;
 
+typedef Server#(
+  WindowReq,
+  Displacements
+) WindowTracker;
 
 module mkWindowTracker(IMemory iMem, TrackerID tracker_id, WindowTracker ifc);
   FIFO#(Vector#(2, Pixel)) m2a <- mkFIFO();
@@ -15,7 +19,7 @@ module mkWindowTracker(IMemory iMem, TrackerID tracker_id, WindowTracker ifc);
   // FIFO#(TMul#(Pixel, Pixel)) a2t <- mkFIFO();
   WindowManager manager <- mkWindowManager(iMem, tracker_id, m2a);
   Empty accum <- mkAccumulator(m2a, a2t);
-  Tracker tracker <- mkTracker();
+  DisplacementTracker tracker <- mkDisplacementTracker(a2t);
 
   interface Put request;
     method Action put(WindowReq r);
@@ -28,10 +32,8 @@ module mkWindowTracker(IMemory iMem, TrackerID tracker_id, WindowTracker ifc);
     method ActionValue#(Displacements) get();
       // let x <- iMem.resp.get();
       // let ret = Displacements{u: x, v: x};
-      let x <- m2a.first();
-      m2a.deq();
-      $display("pixel pair: %d, %d", x[0], x[1]);
-      return Displacements{u: 0, v: 0};
+      let x <- tracker.resp.get();
+      return x;
     endmethod
   endinterface
 endmodule
