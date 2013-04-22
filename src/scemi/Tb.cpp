@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
         winmsg.m_ndx = i * 8;
         window_req.sendMessage(winmsg);
         dispmsg = disp_get.getMessage();
-        fprintf(stdout, "Tb got %x\n", (int)dispmsg.m_u);
+        fprintf(stdout, "Tb got %d %d\n", (int)dispmsg.m_u, (int)dispmsg.m_v);
     }
 
 

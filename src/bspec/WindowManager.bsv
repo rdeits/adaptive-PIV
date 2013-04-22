@@ -122,7 +122,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     let x1 <- bram_B.portA.response.get();
     out[0] = x0;
     out[1] = x1;
-    $display("%d, %d", x0, x1);
+    // $display("%d, %d", x0, x1);
     m2a.enq(out);
   endrule
 
