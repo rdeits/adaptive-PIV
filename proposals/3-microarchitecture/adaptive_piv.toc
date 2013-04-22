@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline {1}Background: PIV}{1}{section.1}
+\contentsline {section}{\numberline {2}Adaptive PIV}{2}{section.2}
+\contentsline {section}{\numberline {3}Implementation}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Module: Window Tracker}{3}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Module: Window Manager}{3}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Module: Accumulator}{4}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}Module: Tracker}{4}{subsubsection.3.1.3}
+\contentsline {section}{\numberline {4}Computational Requirements}{4}{section.4}
+\contentsline {section}{\numberline {5}Testing Plan}{6}{section.5}
+\contentsline {section}{\numberline {6}Extending the Design}{6}{section.6}

@@ -11,9 +11,11 @@
 
 \begin{document}
 	\author{Robin Deits\\ rdeits@csail.mit.edu}
-	\title{6.375 Proposal: Adaptive PIV}
+	\title{6.375 Proposal: Adaptive PIV, Microarchitecture}
 	\date{\today}
 	\maketitle
+
+	\tableofcontents
 
 	\section{Background: PIV} % (fold)
 	\label{sec:background}
@@ -66,12 +68,24 @@
 
 \begin{figure}[htbp]
 \makebox[\textwidth][c]{
-	\includegraphics[width=1.2\textwidth]{system_diagram.pdf}}
-	\caption{The system diagram for the Adaptive PIV implementation on the FPGA. High-level logic relating to the particular PIV implementation is performed in \textsc{Matlab}, and the cross-correlation is performed on the FPGA.}
+	\includegraphics[width=1.4\textwidth]{system_diagram.pdf}}
+	\caption{The system diagram for the Adaptive PIV implementation on the FPGA. High-level logic relating to the particular PIV implementation is performed in \textsc{Matlab}, and the cross-correlation is performed on the FPGA. Only 3 Window Tracker modules are shown, but the full implementation should have up to 40 or more.}
 	\label{fig:system}
 \end{figure}
 
+\section{Computational Requirements}
+In order to assess the computational requirements of this design, I chose to use the interrogation window parameters presented by Yu et al. \citep{Yu:2006tb}. This choice means an interrogation window of 40x40px for the first image in each pair and 32x32px for the second image in each pair. For clarity, we will refer to the images as Image A and Image B and the frames as Frame A (40x40) and Frame B (32x32). Cross-correlation will be performed for each fully overlapping position of Frame B within Frame A. This means that the cross-correlation matrix will have $(40 - 32 + 1) ^2 = 81$ elements. 
 
+Each element in the cross-correlation matrix will require $32 * 32$ multiplications and additions, so the entire cross-correlation matrix will require $32 * 32 * 81 = 82944$ multiplications. To compute the full velocity vector field for normal PIV, using an 8 pixel shift between interrogation windows, we must compute 1680 cross-correlation matrices per image pair. This means that, for a throughput of 15 image pairs per second, we need to perform $2,090,188,800$ multiplications per second. At a clock speed of 50\,MHz, that comes down to approximately 40 multiplications per clock cycle, meaning that the final design will need 40 Window Tracker modules each performing a single multiplication per cycle. 
+\section{Testing Plan}
+I will use the sample data provided with Sharma's Adaptive PIV implementation, which consists of simulated image pairs of a vortex flow. I will compare the displacements calculated by the FPGA implementation to those produced by Sharma's cross-correlation code using the same window size settings and also compare the execution speed of the normal PIV algorithm with publicly available PIV implementations. My specific goals are:
+\begin{enumerate}
+	\item 15 image pairs per second throughput
+	\item Cross-correlation results which exactly match those produced by \textsc{Matlab}
+\end{enumerate}
+
+\section{Extending the Design}
+If possible, I would like to extend the design to support varying the size of the interrogation window. This is an important part of the Adaptive PIV algorithm, as it allows the system to examine smaller windows of particle flow in busy areas of the image, in which the assumption that all particles within a window are moving with the same velocity might not hold for a larger window. This will require adding a window size parameter to the reset() method of the Window Manager and will require that that size parameter be passed to the Accumulator and Tracker in order to adjust their behavior accordingly. 
 
 	\bibliographystyle{plain}
 	\bibliography{refs}
