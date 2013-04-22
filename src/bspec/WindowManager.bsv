@@ -34,11 +34,12 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   Reg#(Bool) done_storing_A <- mkReg(False);
   Reg#(Bool) done_storing_B <- mkReg(False);
   Reg#(Addr) start_addr <- mkRegU();
-  Reg#(Bit#(TLog#(DataSz))) queue_offset_A <- mkReg(0);
-  Reg#(Bit#(TLog#(DataSz))) queue_offset_B <- mkReg(0);
+  Reg#(UInt#(TLog#(ImagePacketSize))) queue_offset_A <- mkReg(0);
+  Reg#(UInt#(TLog#(ImagePacketSize))) queue_offset_B <- mkReg(0);
+  Reg#(UInt#(TLog#(ImagePacketSize))) phase_B <- mkReg(0);
 
-  Reg#(UInt#(TLog#(PixelsPerData))) req_cycle_A <- mkReg(0);
-  Reg#(UInt#(TLog#(PixelsPerData))) req_cycle_B <- mkReg(0);
+  Reg#(UInt#(TLog#(ImagePacketSize))) req_cycle_A <- mkReg(0);
+  Reg#(UInt#(TLog#(ImagePacketSize))) req_cycle_B <- mkReg(0);
 
   BRAM_Configure cfg_A = defaultValue;
   cfg_A.memorySize = valueOf(PixelsPerWindowA);
@@ -51,12 +52,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   rule request_download_A if (!counter_A.done());
     let addr <- counter_A.get_addr();
     addr = addr >> fromInteger(valueOf(TLog#(PixelsPerData)));
-    if (req_cycle_A >= fromInteger(valueOf(PixelsPerData) - 1)) begin
-      req_cycle_A <= 0;
-    end
-    else begin
-      req_cycle_A <= req_cycle_A + 1;
-    end
+    req_cycle_A <= req_cycle_A + 1;
     if (req_cycle_A == 0) begin
       // $display("requesting download A at %d", addr);
       iMem.req_A.put(MemReq{addr: truncate(addr), tracker_id: tracker_id});
@@ -66,26 +62,22 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   rule request_download_B if (!counter_B.done());
     let addr <- counter_B.get_addr();
     addr = addr >> fromInteger(valueOf(TLog#(PixelsPerData)));
-    if (req_cycle_B >= fromInteger(valueOf(PixelsPerData) - 1)) begin
-      req_cycle_B <= 0;
-    end
-    else begin
-      req_cycle_B <= req_cycle_B + 1;
-    end
-    if (req_cycle_B == 0) begin
+    req_cycle_B <= req_cycle_B + 1;
+    if (req_cycle_B == phase_B) begin
       // $display("requesting download B at %d", addr);
       iMem.req_B.put(MemReq{addr: truncate(addr), tracker_id: tracker_id});
     end
   endrule
 
   rule store_download_A if (!done_storing_A);
-    Data new_data = iMem.queue_first_A(tracker_id);
-    // $display("storing download A at %d", bram_write_addr_A);
+    ImagePacket new_data = iMem.queue_first_A(tracker_id);
+    Pixel new_pixel = new_data[queue_offset_A];
+    // $display("storing download A. new_data: %d, pixel: %d", new_data, new_pixel);
     bram_A.portA.request.put(BRAMRequest {
       write: True,
       responseOnWrite: False,
       address: bram_write_addr_A,
-      datain: truncate(new_data >> queue_offset_A)});
+      datain: new_pixel});
     if (bram_write_addr_A >= fromInteger(valueOf(PixelsPerWindowA) - 1)) begin
       $display("done storing A");
       done_storing_A <= True;
@@ -93,23 +85,24 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     else begin
       bram_write_addr_A <= bram_write_addr_A + 1;
     end
-    if (queue_offset_A >= fromInteger(valueOf(DataSz) - valueOf(PixelSz))) begin
+    if (queue_offset_A >= fromInteger(valueOf(ImagePacketSize) - 1)) begin
       iMem.queue_deq_A(tracker_id);
       queue_offset_A <= 0;
     end
     else begin
-      queue_offset_A <= queue_offset_A + fromInteger(valueOf(PixelSz));
+      queue_offset_A <= queue_offset_A + 1;
     end
   endrule
 
   rule store_download_B if (!done_storing_B);
-    Data new_data = iMem.queue_first_B(tracker_id);
-    // $display("storing download B at %d with queue offset %d", bram_write_addr_B, queue_offset_B);
+    ImagePacket new_data = iMem.queue_first_B(tracker_id);
+    Pixel new_pixel = new_data[queue_offset_B];
+    $display("storing download B value %d at %d with queue offset %d", new_pixel, bram_write_addr_B, queue_offset_B);
     bram_B.portA.request.put(BRAMRequest {
       write: True,
       responseOnWrite: False,
       address: bram_write_addr_B,
-      datain: truncate(new_data >> queue_offset_B)});
+      datain: new_pixel});
     if (bram_write_addr_B >= fromInteger(valueOf(PixelsPerWindowB) - 1)) begin
       $display("done storing B");
       done_storing_B <= True;
@@ -117,12 +110,12 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     else begin
       bram_write_addr_B <= bram_write_addr_B + 1;
     end
-    if (queue_offset_B >= fromInteger(valueOf(DataSz) - valueOf(PixelSz))) begin
+    if (queue_offset_B == phase_B - 1) begin
       iMem.queue_deq_B(tracker_id);
-      queue_offset_B <= 0;
+      queue_offset_B <= phase_B;
     end
     else begin
-      queue_offset_B <= queue_offset_B + fromInteger(valueOf(PixelSz));
+      queue_offset_B <= queue_offset_B + 1;
     end
   endrule
 
@@ -160,7 +153,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
       responseOnWrite: False,
       address: truncate(addr_B),
       datain: 0});
-    $display("requesting output: A %d B %d", addr_A, addr_B);
+    // $display("requesting output: A %d B %d", addr_A, addr_B);
   endrule
 
   rule output_data;
@@ -169,7 +162,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     let x1 <- bram_B.portA.response.get();
     out[0] = x0;
     out[1] = x1;
-    $display("adding to output queue: x0 %d, x1 %d", x0, x1);
+    $display("adding to output queue: x0 %d, x1 %d\n", x0, x1);
     m2a.enq(out);
   endrule
 
@@ -184,11 +177,15 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
       sub_counter_B.reset(0);
       sub_frame_row <= 0;
       sub_frame_col <= 0;
-      queue_offset_A <= 0;
-      queue_offset_B <= 0;
       let ndx = r.ndx;
       counter_A.reset(ndx);
-      counter_B.reset(ndx + fromInteger(((valueOf(WindowSizeA) - valueOf(WindowSizeB)) / 2) * (valueOf(ImageWidth) +1)));
+      let pos_B = ndx + fromInteger(((valueOf(WindowSizeA) - valueOf(WindowSizeB)) / 2) * (valueOf(ImageWidth) +1));
+      counter_B.reset(pos_B);
+
+      queue_offset_A <= 0;
+      UInt#(TLog#(ImagePacketSize)) phase_B = truncate(pos_B);
+      $display("pos_B: %d, phase of B: %d", pos_B, phase_B);
+      queue_offset_B <= phase_B;
     endmethod
   endinterface
 endmodule

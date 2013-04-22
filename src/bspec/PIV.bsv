@@ -36,11 +36,11 @@ module [Module] mkPIV(PIV);
   endmethod
 
   method Action store_image_A(ImagePacket p);
-    iMem.store_A.put(unpack(pack(p)));
+    iMem.store_A.put(p);
   endmethod
 
   method Action store_image_B(ImagePacket p);
-    iMem.store_B.put(unpack(pack(p)));
+    iMem.store_B.put(p);
   endmethod
 
   method Action clear_image();
