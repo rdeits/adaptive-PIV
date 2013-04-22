@@ -8,31 +8,32 @@ import Vector::*;
 interface IMemory;
   interface Put#(MemReq) req_A;
   interface Put#(MemReq) req_B;
-  // interface Get#(ImagePacket) resp;
-  interface Put#(ImagePacket) store_A;
-  interface Put#(ImagePacket) store_B;
+  // interface Get#(Pixel) resp;
+  interface Put#(Pixel) store_A;
+  interface Put#(Pixel) store_B;
   method Action clear();
   method Action done_loading();
   method Bool is_loading();
-  method ImagePacket queue_first_A(TrackerID tracker_id);
+  method Pixel queue_first_A(TrackerID tracker_id);
   method Action queue_deq_A(TrackerID tracker_id);
-  method ImagePacket queue_first_B(TrackerID tracker_id);
+  method Pixel queue_first_B(TrackerID tracker_id);
   method Action queue_deq_B(TrackerID tracker_id);
-  // method ActionValue#(ImagePacket) get_queued_data_A(TrackerID tracker_id);
+  // method ActionValue#(Pixel) get_queued_data_A(TrackerID tracker_id);
 endinterface
 
 (* synthesize *)
 module mkIMemory(IMemory);
-  Reg#(Addr) store_addr_A <- mkReg(0);
-  Reg#(Addr) store_addr_B <- mkReg(0);
+  Reg#(PixelNdx) store_addr_A <- mkReg(0);
+  Reg#(PixelNdx) store_addr_B <- mkReg(0);
   Reg#(Bool) loading <- mkReg(False);
   BRAM_Configure cfg = defaultValue;
+  cfg.memorySize = valueOf(PixelsPerImage);
   FIFO#(TrackerID) req_info_q_A <- mkFIFO();
   FIFO#(TrackerID) req_info_q_B <- mkFIFO();
-  BRAM1Port#(Addr, ImagePacket) bram_A <- mkBRAM1Server(cfg);
-  BRAM1Port#(Addr, ImagePacket) bram_B <- mkBRAM1Server(cfg);
-  Vector#(NumTrackers, FIFO#(ImagePacket)) memq_A <- replicateM(mkFIFO());
-  Vector#(NumTrackers, FIFO#(ImagePacket)) memq_B <- replicateM(mkFIFO());
+  BRAM1Port#(PixelNdx, Pixel) bram_A <- mkBRAM1Server(cfg);
+  BRAM1Port#(PixelNdx, Pixel) bram_B <- mkBRAM1Server(cfg);
+  Vector#(NumTrackers, FIFO#(Pixel)) memq_A <- replicateM(mkFIFO());
+  Vector#(NumTrackers, FIFO#(Pixel)) memq_B <- replicateM(mkFIFO());
 
   rule get_mem_data_A;
     let r <- bram_A.portA.response.get();
@@ -70,12 +71,12 @@ module mkIMemory(IMemory);
     endmethod
   endinterface
 
-  method ImagePacket queue_first_A(TrackerID tracker_id);
+  method Pixel queue_first_A(TrackerID tracker_id);
     let r = memq_A[tracker_id].first();
     return r;
   endmethod
 
-  method ImagePacket queue_first_B(TrackerID tracker_id);
+  method Pixel queue_first_B(TrackerID tracker_id);
     let r = memq_B[tracker_id].first();
     return r;
   endmethod
@@ -89,7 +90,7 @@ module mkIMemory(IMemory);
   endmethod
 
   interface Put store_A;
-    method Action put(ImagePacket x) if (loading);
+    method Action put(Pixel x) if (loading);
       bram_A.portA.request.put(BRAMRequest {
         write: True,
         responseOnWrite: False,
@@ -100,7 +101,7 @@ module mkIMemory(IMemory);
   endinterface
 
   interface Put store_B;
-    method Action put(ImagePacket x) if (loading);
+    method Action put(Pixel x) if (loading);
       bram_B.portA.request.put(BRAMRequest {
         write: True,
         responseOnWrite: False,

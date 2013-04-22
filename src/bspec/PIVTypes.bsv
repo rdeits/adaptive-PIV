@@ -14,20 +14,21 @@ typedef UInt#(PixelSz) Pixel;
 typedef 8 ImagePacketSize;
 typedef Vector#(ImagePacketSize, Pixel) ImagePacket;
 
-typedef 32 DataSz;
-typedef UInt#(DataSz) Data;
+// typedef 32 DataSz;
+// typedef UInt#(DataSz) Data;
 
 typedef TMul#(ImageWidth, ImageHeight) PixelsPerImage;
 typedef UInt#(TLog#(PixelsPerImage)) PixelNdx;
-typedef TDiv#(DataSz, PixelSz) PixelsPerData;
+// typedef TDiv#(DataSz, PixelSz) PixelsPerData;
 
 typedef UInt#(TLog#(ImageWidth)) ColNdx;
 typedef UInt#(TLog#(ImageHeight)) RowNdx;
 
-typedef UInt#(TLog#(TDiv#(PixelsPerImage, PixelsPerData))) Addr;
+// typedef UInt#(TLog#(TDiv#(PixelsPerImage, PixelsPerData))) Addr;
 
 typedef struct {
-  Addr addr;
+  // Addr addr;
+  PixelNdx addr;
   TrackerID tracker_id;
 } MemReq deriving (Bits);
 

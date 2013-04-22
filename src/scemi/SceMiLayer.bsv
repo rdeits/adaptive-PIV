@@ -11,8 +11,6 @@ import PIVTypes::*;
 import PIV::*;
 
 typedef PIV DutInterface;
-typedef Data ToHost;
-typedef Addr FromHost;
 
 (* synthesize *)
 module [Module] mkDutWrapper (DutInterface);
