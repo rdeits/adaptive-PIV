@@ -40,6 +40,7 @@ module mkDisplacementTracker(FIFO#(CrossCorrEl) a2t, DisplacementTracker ifc);
         Displacements disp;
         disp.u = u;
         disp.v = v;
+        disp.ndx = ?;
         outfifo.enq(disp);
         max_row[1] <= 4;
         max_col[1] <= 4;

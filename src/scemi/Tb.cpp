@@ -45,30 +45,66 @@ int main(int argc, char* argv[])
     int pixel;
     ImagePacket msg;
     int line_pos = 0;
+    fprintf(stdout, "waiting for image A\n");
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
-            pixel = atoi(line);
-            msg[line_pos] = (pixel >> PIXEL_DEPTH);
-            line_pos++;
-            if (line_pos == PIXELS_PER_MSG) {
-                line_pos = 0;
-                im_store_A.sendMessage(msg);
-                im_store_B.sendMessage(msg);
+            if (strcmp(line, ".\n") == 0) {
+                break;
+            } else {
+                pixel = atoi(line);
+                msg[line_pos] = (pixel >> PIXEL_DEPTH);
+                line_pos++;
+                if (line_pos == PIXELS_PER_MSG) {
+                    line_pos = 0;
+                    im_store_A.sendMessage(msg);
+                }
+            }
+        }
+    }
+    fprintf(stdout, "Finished storing image A\n");
+    line_pos = 0;
+    while ((read = getline(&line, &len, stdin)) != -1) {
+        if (read != 0) {
+            if (strcmp(line, ".\n") == 0) {
+                break;
+            } else {
+                pixel = atoi(line);
+                msg[line_pos] = (pixel >> PIXEL_DEPTH);
+                line_pos++;
+                if (line_pos == PIXELS_PER_MSG) {
+                    line_pos = 0;
+                    im_store_B.sendMessage(msg);
+                }
             }
         }
     }
     im_done.sendMessage(true);
+    fprintf(stdout, "Finished storing image B\n");
 
     WindowReq winmsg;
     Displacements dispmsg;
-    // winmsg.m_size = 40;
-    for (int i = 0; i < 1; i++) {
-        winmsg.m_ndx = i * 8;
-        window_req.sendMessage(winmsg);
-        dispmsg = disp_get.getMessage();
-        fprintf(stdout, "Tb got %d %d\n", (int)dispmsg.m_u, (int)dispmsg.m_v);
+    while ((read = getline(&line, &len, stdin)) != -1) {
+        if (read != 0) {
+            if (strcmp(line, ".\n") == 0) {
+                break;
+            } else {
+                winmsg.m_ndx = atoi(line);
+                fprintf(stdout, "Sending request: %d\n", (int)winmsg.m_ndx);
+                window_req.sendMessage(winmsg);
+                dispmsg = disp_get.getMessage();
+                fprintf(stdout, "%d\n%d\n%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+            }
+        }
     }
-
+    fprintf(stdout, "Finished tracking\n");
+    // winmsg.m_size = 40;
+    // for (int i = 0; i < 1; i++) {
+    //     winmsg.m_ndx = i * 8;
+    //     window_req.sendMessage(winmsg);
+    //     dispmsg = disp_get.getMessage();
+    //     fprintf(stdout, "Tb got %d %d\n", (int)dispmsg.m_u, (int)dispmsg.m_v);
+    // }
+// 
 
 
     shutdown.blocking_send_finish();

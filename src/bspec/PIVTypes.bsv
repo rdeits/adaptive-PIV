@@ -3,11 +3,11 @@ import GetPut::*;
 import Vector::*;
 import FIFO::*;
 
-typedef 1 NumTrackers;
+typedef 2 NumTrackers;
 typedef UInt#(TAdd#(TLog#(NumTrackers), 1)) TrackerID;
 
-typedef 800 ImageWidth;
-typedef 600 ImageHeight;
+typedef 40 ImageWidth;
+typedef 40 ImageHeight;
 typedef 4 PixelSz;
 typedef UInt#(PixelSz) Pixel;
 
@@ -50,6 +50,7 @@ typedef UInt#(TAdd#(TAdd#(PixelSz, PixelSz), TMul#(CrossCorrWidth, CrossCorrWidt
 typedef UInt#(TLog#(CrossCorrWidth)) Displacement;
 
 typedef struct {
+  PixelNdx ndx;
   Displacement u;
   Displacement v;
 } Displacements deriving (Bits, Eq);

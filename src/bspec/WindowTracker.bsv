@@ -14,6 +14,7 @@ typedef Server#(
 ) WindowTracker;
 
 module mkWindowTracker(IMemory iMem, TrackerID tracker_id, WindowTracker ifc);
+  Reg#(PixelNdx) current_ndx <- mkRegU();
   FIFO#(Vector#(2, Pixel)) m2a <- mkFIFO();
   FIFO#(CrossCorrEl) a2t <- mkFIFO();
   // FIFO#(TMul#(Pixel, Pixel)) a2t <- mkFIFO();
@@ -24,6 +25,8 @@ module mkWindowTracker(IMemory iMem, TrackerID tracker_id, WindowTracker ifc);
   interface Put request;
     method Action put(WindowReq r);
       manager.req.put(r);
+      current_ndx <= r.ndx;
+      $display("got request for index: %d", r.ndx);
       // iMem.req.put(truncate(r.ndx));
     endmethod
   endinterface
@@ -33,6 +36,7 @@ module mkWindowTracker(IMemory iMem, TrackerID tracker_id, WindowTracker ifc);
       // let x <- iMem.resp.get();
       // let ret = Displacements{u: x, v: x};
       let x <- tracker.resp.get();
+      x.ndx = current_ndx;
       return x;
     endmethod
   endinterface

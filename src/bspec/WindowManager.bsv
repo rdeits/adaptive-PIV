@@ -12,6 +12,8 @@ interface WindowManager;
   interface Put#(WindowReq) req;
 endinterface
 
+typedef enum {WaitingForReq, WaitingForLock, Downloading, Outputting} State deriving (Bits, Eq);
+
 module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixel)) m2a, WindowManager ifc);
   Bit#(WindowSizeA) winsizeA = ?;
   Bit#(WindowSizeB) winsizeB = ?;
@@ -26,6 +28,8 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   Reg#(UInt#(TLog#(TMul#(CrossCorrWidth, CrossCorrWidth)))) sub_frames_requested <- mkReg(0);
   Reg#(WindowPixelAddrA) bram_write_addr_A <- mkReg(0);
   Reg#(WindowPixelAddrB) bram_write_addr_B <- mkReg(0);
+
+  Reg#(State) state <- mkReg(WaitingForReq);
 
   Reg#(Bool) done_requesting_output <- mkReg(False);
   Reg#(Bit#(TLog#(TSub#(WindowSizeA, WindowSizeB)))) sub_frame_row <- mkReg(0);
@@ -42,35 +46,48 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   cfg_B.memorySize = valueOf(PixelsPerWindowB);
   BRAM1Port#(WindowPixelAddrB, Pixel) bram_B <- mkBRAM1Server(cfg_B);
 
-  rule request_download_A if (!counter_A.done());
+  rule request_lock if (state == WaitingForLock);
+    iMem.get_lock();
+    $display("got lock");
+    state <= Downloading;
+    done_storing_A <= False;
+    done_storing_B <= False;
+  endrule
+
+  rule request_download_A if (state == Downloading && !counter_A.done());
     let addr <- counter_A.get_addr();
+    // $display("requesting download A at addr: %d", addr);
     iMem.req_A.put(MemReq{addr: addr, tracker_id: tracker_id});
   endrule
 
-  rule request_download_B if (!counter_B.done());
+  rule request_download_B if (state == Downloading && !counter_B.done());
     let addr <- counter_B.get_addr();
+    // $display("requesting download B at addr: %d", addr);
     iMem.req_B.put(MemReq{addr: addr, tracker_id: tracker_id});
   endrule
 
-  rule store_download_A if (!done_storing_A);
-    Pixel new_pixel = iMem.queue_first_A(tracker_id);
+  rule store_download_A if (!done_storing_A && state == Downloading);
+    // Pixel new_pixel = iMem.queue_first_A(tracker_id);
+    Pixel new_pixel <- iMem.resp_A.get();
+    // $display("got pixel A from iMem");
     bram_A.portA.request.put(BRAMRequest {
       write: True,
       responseOnWrite: False,
       address: bram_write_addr_A,
       datain: new_pixel});
     if (bram_write_addr_A >= fromInteger(valueOf(PixelsPerWindowA) - 1)) begin
-      $display("done storing A");
+      // $display("done storing A");
       done_storing_A <= True;
     end
     else begin
       bram_write_addr_A <= bram_write_addr_A + 1;
     end
-    iMem.queue_deq_A(tracker_id);
   endrule
 
-  rule store_download_B if (!done_storing_B);
-    Pixel new_pixel = iMem.queue_first_B(tracker_id);
+  rule store_download_B if (!done_storing_B && state == Downloading);
+    // $display("got pixel B from iMem");
+    // Pixel new_pixel = iMem.queue_first_B(tracker_id);
+    Pixel new_pixel <- iMem.resp_B.get();
     // $display("storing download B value %d at %d", new_pixel, bram_write_addr_B);
     bram_B.portA.request.put(BRAMRequest {
       write: True,
@@ -78,17 +95,22 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
       address: bram_write_addr_B,
       datain: new_pixel});
     if (bram_write_addr_B >= fromInteger(valueOf(PixelsPerWindowB) - 1)) begin
-      $display("done storing B");
+      // $display("done storing B");
       done_storing_B <= True;
     end
     else begin
       bram_write_addr_B <= bram_write_addr_B + 1;
     end
-    iMem.queue_deq_B(tracker_id);
+    // iMem.queue_deq_B(tracker_id);
+  endrule
+
+  rule end_downloading_state if (done_storing_A && done_storing_B && state == Downloading);
+    state <= Outputting;
+    iMem.release_lock();
   endrule
 
   rule start_next_frame if (sub_counter_B.done() && !done_requesting_output);
-    $display("starting next frame");
+    // $display("starting next frame");
     let addr <- sub_frame_pos_counter.get_addr();
     sub_counter_A.reset(addr);
     sub_counter_B.reset(0);
@@ -100,7 +122,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     end
   endrule
 
-  rule request_output if (done_storing_A && done_storing_B && !sub_counter_B.done() && !done_requesting_output);
+  rule request_output if (state == Outputting && !sub_counter_B.done() && !done_requesting_output);
     let addr_A <- sub_counter_A.get_addr();
     bram_A.portA.request.put(BRAMRequest {
       write: False,
@@ -128,6 +150,8 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
 
   interface Put req;
     method Action put(WindowReq r);
+      $display("window tracker got request");
+      state <= WaitingForLock;
       bram_write_addr_A <= 0;
       bram_write_addr_B <= 0;
       sub_frames_requested <= 0;
