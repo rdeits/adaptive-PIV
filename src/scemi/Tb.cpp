@@ -48,11 +48,11 @@ int main(int argc, char* argv[])
     fprintf(stdout, "waiting for image A\n");
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
-            if (strcmp(line, ".\n") == 0) {
+            if (line[0] == '.') {
                 break;
             } else {
                 pixel = atoi(line);
-                msg[line_pos] = (pixel >> PIXEL_DEPTH);
+                msg[line_pos] = (pixel >> (8 - PIXEL_DEPTH));
                 line_pos++;
                 if (line_pos == PIXELS_PER_MSG) {
                     line_pos = 0;
@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
     line_pos = 0;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
-            if (strcmp(line, ".\n") == 0) {
+            if (line[0] == '.') {
                 break;
             } else {
                 pixel = atoi(line);
@@ -85,14 +85,14 @@ int main(int argc, char* argv[])
     Displacements dispmsg;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
-            if (strcmp(line, ".\n") == 0) {
+            if (line[0] == '.') {
                 break;
             } else {
                 winmsg.m_ndx = atoi(line);
                 fprintf(stdout, "Sending request: %d\n", (int)winmsg.m_ndx);
                 window_req.sendMessage(winmsg);
                 dispmsg = disp_get.getMessage();
-                fprintf(stdout, "%d\n%d\n%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+                fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
             }
         }
     }
