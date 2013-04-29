@@ -38,7 +38,7 @@ module mkDisplacementTracker(FIFO#(CrossCorrEl) a2t, DisplacementTracker ifc);
       if (curr_row >= fromInteger(valueOf(CrossCorrWidth) - 1)) begin
         curr_row <= 0;
         Displacements disp;
-        disp.u = u;
+        disp.u = fromInteger(valueOf(CrossCorrWidth)) - 1 - u; // math is hard
         disp.v = v;
         disp.ndx = ?;
         outfifo.enq(disp);

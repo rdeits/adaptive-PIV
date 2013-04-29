@@ -6,10 +6,10 @@ import subprocess
 import time
 import cPickle as pickle
 import os
-from config import frame_cols, frame_rows, get_px_ndx
+import sys
+from config import frame_cols, frame_rows, get_px_ndx, source_pairs
 
-image_dir = '../../data/vort_sim/'
-source_pairs = [('single_vort_sim_0001.tif', 'single_vort_sim_0002.tif')]
+image_dir = sys.argv[1]
 
 os.system('killall bluectl')
 bsim_proc = subprocess.Popen(['./bsim_dut'], cwd='../scemi/sim')
@@ -29,5 +29,5 @@ for pair in source_pairs:
             pixel_ndx = get_px_ndx(frame_row, frame_col)
             tb_proc.stdin.write(str(pixel_ndx) + '\n')
     stdout, stderr = tb_proc.communicate('.\n')
-    pickle.dump(stdout, open('stdout.pck', 'wb'))
-    parse_and_show(stdout)
+    pickle.dump(stdout, open(os.path.join(image_dir, 'stdout.pck'), 'wb'))
+    parse_and_show(stdout, image_dir)
