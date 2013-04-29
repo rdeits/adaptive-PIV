@@ -11,7 +11,7 @@
 
 \begin{document}
 	\author{Robin Deits\\ rdeits@csail.mit.edu}
-	\title{6.375 Proposal: Adaptive PIV, Microarchitecture}
+	\title{6.375 Report: Adaptive PIV: Synthesis}
 	\date{\today}
 	\maketitle
 
@@ -34,7 +34,7 @@
 	% section adaptive_piv (end)
 
 	\section{Implementation}
-	I will divide the implementation of the PIV system up into the high-level logic, which will be performed in \textsc{Matlab}, and the computationally intensive and parallelizable cross-correlation which will be performed on the FPGA. This division is shown in Figure~\ref{fig:system}. The host machine will read image pairs from disk (simulating live capture from a camera system), then convert them to 8-bit grayscale. These image pairs will be transmitted over SCEMI to the FPGA, which will store both images in DRAM. The host machine will then select a series of interrogation windows. The exact method of selection will depend on whether we are performing normal or adaptive PIV. The host will transmit the coordinates of the interrogation windows to the DUT. The FPGA will then extract the actual image data for each window, perform the cross-correlation, and locate the peak in the cross-correlation value signifying the displacement of the particles in the window. The FPGA will then send the displacement back to the host. 
+	I will divide the implementation of the PIV system up into the high-level logic, which will be performed in \textsc{Matlab}, and the computationally intensive and parallelizable cross-correlation which will be performed on the FPGA. This division is shown in Figure~\ref{fig:system}. The host machine will read image pairs from disk (simulating live capture from a camera system), then convert them to 4-bit grayscale. These image pairs will be transmitted over SCEMI to the FPGA, which will store both images in DRAM. The host machine will then select a series of interrogation windows. The exact method of selection will depend on whether we are performing normal or adaptive PIV. The host will transmit the coordinates of the interrogation windows to the DUT. The FPGA will then extract the actual image data for each window, perform the cross-correlation, and locate the peak in the cross-correlation value signifying the displacement of the particles in the window. The FPGA will then send the displacement back to the host. 
 
 	\subsection{Module: Window Tracker}
 	The FPGA will contain many instances of the Window Tracker module, each of which will perform the cross-correlation and displacement extraction for a single interrogation window. The Window Tracker will be implemented as a server with the following operations: 
@@ -85,7 +85,13 @@ I will use the sample data provided with Sharma's Adaptive PIV implementation, w
 \end{enumerate}
 
 \section{Implementation Status}
-As of Apr.~16 I have created a basic skeleton into which the components of the design can be inserted. Image data can be written to the BRAM from the test bench, and the Window Tracker can respond to requests for data from the test bench. My next step will be to implement the Window Manager and the accumulator blocks in order to allow real cross-correlation computation. 
+As of Apr. 22, I have implemented all of the components required for the basic PIV system. This means that I can take image data from the host machine, transmit it to the (simulated) test bench, and perform the cross-correlation and displacement calculation for a chosen window. The end-to-end system has not yet been thoroughly tested, but the initial tests of all of the components seem to be correct so far. 
+
+\subsection{Synthesis}
+I have synthesized the most recent version of the design, primarily in order to check for critical paths and ensure that the Block RAMs are not fully consumed yet. The mapping tool reports 91\% of BRAMs used, which is expected, and only one timing constraint failure on a SceMi PCIE clock, which I will investigate in the coming week. 
+
+\subsection{Design Details}
+So far, I have only implemented one Window Tracker module within my PIV system. However, since each tracker is independent and shares only the main BRAM with its neighbors, it should not be overly difficult to add more parallel modules. I have, however, implemented full caching of window data within the Window Manager modules. This dramatically reduces the number of requests to the main BRAM, and should make parallel Window Trackers much easier to add.
 
 \section{Explorations}
 \subsection{Variable Window Size}
@@ -95,7 +101,7 @@ If possible, I would like to extend the design to support varying the size of th
 I suspect that contention for BRAM access among all the Window Managers will be a major difficulty as I attempt to parallelize my design. I plan to explore several variables related to this problem: 
 \begin{itemize}
 	\item Memory data size: wider memory data will allow more pixel values to be received per read of the BRAM, but may create timing problems.
-	\item Caching image data: each window manager may need to cache the pixel values of its interrogation windows.
+	\item Caching image data: each window manager may need to cache the pixel values of its interrogation windows. As of Apr. 22, I have implemented this in my design.
 	\item Number of BRAM ports: adding memory ports will allow for more parallel reads, but may create other resource issues.
 \end{itemize}
 
