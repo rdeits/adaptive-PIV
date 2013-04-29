@@ -1,7 +1,7 @@
 from __future__ import division
 
 from collections import namedtuple
-import Image
+from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 import os

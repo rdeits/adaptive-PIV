@@ -1,6 +1,6 @@
 from __future__ import division
 
-import Image
+from PIL import Image
 from display import parse_and_show
 import subprocess
 import time
