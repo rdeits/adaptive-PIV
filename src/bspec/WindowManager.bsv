@@ -111,7 +111,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     // iMem.release_lock();
   endrule
 
-  rule start_next_frame if (sub_counter_B.done() && !done_requesting_output);
+  rule start_next_frame if (sub_counter_B.done() && !done_requesting_output && state == Outputting);
     // $display("starting next frame");
     let addr <- sub_frame_pos_counter.get_addr();
     sub_counter_A.reset(addr);
@@ -140,7 +140,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     // $display("requesting output: A %d B %d", addr_A, addr_B);
   endrule
 
-  rule output_data;
+  rule output_data if (state == Outputting);
     Vector#(2, Pixel) out;
     let x0 <- bram_A.portA.response.get();
     let x1 <- bram_B.portA.response.get();
