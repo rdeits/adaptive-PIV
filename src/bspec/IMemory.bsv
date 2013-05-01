@@ -15,8 +15,10 @@ interface IMemory;
   method Action clear();
   method Action done_loading();
   method Bool is_loading();
-  method Action get_lock();
-  method Action release_lock();
+  method TrackerID get_current_tracker();
+  method Action next_tracker();
+  // method Action get_lock();
+  // method Action release_lock();
   // method Pixel queue_first_A(TrackerID tracker_id);
   // method Action queue_deq_A(TrackerID tracker_id);
   // method Pixel queue_first_B(TrackerID tracker_id);
@@ -31,13 +33,14 @@ module mkIMemory(IMemory);
   Reg#(Bool) loading <- mkReg(False);
   BRAM_Configure cfg = defaultValue;
   cfg.memorySize = valueOf(PixelsPerImage);
+  Reg#(TrackerID) current_tracker <- mkReg(0);
   // FIFO#(TrackerID) req_info_q_A <- mkFIFO();
   // FIFO#(TrackerID) req_info_q_B <- mkFIFO();
   BRAM1Port#(PixelNdx, Pixel) bram_A <- mkBRAM1Server(cfg);
   BRAM1Port#(PixelNdx, Pixel) bram_B <- mkBRAM1Server(cfg);
   // Vector#(NumTrackers, FIFO#(Pixel)) memq_A <- replicateM(mkFIFO());
   // Vector#(NumTrackers, FIFO#(Pixel)) memq_B <- replicateM(mkFIFO());
-  Reg#(Bool) in_use <- mkReg(False);
+  // Reg#(Bool) in_use <- mkReg(False);
 
   // rule get_mem_data_A;
   //   let r <- bram_A.portA.response.get();
@@ -54,12 +57,18 @@ module mkIMemory(IMemory);
   //   memq_B[q].enq(r);
   // endrule
 
-  method Action get_lock() if (!in_use);
-    in_use <= True;
+  method TrackerID get_current_tracker();
+    let x = current_tracker;
+    return x;
   endmethod
 
-  method Action release_lock() if (in_use);
-    in_use <= False;
+  method Action next_tracker();
+    if (current_tracker < fromInteger(valueOf(NumTrackers) - 1)) begin
+      current_tracker <= current_tracker + 1;
+    end
+    else begin
+      current_tracker <= 0;
+    end
   endmethod
 
   interface Put req_A;

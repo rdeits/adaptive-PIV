@@ -47,6 +47,8 @@ typedef UInt#(TLog#(PixelsPerWindowB)) WindowPixelAddrB;
 typedef TAdd#(TSub#(WindowSizeA, WindowSizeB), 1) CrossCorrWidth;
 typedef UInt#(TAdd#(TAdd#(PixelSz, PixelSz), TMul#(CrossCorrWidth, CrossCorrWidth))) CrossCorrEl;
 
+typedef TMul#(TMul#(TMul#(WindowSizeB, WindowSizeB), CrossCorrWidth), CrossCorrWidth) NumPixelPairs;
+
 typedef UInt#(TLog#(CrossCorrWidth)) Displacement;
 
 typedef struct {

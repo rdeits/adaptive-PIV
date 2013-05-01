@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
     int pixel;
     ImagePacket msg;
     int line_pos = 0;
-    fprintf(stdout, "waiting for image A\n");
+    fprintf(stderr, "waiting for image A\n");
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
             if (line[0] == '.') {
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
             }
         }
     }
-    fprintf(stdout, "Finished storing image A\n");
+    fprintf(stderr, "Finished storing image A\n");
     line_pos = 0;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
@@ -79,24 +79,29 @@ int main(int argc, char* argv[])
         }
     }
     im_done.sendMessage(true);
-    fprintf(stdout, "Finished storing image B\n");
+    fprintf(stderr, "Finished storing image B\n");
 
     WindowReq winmsg;
-    Displacements dispmsg;
+    int num_requests = 0;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
             if (line[0] == '.') {
                 break;
             } else {
                 winmsg.m_ndx = atoi(line);
-                fprintf(stdout, "Sending request: %d\n", (int)winmsg.m_ndx);
+                fprintf(stderr, "Sending request: %d\n", (int)winmsg.m_ndx);
                 window_req.sendMessage(winmsg);
-                dispmsg = disp_get.getMessage();
-                fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+                num_requests++;
             }
         }
     }
-    fprintf(stdout, "Finished tracking\n");
+    Displacements dispmsg;
+    for (int i = 0; i < num_requests; i++) {
+        dispmsg = disp_get.getMessage();
+        fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+        fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+    }
+    fprintf(stderr, "Finished tracking\n");
     // winmsg.m_size = 40;
     // for (int i = 0; i < 1; i++) {
     //     winmsg.m_ndx = i * 8;

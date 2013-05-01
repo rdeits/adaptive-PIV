@@ -1,7 +1,6 @@
 import PIVTypes::*;
 import GetPut::*;
 import FIFO::*;
-import FIFOF::*;
 import IMemory::*;
 import Vector::*;
 import BRAM::*;
@@ -18,6 +17,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   Bit#(WindowSizeA) winsizeA = ?;
   Bit#(WindowSizeB) winsizeB = ?;
   Bit#(ImageWidth) imwidth = ?;
+  FIFO#(WindowReq) reqFIFO <- mkFIFO();
   Bit#(TAdd#(TSub#(WindowSizeA, WindowSizeB), 1)) dummy1 = ?;
   AddrCounter counter_A <- mkCounter(winsizeA, imwidth);
   AddrCounter counter_B <- mkCounter(winsizeB, imwidth);
@@ -38,6 +38,8 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   Reg#(Bool) done_storing_A <- mkReg(False);
   Reg#(Bool) done_storing_B <- mkReg(False);
 
+  Reg#(UInt#(TLog#(NumPixelPairs))) num_pixel_pairs_output <- mkReg(0);
+
   BRAM_Configure cfg_A = defaultValue;
   cfg_A.memorySize = valueOf(PixelsPerWindowA);
   BRAM1Port#(WindowPixelAddrA, Pixel) bram_A <- mkBRAM1Server(cfg_A);
@@ -46,8 +48,7 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   cfg_B.memorySize = valueOf(PixelsPerWindowB);
   BRAM1Port#(WindowPixelAddrB, Pixel) bram_B <- mkBRAM1Server(cfg_B);
 
-  rule request_lock if (state == WaitingForLock);
-    iMem.get_lock();
+  rule request_lock if (state == WaitingForLock && iMem.get_current_tracker() == tracker_id);
     $display("got lock");
     state <= Downloading;
     done_storing_A <= False;
@@ -106,7 +107,8 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
 
   rule end_downloading_state if (done_storing_A && done_storing_B && state == Downloading);
     state <= Outputting;
-    iMem.release_lock();
+    iMem.next_tracker();
+    // iMem.release_lock();
   endrule
 
   rule start_next_frame if (sub_counter_B.done() && !done_requesting_output);
@@ -146,25 +148,39 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     out[1] = x1;
     // $display("%d, %d", x0, x1);
     m2a.enq(out);
+    if (num_pixel_pairs_output < fromInteger(valueOf(NumPixelPairs) - 1)) begin
+      num_pixel_pairs_output <= num_pixel_pairs_output + 1;
+    end
+    else begin
+      state <= WaitingForReq;
+    end
   endrule
+
+  rule start_new_request if (state == WaitingForReq);
+    let r = reqFIFO.first();
+    reqFIFO.deq();
+    state <= WaitingForLock;
+    bram_write_addr_A <= 0;
+    bram_write_addr_B <= 0;
+    sub_frames_requested <= 0;
+    done_requesting_output <= False;
+    sub_frame_pos_counter.reset(1);
+    sub_counter_A.reset(0);
+    sub_counter_B.reset(0);
+    sub_frame_row <= 0;
+    sub_frame_col <= 0;
+    num_pixel_pairs_output <= 0;
+    let ndx = r.ndx;
+    $display("window tracker got request: %d", ndx);
+    counter_A.reset(ndx);
+    let pos_B = ndx + fromInteger(((valueOf(WindowSizeA) - valueOf(WindowSizeB)) / 2) * (valueOf(ImageWidth) +1));
+    counter_B.reset(pos_B);
+  endrule
+
 
   interface Put req;
     method Action put(WindowReq r);
-      $display("window tracker got request");
-      state <= WaitingForLock;
-      bram_write_addr_A <= 0;
-      bram_write_addr_B <= 0;
-      sub_frames_requested <= 0;
-      done_requesting_output <= False;
-      sub_frame_pos_counter.reset(1);
-      sub_counter_A.reset(0);
-      sub_counter_B.reset(0);
-      sub_frame_row <= 0;
-      sub_frame_col <= 0;
-      let ndx = r.ndx;
-      counter_A.reset(ndx);
-      let pos_B = ndx + fromInteger(((valueOf(WindowSizeA) - valueOf(WindowSizeB)) / 2) * (valueOf(ImageWidth) +1));
-      counter_B.reset(pos_B);
+      reqFIFO.enq(r);
     endmethod
   endinterface
 endmodule
