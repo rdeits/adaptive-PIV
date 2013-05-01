@@ -1,32 +1,34 @@
 from __future__ import division
 
-from collections import namedtuple
 from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from config import frame_rows, frame_cols, get_px_ndx, source_pairs, window_spacing, frame_size
+from config import frame_rows, frame_cols, get_px_ndx, get_image_pair, window_spacing, frame_size
+from collections import namedtuple
+Displacements = namedtuple('Displacements', ['u', 'v'])
 
 
 def parse_and_show(stdout, image_dir):
-    Displacements = namedtuple('Displacements', ['u', 'v'])
     results = [int(line[1:]) for line in stdout.split('\n') if len(line) > 0 and line[0] == '$']
     results = [(results[i], Displacements(*results[i+1:i+3])) for i in range(0, len(results), 3)]
     disp_map = dict(results)
-    V = np.zeros([frame_rows, frame_cols])
-    U = np.zeros([frame_rows, frame_cols])
-    for frame_row in range(frame_rows):
-        for frame_col in range(frame_cols):
-            pixel_ndx = get_px_ndx(frame_row, frame_col)
+    im_pair = get_image_pair(image_dir)
+    num_rows = frame_rows(im_pair.A)
+    num_cols = frame_cols(im_pair.A)
+    V = np.zeros([num_rows, num_cols])
+    U = np.zeros([num_rows, num_cols])
+    for frame_row in range(num_rows):
+        for frame_col in range(num_cols):
+            pixel_ndx = get_px_ndx(im_pair.A, frame_row, frame_col)
             U[frame_row][frame_col] = disp_map[pixel_ndx].u - 4
             V[frame_row][frame_col] = disp_map[pixel_ndx].v - 4
-    imageA = Image.open(os.path.join(image_dir, source_pairs[0][0]))
     f = plt.figure()
     a = f.add_axes([.1, .1, .8, .8])
-    a.imshow(imageA.transpose(Image.FLIP_TOP_BOTTOM))
+    a.imshow(im_pair.A.transpose(Image.FLIP_TOP_BOTTOM))
     a.hold(True)
-    X = np.array(range(frame_cols)) * window_spacing + frame_size / 2
-    Y = np.array(range(frame_rows)) * window_spacing + frame_size / 2
+    X = np.array(range(num_cols)) * window_spacing + frame_size / 2
+    Y = np.array(range(num_rows)) * window_spacing + frame_size / 2
     a.quiver(X, Y, U, V, color='y', units='x')
     # a.invert_yaxis()
     plt.savefig(os.path.join(image_dir, 'PIV.png'))
