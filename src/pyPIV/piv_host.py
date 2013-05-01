@@ -21,6 +21,8 @@ else:
     tb_proc = subprocess.Popen(['./tb'],stdin=subprocess.PIPE, stdout=subprocess.PIPE, cwd='../scemi/sim')
 
 im_pair = get_image_pair(image_dir)
+bspec_im_width = int(subprocess.check_output('cat ../bspec/PIVTypes.bsv | grep "ImageWidth;"', shell=True).split(' ')[1])
+assert bspec_im_width == im_pair.A.size[0], "Image width doesn't match parameters used when compling bspec file"
 
 for im in im_pair:
     for pix in im.convert('L').getdata():
