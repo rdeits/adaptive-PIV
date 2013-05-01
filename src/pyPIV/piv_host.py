@@ -12,7 +12,7 @@ import sys; sys.stdout = open('log', 'w')
 image_dir = sys.argv[1]
 use_fpga = int(sys.argv[2])
 
-os.system('killall bluectl')
+os.system('killall bluetcl')
 if use_fpga:
     tb_proc = subprocess.Popen(['runtb', './tb'],stdin=subprocess.PIPE, stdout=subprocess.PIPE, cwd='../scemi/fpga')
 else:

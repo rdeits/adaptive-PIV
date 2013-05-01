@@ -8,22 +8,24 @@ import AddrCounter::*;
 
 
 interface WindowManager;
-  interface Put#(WindowReq) req;
+  // interface Put#(WindowReq) req;
+  method Action start();
+  method Bool is_done_storing();
+  interface Put#(Pixel) pxA;
+  interface Put#(Pixel) pxB;
 endinterface
 
-typedef enum {WaitingForReq, WaitingForLock, Downloading, Outputting} State deriving (Bits, Eq);
+typedef enum {WaitingForReq, Downloading, Outputting} State deriving (Bits, Eq);
 
-module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixel)) m2a, WindowManager ifc);
+module mkWindowManager(TrackerID tracker_id, FIFO#(Vector#(2, Pixel)) m2a, WindowManager ifc);
   Bit#(WindowSizeA) winsizeA = ?;
   Bit#(WindowSizeB) winsizeB = ?;
-  Bit#(ImageWidth) imwidth = ?;
-  FIFO#(WindowReq) reqFIFO <- mkFIFO();
   Bit#(TAdd#(TSub#(WindowSizeA, WindowSizeB), 1)) dummy1 = ?;
-  AddrCounter counter_A <- mkCounter(winsizeA, imwidth);
-  AddrCounter counter_B <- mkCounter(winsizeB, imwidth);
   AddrCounter sub_counter_A <- mkCounter(winsizeB, winsizeA);
   AddrCounter sub_counter_B <- mkCounter(winsizeB, winsizeB);
   AddrCounter sub_frame_pos_counter <- mkCounter(dummy1, winsizeA);
+  FIFO#(Pixel) inFIFO_A <- mkFIFO();
+  FIFO#(Pixel) inFIFO_B <- mkFIFO();
 
   Reg#(UInt#(TLog#(TMul#(CrossCorrWidth, CrossCorrWidth)))) sub_frames_requested <- mkReg(0);
   Reg#(WindowPixelAddrA) bram_write_addr_A <- mkReg(0);
@@ -48,29 +50,31 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   cfg_B.memorySize = valueOf(PixelsPerWindowB);
   BRAM1Port#(WindowPixelAddrB, Pixel) bram_B <- mkBRAM1Server(cfg_B);
 
-  rule request_lock if (state == WaitingForLock && iMem.get_current_tracker() == tracker_id);
-    $display("got lock");
-    state <= Downloading;
-    done_storing_A <= False;
-    done_storing_B <= False;
-  endrule
+  // rule request_lock if (state == WaitingForLock && iMem.get_current_tracker() == tracker_id);
+  //   $display("got lock");
+  //   state <= Downloading;
+  //   done_storing_A <= False;
+  //   done_storing_B <= False;
+  // endrule
 
-  rule request_download_A if (state == Downloading && !counter_A.done());
-    let addr <- counter_A.get_addr();
-    // $display("requesting download A at addr: %d", addr);
-    iMem.req_A.put(MemReq{addr: addr, tracker_id: tracker_id});
-  endrule
+  // rule request_download_A if (state == Downloading && !counter_A.done());
+  //   let addr <- counter_A.get_addr();
+  //   // $display("requesting download A at addr: %d", addr);
+  //   iMem.req_A.put(MemReq{addr: addr, tracker_id: tracker_id});
+  // endrule
 
-  rule request_download_B if (state == Downloading && !counter_B.done());
-    let addr <- counter_B.get_addr();
-    // $display("requesting download B at addr: %d", addr);
-    iMem.req_B.put(MemReq{addr: addr, tracker_id: tracker_id});
-  endrule
+  // rule request_download_B if (state == Downloading && !counter_B.done());
+  //   let addr <- counter_B.get_addr();
+  //   // $display("requesting download B at addr: %d", addr);
+  //   iMem.req_B.put(MemReq{addr: addr, tracker_id: tracker_id});
+  // endrule
 
   rule store_download_A if (!done_storing_A && state == Downloading);
     // Pixel new_pixel = iMem.queue_first_A(tracker_id);
-    Pixel new_pixel <- iMem.resp_A.get();
-    // $display("got pixel A from iMem");
+    // Pixel new_pixel <- iMem.resp_A.get();
+    Pixel new_pixel = inFIFO_A.first();
+    inFIFO_A.deq();
+    // $display("manager %d got pixel A from iMem", tracker_id);
     bram_A.portA.request.put(BRAMRequest {
       write: True,
       responseOnWrite: False,
@@ -86,9 +90,11 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
   endrule
 
   rule store_download_B if (!done_storing_B && state == Downloading);
-    // $display("got pixel B from iMem");
+    // $display("tracker %d got pixel B from iMem", tracker_id);
     // Pixel new_pixel = iMem.queue_first_B(tracker_id);
-    Pixel new_pixel <- iMem.resp_B.get();
+    // Pixel new_pixel <- iMem.resp_B.get();
+    Pixel new_pixel = inFIFO_B.first();
+    inFIFO_B.deq();
     // $display("storing download B value %d at %d", new_pixel, bram_write_addr_B);
     bram_B.portA.request.put(BRAMRequest {
       write: True,
@@ -107,7 +113,8 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
 
   rule end_downloading_state if (done_storing_A && done_storing_B && state == Downloading);
     state <= Outputting;
-    iMem.next_tracker();
+    $display("tracker: %d ending downloading state", tracker_id);
+    // iMem.next_tracker();
     // iMem.release_lock();
   endrule
 
@@ -152,14 +159,23 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
       num_pixel_pairs_output <= num_pixel_pairs_output + 1;
     end
     else begin
+      $display("tracker: %d done outputting data", tracker_id);
       state <= WaitingForReq;
     end
   endrule
 
-  rule start_new_request if (state == WaitingForReq);
-    let r = reqFIFO.first();
-    reqFIFO.deq();
-    state <= WaitingForLock;
+  method Bool is_done_storing();
+    let x = done_storing_A && done_storing_B;
+    return x;
+  endmethod
+
+  method Action start() if (state == WaitingForReq);
+    // let r = reqFIFO.first();
+    // reqFIFO.deq();
+    $display("tracker: %d starting", tracker_id);
+    state <= Downloading;
+    done_storing_A <= False;
+    done_storing_B <= False;
     bram_write_addr_A <= 0;
     bram_write_addr_B <= 0;
     sub_frames_requested <= 0;
@@ -170,19 +186,11 @@ module mkWindowManager(IMemory iMem, TrackerID tracker_id, FIFO#(Vector#(2, Pixe
     sub_frame_row <= 0;
     sub_frame_col <= 0;
     num_pixel_pairs_output <= 0;
-    let ndx = r.ndx;
-    $display("window tracker got request: %d", ndx);
-    counter_A.reset(ndx);
-    let pos_B = ndx + fromInteger(((valueOf(WindowSizeA) - valueOf(WindowSizeB)) / 2) * (valueOf(ImageWidth) +1));
-    counter_B.reset(pos_B);
-  endrule
+  endmethod
 
 
-  interface Put req;
-    method Action put(WindowReq r);
-      reqFIFO.enq(r);
-    endmethod
-  endinterface
+  interface Put pxA = toPut(inFIFO_A);
+  interface Put pxB = toPut(inFIFO_B);
 endmodule
 
 

@@ -4,7 +4,8 @@ import Vector::*;
 import FIFO::*;
 
 typedef 2 NumTrackers;
-typedef UInt#(TAdd#(TLog#(NumTrackers), 1)) TrackerID;
+// typedef UInt#(TAdd#(TLog#(NumTrackers), 1)) TrackerID;
+typedef UInt#(TLog#(NumTrackers)) TrackerID;
 
 typedef 80 ImageWidth;
 typedef 60 ImageHeight;
