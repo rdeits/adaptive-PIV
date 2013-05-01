@@ -1,0 +1,46 @@
+iMPACT Version: Jan  6 2012 20:13:43
+
+iMPACT log file Started on Wed May  1 15:12:30 2013
+
+Preference Table
+Name                 Setting             
+StartupClock         Auto_Correction     
+AutoSignature        False               
+KeepSVF              False               
+ConcurrentMode       False               
+UseHighz             False               
+ConfigOnFailure      Stop                
+UserLevel            Novice              
+MessageLevel         Detailed            
+svfUseTime           false               
+SpiByteSwap          Auto_Correction     
+AutoInfer            false               
+SvfPlayDisplayComments false               
+'1': Loading file 'mkBridge.bit' ...
+done.
+INFO:iMPACT:1777 - 
+   Reading   /afs/csail.mit.edu/group/csg/tools/tools_lx86/xilinx/13.4/ISE_DS/ISE/virtex5/   data/xc5vlx110t.bsd...
+UserID read from the bitstream file = 0xFFFFFFFF.
+INFO:iMPACT:501 - '1': Added Device xc5vlx110t successfully.
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+INFO:iMPACT:794 - Creating SVF File   /home/rdeits/6.375-final-project/src/scemi/fpga/xilinx//XUPV5/cfg6/cfg6.svf..   .
+
+
+'1': Programming device...
+ Match_cycle = NoWait.
+Match cycle: NoWait
+ LCK_cycle = NoWait.
+LCK cycle: NoWait
+done.
+INFO:iMPACT:579 - '1': Completed downloading bit file to device.
+INFO:iMPACT:188 - '1': Programming completed successfully.
+ Match_cycle = NoWait.
+Match cycle: NoWait
+ LCK_cycle = NoWait.
+LCK cycle: NoWait
+INFO:iMPACT - '1': Checking done pin....done.
+'1': Programmed successfully.
+Creating Ace File/home/rdeits/6.375-final-project/src/scemi/fpga/xilinx//XUPV5/cfg6/cfg6.ace...
+INFO:iMPACT - "FREQUENCY 1000000.00 Hz" overridden by "-tck 33000000.00" option[/home/rdeits/6.375-final-project/src/scemi/fpga/xilinx//XUPV5/cfg6/cfg6.svf:line 9]:[;]
+Copy active xilinx.sys/home/rdeits/6.375-final-project/src/scemi/fpga/xilinx//XUPV5/xilinx.sys toroot.

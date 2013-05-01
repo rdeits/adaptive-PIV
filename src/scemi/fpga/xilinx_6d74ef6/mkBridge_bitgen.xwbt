@@ -1,0 +1,7 @@
+INFILE=/home/rdeits/6.375-final-project/src/scemi/fpga/xilinx/mkBridge.ncd
+OUTFILE=/home/rdeits/6.375-final-project/src/scemi/fpga/xilinx/mkBridge.bit
+FAMILY=Virtex5
+PART=xc5vlx110t-1ff1136
+WORKINGDIR=/home/rdeits/6.375-final-project/src/scemi/fpga/xilinx
+LICENSE=ISE
+USER_INFO=__176705590_176019658_176019660
