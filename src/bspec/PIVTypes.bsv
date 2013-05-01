@@ -3,7 +3,7 @@ import GetPut::*;
 import Vector::*;
 import FIFO::*;
 
-typedef 1 NumTrackers;
+typedef 2 NumTrackers;
 typedef UInt#(TAdd#(TLog#(NumTrackers), 1)) TrackerID;
 
 typedef 80 ImageWidth;
