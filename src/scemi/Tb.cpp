@@ -17,9 +17,11 @@ FILE* outfile = NULL;
 int main(int argc, char* argv[])
 {
 
+    fprintf(stderr, "1");
     int sceMiVersion = SceMi::Version( SCEMI_VERSION_STRING );
     SceMiParameters params("scemi.params");
     SceMi *sceMi = SceMi::Init(sceMiVersion, &params);
+    fprintf(stderr, "2");
 
     // Initialize the SceMi ports
     OutportQueueT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
@@ -28,17 +30,21 @@ int main(int argc, char* argv[])
     InportProxyT<ImagePacket> im_store_B("", "scemi_imstoreB_put_inport", sceMi);
     InportProxyT<ClearT> im_clear("", "scemi_imclear_put_inport", sceMi);
     InportProxyT<ClearT> im_done("", "scemi_imdone_put_inport", sceMi);
+    fprintf(stderr, "3");
 
     ResetXactor reset("", "scemi", sceMi);
     ShutdownXactor shutdown("", "scemi_shutdown", sceMi);
+    fprintf(stderr, "4");
 
     // Service SceMi requests
     SceMiServiceThread *scemi_service_thread = new SceMiServiceThread(sceMi);
 
     // Reset the dut.
     reset.reset();
+    fprintf(stderr, "5");
 
     im_clear.sendMessage(true);
+    fprintf(stderr, "6");
     char *line;
     size_t len = 0;
     int read;
