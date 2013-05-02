@@ -2,3 +2,6 @@
 02: no device
 03: good
 04: problem with FPGA?
+
+
+07: no device, generally no other users

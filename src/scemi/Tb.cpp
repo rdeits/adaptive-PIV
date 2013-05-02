@@ -38,10 +38,11 @@ int main(int argc, char* argv[])
 
     // Service SceMi requests
     SceMiServiceThread *scemi_service_thread = new SceMiServiceThread(sceMi);
+    fprintf(stderr, "5");
 
     // Reset the dut.
     reset.reset();
-    fprintf(stderr, "5");
+    fprintf(stderr, "6");
 
     im_clear.sendMessage(true);
     fprintf(stderr, "6");
