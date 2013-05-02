@@ -7,8 +7,8 @@ typedef 2 NumTrackers;
 // typedef UInt#(TAdd#(TLog#(NumTrackers), 1)) TrackerID;
 typedef UInt#(TLog#(NumTrackers)) TrackerID;
 
-typedef 80 ImageWidth;
-typedef 60 ImageHeight;
+typedef 800 ImageWidth;
+typedef 600 ImageHeight;
 typedef 4 PixelSz;
 typedef UInt#(PixelSz) Pixel;
 
