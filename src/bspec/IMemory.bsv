@@ -15,8 +15,8 @@ interface IMemory;
   method Action clear();
   method Action done_loading();
   method Bool is_loading();
-  method TrackerID get_current_tracker();
-  method Action next_tracker();
+  // method TrackerID get_current_tracker();
+  // method Action next_tracker();
   // method Action get_lock();
   // method Action release_lock();
   // method Pixel queue_first_A(TrackerID tracker_id);
@@ -33,7 +33,7 @@ module mkIMemory(IMemory);
   Reg#(Bool) loading <- mkReg(False);
   BRAM_Configure cfg = defaultValue;
   cfg.memorySize = valueOf(PixelsPerImage);
-  Reg#(TrackerID) current_tracker <- mkReg(0);
+  // Reg#(TrackerID) current_tracker <- mkReg(0);
   // FIFO#(TrackerID) req_info_q_A <- mkFIFO();
   // FIFO#(TrackerID) req_info_q_B <- mkFIFO();
   BRAM1Port#(PixelNdx, Pixel) bram_A <- mkBRAM1Server(cfg);
@@ -57,19 +57,19 @@ module mkIMemory(IMemory);
   //   memq_B[q].enq(r);
   // endrule
 
-  method TrackerID get_current_tracker();
-    let x = current_tracker;
-    return x;
-  endmethod
+  // method TrackerID get_current_tracker();
+  //   let x = current_tracker;
+  //   return x;
+  // endmethod
 
-  method Action next_tracker();
-    if (current_tracker < fromInteger(valueOf(NumTrackers) - 1)) begin
-      current_tracker <= current_tracker + 1;
-    end
-    else begin
-      current_tracker <= 0;
-    end
-  endmethod
+  // method Action next_tracker();
+  //   if (current_tracker < fromInteger(valueOf(NumTrackers) - 1)) begin
+  //     current_tracker <= current_tracker + 1;
+  //   end
+  //   else begin
+  //     current_tracker <= 0;
+  //   end
+  // endmethod
 
   interface Put req_A;
     method Action put(MemReq a) if (!loading);

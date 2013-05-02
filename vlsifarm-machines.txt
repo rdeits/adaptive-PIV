@@ -1,0 +1,4 @@
+01: no device
+02: no device
+03: good
+04: problem with FPGA?
