@@ -1,0 +1,608 @@
+--------------------------------------------------------------------------------
+Release 13.4 Trace  (lin64)
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+/afs/csail.mit.edu/group/csg/tools/tools_lx86/xilinx/13.4/ISE_DS/ISE/bin/lin64/unwrapped/trce
+-e 3 -u 3 -xml mkBridge.twx mkBridge.ncd mkBridge.pcf
+
+Design file:              mkBridge.ncd
+Physical constraint file: mkBridge.pcf
+Device,package,speed:     xc5vlx110t,ff1136,-1 (PRODUCTION 1.73 2012-01-07, STEPPING level 0)
+Report level:             error report
+                          unconstrained path report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+WARNING:Timing:3223 - Timing constraint TS_sync_uf_to_sf = MAXDELAY FROM 
+   TIMEGRP "uclock_flops" TO TIMEGRP        "scemi_clock_flops" TS_scemi_clock 
+   DATAPATHONLY; ignored during timing analysis.
+WARNING:Timing:3223 - Timing constraint TS_sync_sf_to_nf = MAXDELAY FROM 
+   TIMEGRP "scemi_clock_flops" TO TIMEGRP        "noc_flops" TS_scemi_clock 
+   DATAPATHONLY; ignored during timing analysis.
+WARNING:Timing:3223 - Timing constraint TS_sync_nf_to_sf = MAXDELAY FROM 
+   TIMEGRP "noc_flops" TO TIMEGRP        "scemi_clock_flops" TS_scemi_clock 
+   DATAPATHONLY; ignored during timing analysis.
+INFO:Timing:3386 - Intersecting Constraints found and resolved.  For more 
+   information, see the TSI report.  Please consult the Xilinx Command Line 
+   Tools User Guide for information on generating a TSI report.
+INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+================================================================================
+Timing constraint: TS_refclk_100 = PERIOD TIMEGRP "refclk_100" 100 MHz HIGH 
+50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 2 paths analyzed, 2 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is   4.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_pci_sys_clk_p = PERIOD TIMEGRP "pci_sys_clk_p" 100 MHz 
+HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   4.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_scemi_clock = PERIOD TIMEGRP "scemi_clock" 10 ns HIGH 50% 
+INPUT_JITTER 0.3         ns;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   1.666ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_uclock = PERIOD TIMEGRP "uclock" TS_scemi_clock * 2 HIGH 
+50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 159792 paths analyzed, 2601 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is   9.020ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_cclock = PERIOD TIMEGRP "cclock" TS_scemi_clock * 2 HIGH 
+50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 1101141 paths analyzed, 15604 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is  13.627ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_sf_to_uf = MAXDELAY FROM TIMEGRP "scemi_clock_flops" 
+TO TIMEGRP         "uclock_flops" TS_scemi_clock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 46324 paths analyzed, 1435 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors)
+ Maximum delay is   9.335ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_uf_to_sf = MAXDELAY FROM TIMEGRP "uclock_flops" TO 
+TIMEGRP         "scemi_clock_flops" TS_scemi_clock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_uf_to_cf = MAXDELAY FROM TIMEGRP "uclock_flops" TO 
+TIMEGRP         "cclock_flops" TS_uclock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 99 paths analyzed, 99 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors)
+ Maximum delay is   4.788ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_cf_to_uf = MAXDELAY FROM TIMEGRP "cclock_flops" TO 
+TIMEGRP         "uclock_flops" TS_uclock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 43 paths analyzed, 43 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors)
+ Maximum delay is   6.567ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_sf_to_nf = MAXDELAY FROM TIMEGRP "scemi_clock_flops" 
+TO TIMEGRP         "noc_flops" TS_scemi_clock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_uf_to_nf = MAXDELAY FROM TIMEGRP "uclock_flops" TO 
+TIMEGRP "noc_flops"         TS_uclock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 220 paths analyzed, 117 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors)
+ Maximum delay is   4.069ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_nf_to_sf = MAXDELAY FROM TIMEGRP "noc_flops" TO 
+TIMEGRP         "scemi_clock_flops" TS_scemi_clock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_sync_nf_to_uf = MAXDELAY FROM TIMEGRP "noc_flops" TO 
+TIMEGRP "uclock_flops"         TS_uclock DATAPATHONLY;
+For more information, see From:To (Multicycle) Analysis in the Timing Closure User Guide (UG612).
+
+ 22881 paths analyzed, 525 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors)
+ Maximum delay is   8.515ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_SYSCLK = PERIOD TIMEGRP "SYSCLK" 100 MHz HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   4.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_CLK_62 = PERIOD TIMEGRP "CLK_62" 62.5 MHz HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   8.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_MGTCLK = PERIOD TIMEGRP "MGTCLK" 100 MHz HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 298 paths analyzed, 66 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is   4.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_clk_gen_pll_CLKOUT0 = PERIOD TIMEGRP 
+"clk_gen_pll_CLKOUT0" TS_refclk_100         HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 10261 paths analyzed, 845 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is   6.668ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0 = 
+PERIOD TIMEGRP         "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0" 
+TS_pci_sys_clk_p         * 2.5 HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   4.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1 = 
+PERIOD TIMEGRP         "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1" 
+TS_pci_sys_clk_p         * 0.625 HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   8.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_0 = 
+PERIOD TIMEGRP         "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_0" 
+TS_SYSCLK * 2.5         HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   4.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_0 = 
+PERIOD TIMEGRP         "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_0" 
+TS_SYSCLK *         0.625 HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 0 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 component switching limit errors)
+ Minimum period is   8.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_1 = 
+PERIOD TIMEGRP         "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_1" 
+TS_MGTCLK * 2.5         HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 1335 paths analyzed, 797 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is   4.000ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_1 = 
+PERIOD TIMEGRP         "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_1" 
+TS_MGTCLK *         0.625 HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 6253455 paths analyzed, 36472 endpoints analyzed, 1 failing endpoint
+ 1 timing error detected. (1 setup error, 0 hold errors, 0 component switching limit errors)
+ Minimum period is  16.196ns.
+--------------------------------------------------------------------------------
+Slack:                  -0.049ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep (CPU)
+  Destination:          scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/management_interface/l0_dll_error_vector_d_3 (FF)
+  Requirement:          4.000ns
+  Data Path Delay:      3.400ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.436ns (3.483 - 3.919)
+  Source Clock:         scemi_pcie_ep/pcie_ep0/core_clk rising at 12.000ns
+  Destination Clock:    scemi_pcie_ep_trn_clk rising at 16.000ns
+  Clock Uncertainty:    0.213ns
+
+  Clock Uncertainty:          0.213ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter (TSJ):  0.070ns
+    Discrete Jitter (DJ):       0.172ns
+    Phase Error (PE):           0.120ns
+
+  Maximum Data Path: scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep to scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/management_interface/l0_dll_error_vector_d_3
+    Location                    Delay type         Delay(ns)  Physical Resource
+                                                              Logical Resource(s)
+    --------------------------------------------------------  -------------------
+    PCIE_X0Y0.L0DLLERRORVECTOR3 Tpcicko_CFG           1.641   scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep
+                                                              scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep
+    SLICE_X94Y80.D6             net (fanout=2)        1.731   scemi_pcie_ep/pcie_ep0/fe_l0_dll_error_vector<3>
+    SLICE_X94Y80.CLK            Tas                   0.028   scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/management_interface/l0_dll_error_vector_d<3>
+                                                              scemi_pcie_ep/pcie_ep0/extend_clk/l0_dll_error_vector_retime_3_or00001
+                                                              scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/management_interface/l0_dll_error_vector_d_3
+    --------------------------------------------------------  ---------------------------
+    Total                                             3.400ns (1.669ns logic, 1.731ns route)
+                                                              (49.1% logic, 50.9% route)
+
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: Unconstrained OFFSET OUT AFTER analysis for clock 
+"scemi_pcie_ep_trn_clk" 
+
+ 1 path analyzed, 1 endpoint analyzed, 0 failing endpoints
+ 0 timing errors detected.
+ Maximum allowable offset is  14.507ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: Unconstrained OFFSET OUT AFTER analysis for clock 
+"clk_gen_clk0buffer_O" 
+
+ 88 paths analyzed, 1 endpoint analyzed, 0 failing endpoints
+ 0 timing errors detected.
+ Maximum allowable offset is  10.474ns.
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: Unconstrained path analysis 
+
+ 19068 paths analyzed, 10572 endpoints analyzed, 153 failing endpoints
+ 153 timing errors detected. (0 setup errors, 153 hold errors)
+ Minimum period is  11.948ns.
+--------------------------------------------------------------------------------
+Hold Paths: Unconstrained path analysis 
+--------------------------------------------------------------------------------
+Slack (hold path):      -5.517ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               scemi_clk_port_rstgen_rstgen/rst_rnm0 (FF)
+  Destination:          scemi_init_state_msgFIFO/Mram_fifoMem1 (RAM)
+  Requirement:          0.000ns
+  Data Path Delay:      4.588ns (Levels of Logic = 2)
+  Positive Clock Path Skew: 9.778ns (9.254 - -0.524)
+  Source Clock:         clk_gen_clk0buffer_O rising
+  Destination Clock:    scemi_pcie_ep_trn_clk rising
+  Clock Uncertainty:    0.327ns
+
+  Clock Uncertainty:          0.327ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter (TSJ):  0.070ns
+    Discrete Jitter (DJ):       0.326ns
+    Phase Error (PE):           0.160ns
+
+  Minimum Data Path: scemi_clk_port_rstgen_rstgen/rst_rnm0 to scemi_init_state_msgFIFO/Mram_fifoMem1
+    Location                Delay type         Delay(ns)  Physical Resource
+                                                          Logical Resource(s)
+    ----------------------------------------------------  -------------------
+    SLICE_X31Y104.AQ        Tcko                  0.414   scemi_clk_port_rstgen_rstgen_OUT_RST
+                                                          scemi_clk_port_rstgen_rstgen/rst_rnm0
+    SLICE_X31Y101.C4        net (fanout=2)        0.471   scemi_clk_port_rstgen_rstgen_OUT_RST
+    SLICE_X31Y101.C         Tilo                  0.087   scemi_windowreq_put_inport_next_sp/sRST_inv
+                                                          scemi_rstgen_final_reset/RST_OUT1
+    SLICE_X92Y135.C6        net (fanout=220)      3.027   scemi_windowreq_put_inport_next_sp/sRST_inv
+    SLICE_X92Y135.C         Tilo                  0.087   scemi_init_state_msgFIFO_dEMPTY_N
+                                                          scemi_init_state_msgFIFO/dDoutReg_and00001
+    RAMB36_X3Y27.ENAU       net (fanout=3)        0.652   scemi_init_state_msgFIFO/dDoutReg_and0000
+    RAMB36_X3Y27.CLKARDCLKU Trckc_RDEN  (-Th)     0.150   scemi_init_state_msgFIFO/Mram_fifoMem2
+                                                          scemi_init_state_msgFIFO/Mram_fifoMem1
+    ----------------------------------------------------  ---------------------------
+    Total                                         4.588ns (0.438ns logic, 4.150ns route)
+                                                          (9.5% logic, 90.5% route)
+--------------------------------------------------------------------------------
+Slack (hold path):      -5.513ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               scemi_clk_port_rstgen_rstgen/rst_rnm0 (FF)
+  Destination:          scemi_init_state_msgFIFO/Mram_fifoMem2 (RAM)
+  Requirement:          0.000ns
+  Data Path Delay:      4.588ns (Levels of Logic = 2)
+  Positive Clock Path Skew: 9.774ns (9.250 - -0.524)
+  Source Clock:         clk_gen_clk0buffer_O rising
+  Destination Clock:    scemi_pcie_ep_trn_clk rising
+  Clock Uncertainty:    0.327ns
+
+  Clock Uncertainty:          0.327ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter (TSJ):  0.070ns
+    Discrete Jitter (DJ):       0.326ns
+    Phase Error (PE):           0.160ns
+
+  Minimum Data Path: scemi_clk_port_rstgen_rstgen/rst_rnm0 to scemi_init_state_msgFIFO/Mram_fifoMem2
+    Location                Delay type         Delay(ns)  Physical Resource
+                                                          Logical Resource(s)
+    ----------------------------------------------------  -------------------
+    SLICE_X31Y104.AQ        Tcko                  0.414   scemi_clk_port_rstgen_rstgen_OUT_RST
+                                                          scemi_clk_port_rstgen_rstgen/rst_rnm0
+    SLICE_X31Y101.C4        net (fanout=2)        0.471   scemi_clk_port_rstgen_rstgen_OUT_RST
+    SLICE_X31Y101.C         Tilo                  0.087   scemi_windowreq_put_inport_next_sp/sRST_inv
+                                                          scemi_rstgen_final_reset/RST_OUT1
+    SLICE_X92Y135.C6        net (fanout=220)      3.027   scemi_windowreq_put_inport_next_sp/sRST_inv
+    SLICE_X92Y135.C         Tilo                  0.087   scemi_init_state_msgFIFO_dEMPTY_N
+                                                          scemi_init_state_msgFIFO/dDoutReg_and00001
+    RAMB36_X3Y27.ENARDENL   net (fanout=3)        0.652   scemi_init_state_msgFIFO/dDoutReg_and0000
+    RAMB36_X3Y27.CLKARDCLKL Trckc_RDEN  (-Th)     0.150   scemi_init_state_msgFIFO/Mram_fifoMem2
+                                                          scemi_init_state_msgFIFO/Mram_fifoMem2
+    ----------------------------------------------------  ---------------------------
+    Total                                         4.588ns (0.438ns logic, 4.150ns route)
+                                                          (9.5% logic, 90.5% route)
+--------------------------------------------------------------------------------
+Slack (hold path):      -5.342ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               scemi_clk_port_rstgen_rstgen/rst_rnm0 (FF)
+  Destination:          scemi_init_state_msgFIFO/Mram_fifoMem3 (RAM)
+  Requirement:          0.000ns
+  Data Path Delay:      4.737ns (Levels of Logic = 2)
+  Positive Clock Path Skew: 9.752ns (9.228 - -0.524)
+  Source Clock:         clk_gen_clk0buffer_O rising
+  Destination Clock:    scemi_pcie_ep_trn_clk rising
+  Clock Uncertainty:    0.327ns
+
+  Clock Uncertainty:          0.327ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter (TSJ):  0.070ns
+    Discrete Jitter (DJ):       0.326ns
+    Phase Error (PE):           0.160ns
+
+  Minimum Data Path: scemi_clk_port_rstgen_rstgen/rst_rnm0 to scemi_init_state_msgFIFO/Mram_fifoMem3
+    Location                Delay type         Delay(ns)  Physical Resource
+                                                          Logical Resource(s)
+    ----------------------------------------------------  -------------------
+    SLICE_X31Y104.AQ        Tcko                  0.414   scemi_clk_port_rstgen_rstgen_OUT_RST
+                                                          scemi_clk_port_rstgen_rstgen/rst_rnm0
+    SLICE_X31Y101.C4        net (fanout=2)        0.471   scemi_clk_port_rstgen_rstgen_OUT_RST
+    SLICE_X31Y101.C         Tilo                  0.087   scemi_windowreq_put_inport_next_sp/sRST_inv
+                                                          scemi_rstgen_final_reset/RST_OUT1
+    SLICE_X92Y135.C6        net (fanout=220)      3.027   scemi_windowreq_put_inport_next_sp/sRST_inv
+    SLICE_X92Y135.C         Tilo                  0.087   scemi_init_state_msgFIFO_dEMPTY_N
+                                                          scemi_init_state_msgFIFO/dDoutReg_and00001
+    RAMB36_X3Y26.ENBWRENL   net (fanout=3)        0.801   scemi_init_state_msgFIFO/dDoutReg_and0000
+    RAMB36_X3Y26.CLKBWRCLKL Trckc_ENB   (-Th)     0.150   scemi_init_state_msgFIFO/Mram_fifoMem3
+                                                          scemi_init_state_msgFIFO/Mram_fifoMem3
+    ----------------------------------------------------  ---------------------------
+    Total                                         4.737ns (0.438ns logic, 4.299ns route)
+                                                          (9.2% logic, 90.8% route)
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: Pin to Pin Skew Constraint;
+
+ 3 paths analyzed, 0 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected.
+--------------------------------------------------------------------------------
+Slack:                  0.341ns (maxskew - uncertainty - (arrival1 - arrival2))
+  Max skew:             0.650ns
+  Arrival 1:            3.919ns scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep/CRMCORECLK
+  Arrival 2:            3.645ns scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep/CRMUSERCLK
+  Clock Uncertainty:    0.035ns
+
+--------------------------------------------------------------------------------
+Slack:                  0.341ns (maxskew - uncertainty - (arrival1 - arrival2))
+  Max skew:             0.650ns
+  Arrival 1:            3.918ns scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep/CRMCORECLKTXO
+  Arrival 2:            3.644ns scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep/CRMUSERCLKTXO
+  Clock Uncertainty:    0.035ns
+
+--------------------------------------------------------------------------------
+Slack:                  0.343ns (maxskew - uncertainty - (arrival1 - arrival2))
+  Max skew:             0.650ns
+  Arrival 1:            3.888ns scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep/CRMCORECLKRXO
+  Arrival 2:            3.616ns scemi_pcie_ep/pcie_ep0/pcie_blk/pcie_ep/CRMUSERCLKRXO
+  Clock Uncertainty:    0.035ns
+
+--------------------------------------------------------------------------------
+
+
+Derived Constraint Report
+Derived Constraints for TS_refclk_100
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|                               |   Period    |       Actual Period       |      Timing Errors        |      Paths Analyzed       |
+|           Constraint          | Requirement |-------------+-------------|-------------+-------------|-------------+-------------|
+|                               |             |   Direct    | Derivative  |   Direct    | Derivative  |   Direct    | Derivative  |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|TS_refclk_100                  |     10.000ns|      4.000ns|      6.668ns|            0|            0|            2|        10261|
+| TS_clk_gen_pll_CLKOUT0        |     10.000ns|      6.668ns|          N/A|            0|            0|        10261|            0|
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+
+Derived Constraints for TS_pci_sys_clk_p
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|                               |   Period    |       Actual Period       |      Timing Errors        |      Paths Analyzed       |
+|           Constraint          | Requirement |-------------+-------------|-------------+-------------|-------------+-------------|
+|                               |             |   Direct    | Derivative  |   Direct    | Derivative  |   Direct    | Derivative  |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|TS_pci_sys_clk_p               |     10.000ns|      4.000ns|     10.000ns|            0|            0|            0|            0|
+| TS_scemi_pcie_ep_pcie_ep0_pcie|      4.000ns|      4.000ns|          N/A|            0|            0|            0|            0|
+| _blk_clocking_i_clkout0       |             |             |             |             |             |             |             |
+| TS_scemi_pcie_ep_pcie_ep0_pcie|     16.000ns|      8.000ns|          N/A|            0|            0|            0|            0|
+| _blk_clocking_i_clkout1       |             |             |             |             |             |             |             |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+
+Derived Constraints for TS_scemi_clock
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|                               |   Period    |       Actual Period       |      Timing Errors        |      Paths Analyzed       |
+|           Constraint          | Requirement |-------------+-------------|-------------+-------------|-------------+-------------|
+|                               |             |   Direct    | Derivative  |   Direct    | Derivative  |   Direct    | Derivative  |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|TS_scemi_clock                 |     10.000ns|      1.666ns|      9.335ns|            0|            0|            0|      1330500|
+| TS_uclock                     |     20.000ns|      9.020ns|      8.515ns|            0|            0|       159792|        23243|
+|  TS_sync_uf_to_cf             |     20.000ns|      4.788ns|          N/A|            0|            0|           99|            0|
+|  TS_sync_cf_to_uf             |     20.000ns|      6.567ns|          N/A|            0|            0|           43|            0|
+|  TS_sync_uf_to_nf             |     20.000ns|      4.069ns|          N/A|            0|            0|          220|            0|
+|  TS_sync_nf_to_uf             |     20.000ns|      8.515ns|          N/A|            0|            0|        22881|            0|
+| TS_cclock                     |     20.000ns|     13.627ns|          N/A|            0|            0|      1101141|            0|
+| TS_sync_sf_to_uf              |     10.000ns|      9.335ns|          N/A|            0|            0|        46324|            0|
+| TS_sync_uf_to_sf              |     10.000ns|          N/A|          N/A|            0|            0|            0|            0|
+| TS_sync_sf_to_nf              |     10.000ns|          N/A|          N/A|            0|            0|            0|            0|
+| TS_sync_nf_to_sf              |     10.000ns|          N/A|          N/A|            0|            0|            0|            0|
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+
+Derived Constraints for TS_SYSCLK
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|                               |   Period    |       Actual Period       |      Timing Errors        |      Paths Analyzed       |
+|           Constraint          | Requirement |-------------+-------------|-------------+-------------|-------------+-------------|
+|                               |             |   Direct    | Derivative  |   Direct    | Derivative  |   Direct    | Derivative  |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|TS_SYSCLK                      |     10.000ns|      4.000ns|     10.000ns|            0|            0|            0|            0|
+| TS_scemi_pcie_ep_pcie_ep0_pcie|      4.000ns|      4.000ns|          N/A|            0|            0|            0|            0|
+| _blk_clocking_i_clkout0_0     |             |             |             |             |             |             |             |
+| TS_scemi_pcie_ep_pcie_ep0_pcie|     16.000ns|      8.000ns|          N/A|            0|            0|            0|            0|
+| _blk_clocking_i_clkout1_0     |             |             |             |             |             |             |             |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+
+Derived Constraints for TS_MGTCLK
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|                               |   Period    |       Actual Period       |      Timing Errors        |      Paths Analyzed       |
+|           Constraint          | Requirement |-------------+-------------|-------------+-------------|-------------+-------------|
+|                               |             |   Direct    | Derivative  |   Direct    | Derivative  |   Direct    | Derivative  |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|TS_MGTCLK                      |     10.000ns|      4.000ns|     10.123ns|            0|            1|          298|      6254790|
+| TS_scemi_pcie_ep_pcie_ep0_pcie|      4.000ns|      4.000ns|          N/A|            0|            0|         1335|            0|
+| _blk_clocking_i_clkout0_1     |             |             |             |             |             |             |             |
+| TS_scemi_pcie_ep_pcie_ep0_pcie|     16.000ns|     16.196ns|          N/A|            1|            0|      6253455|            0|
+| _blk_clocking_i_clkout1_1     |             |             |             |             |             |             |             |
++-------------------------------+-------------+-------------+-------------+-------------+-------------+-------------+-------------+
+
+2 constraints not met.
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Clock CLK_pci_sys_clk_n to Pad
+------------+------------+---------------------+--------+
+            | clk (edge) |                     | Clock  |
+Destination |   to PAD   |Internal Clock(s)    | Phase  |
+------------+------------+---------------------+--------+
+leds<0>     |   14.507(R)|scemi_pcie_ep_trn_clk|   0.000|
+------------+------------+---------------------+--------+
+
+Clock CLK_pci_sys_clk_p to Pad
+------------+------------+---------------------+--------+
+            | clk (edge) |                     | Clock  |
+Destination |   to PAD   |Internal Clock(s)    | Phase  |
+------------+------------+---------------------+--------+
+leds<0>     |   14.507(R)|scemi_pcie_ep_trn_clk|   0.000|
+------------+------------+---------------------+--------+
+
+Clock CLK_refclk_100 to Pad
+------------+------------+--------------------+--------+
+            | clk (edge) |                    | Clock  |
+Destination |   to PAD   |Internal Clock(s)   | Phase  |
+------------+------------+--------------------+--------+
+leds<1>     |   10.474(R)|clk_gen_clk0buffer_O|   0.000|
+------------+------------+--------------------+--------+
+
+Clock to Setup on destination clock CLK_pci_sys_clk_n
+-----------------+---------+---------+---------+---------+
+                 | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock     |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+-----------------+---------+---------+---------+---------+
+CLK_pci_sys_clk_n|   14.863|         |         |         |
+CLK_pci_sys_clk_p|   14.863|         |         |         |
+CLK_refclk_100   |   -2.610|         |         |         |
+-----------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock CLK_pci_sys_clk_p
+-----------------+---------+---------+---------+---------+
+                 | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock     |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+-----------------+---------+---------+---------+---------+
+CLK_pci_sys_clk_n|   14.863|         |         |         |
+CLK_pci_sys_clk_p|   14.863|         |         |         |
+CLK_refclk_100   |   -2.610|         |         |         |
+-----------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock CLK_refclk_100
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+CLK_refclk_100 |    6.668|         |    2.574|    1.545|
+---------------+---------+---------+---------+---------+
+
+
+Timing summary:
+---------------
+
+Timing errors: 154  Score: 344750  (Setup/Max: 49, Hold: 344701)
+
+Constraints cover 7615008 paths, 0 nets, and 86867 connections
+
+Design statistics:
+   Minimum period:  16.196ns   (Maximum frequency:  61.744MHz)
+   Maximum path delay from/to any node:   9.335ns
+   Maximum output delay after clock:  14.507ns
+
+
+Analysis completed Wed May  1 21:41:03 2013 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 997 MB
+
+
+
