@@ -24,7 +24,7 @@ im_pair = get_image_pair(image_dir)
 bspec_im_width = int(subprocess.check_output('cat ../bspec/PIVTypes.bsv | grep "ImageWidth;"', shell=True).split(' ')[1])
 
 if bspec_im_width != im_pair.A.size[0]:
-    print "WARNING: Image width doesn't match parameters used when compling bspec file. Press Enter to continue anyway."
+    print >> sys.stderr, "WARNING: Image width doesn't match parameters used when compling bspec file. Press Enter to continue anyway."
     raw_input()
 
 for im in im_pair:
