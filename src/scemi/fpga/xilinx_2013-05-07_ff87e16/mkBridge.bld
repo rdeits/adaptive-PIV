@@ -1,0 +1,1433 @@
+Release 13.4 ngdbuild O.87xd (lin64)
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+Command Line:
+/afs/csail.mit.edu/group/csg/tools/tools_lx86/xilinx/13.4/ISE_DS/ISE/bin/lin64/u
+nwrapped/ngdbuild -intstyle ise -dd ./_ngo -nt timestamp -aut -uc default.ucf -p
+xc5vlx110tff1136-1 mkBridge.ngc mkBridge.ngd
+
+Reading NGO file
+"/afs/athena.mit.edu/user/r/d/rdeits/6.375-final-project/src/scemi/fpga/xilinx/m
+kBridge.ngc" ...
+Gathering constraint information from source properties...
+Done.
+
+Annotating constraints to design from ucf file "default.ucf" ...
+Resolving constraint associations...
+Checking Constraint Associations...
+WARNING:ConstraintSystem:137 - Constraint <NET    "CLK_clk200" TNM_NET =
+   "SYS_clk200";> [default.ucf(45)]: No appropriate instances for the TNM
+   constraint are driven by "CLK_clk200".
+
+WARNING:ConstraintSystem:56 - Constraint <TIMESPEC "TS_SYS_clk200" = PERIOD
+   "SYS_clk200" 200 MHz HIGH 50%;> [default.ucf(46)]: Unable to find an active
+   'TNM' or 'TimeGrp' constraint named 'SYS_clk200'.
+
+INFO:ConstraintSystem:178 - TNM 'refclk_100', used in period specification
+   'TS_refclk_100', was traced into PLL_ADV instance clk_gen_pll. The following
+   new TNM groups and period specifications were generated at the PLL_ADV
+   output(s): 
+   CLKOUT0: <TIMESPEC TS_clk_gen_pll_CLKOUT0 = PERIOD "clk_gen_pll_CLKOUT0"
+   TS_refclk_100 HIGH 50%>
+
+WARNING:ConstraintSystem:191 - The TNM 'SYS_clk200', does not directly or
+   indirectly drive any flip-flops, latches and/or RAMS and cannot be actively
+   used by the referencing Period constraint 'TS_SYS_clk200'. If clock manager
+   blocks are directly or indirectly driven, a new TNM constraint will not be
+   derived even though the referencing constraint is a PERIOD constraint unless
+   an output of the clock manager drives flip-flops, latches or RAMs. This TNM
+   is used in the following user PERIOD specification:
+   <TIMESPEC "TS_SYS_clk200" = PERIOD "SYS_clk200" 200 MHz HIGH 50%;>
+   [default.ucf(46)]
+
+WARNING:ConstraintSystem:197 - The following specification is invalid because
+   the referenced TNM constraint was removed:
+   <TIMESPEC "TS_SYS_clk200" = PERIOD "SYS_clk200" 200 MHz HIGH 50%;>
+   [default.ucf(46)]
+
+INFO:ConstraintSystem:178 - TNM 'pci_sys_clk_p', used in period specification
+   'TS_pci_sys_clk_p', was traced into PLL_ADV instance use_pll.pll_adv_i. The
+   following new TNM groups and period specifications were generated at the
+   PLL_ADV output(s): 
+   CLKOUT0: <TIMESPEC TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0 =
+   PERIOD "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0" TS_pci_sys_clk_p
+   * 2.5 HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'pci_sys_clk_p', used in period specification
+   'TS_pci_sys_clk_p', was traced into PLL_ADV instance use_pll.pll_adv_i. The
+   following new TNM groups and period specifications were generated at the
+   PLL_ADV output(s): 
+   CLKOUT1: <TIMESPEC TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1 =
+   PERIOD "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1" TS_pci_sys_clk_p
+   * 0.625 HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'SYSCLK', used in period specification
+   'TS_SYSCLK', was traced into PLL_ADV instance use_pll.pll_adv_i. The
+   following new TNM groups and period specifications were generated at the
+   PLL_ADV output(s): 
+   CLKOUT0: <TIMESPEC TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_0 =
+   PERIOD "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_0" TS_SYSCLK * 2.5
+   HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'SYSCLK', used in period specification
+   'TS_SYSCLK', was traced into PLL_ADV instance use_pll.pll_adv_i. The
+   following new TNM groups and period specifications were generated at the
+   PLL_ADV output(s): 
+   CLKOUT1: <TIMESPEC TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_0 =
+   PERIOD "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_0" TS_SYSCLK *
+   0.625 HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'MGTCLK', used in period specification
+   'TS_MGTCLK', was traced into PLL_ADV instance use_pll.pll_adv_i. The
+   following new TNM groups and period specifications were generated at the
+   PLL_ADV output(s): 
+   CLKOUT0: <TIMESPEC TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_1 =
+   PERIOD "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout0_1" TS_MGTCLK * 2.5
+   HIGH 50%>
+
+INFO:ConstraintSystem:178 - TNM 'MGTCLK', used in period specification
+   'TS_MGTCLK', was traced into PLL_ADV instance use_pll.pll_adv_i. The
+   following new TNM groups and period specifications were generated at the
+   PLL_ADV output(s): 
+   CLKOUT1: <TIMESPEC TS_scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_1 =
+   PERIOD "scemi_pcie_ep_pcie_ep0_pcie_blk_clocking_i_clkout1_1" TS_MGTCLK *
+   0.625 HIGH 50%>
+
+Done...
+
+Checking expanded design ...
+WARNING:NgdBuild:452 - logical net 'scemi_arbiter/tlp_out_to_bus_get<144>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_arbiter/tlp_out_to_bus_get<145>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_arbiter/tlp_out_to_bus_get<146>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_arbiter/tlp_out_to_bus_get<147>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_arbiter/tlp_out_to_bus_get<148>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_arbiter/tlp_out_to_bus_get<149>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_arbiter/tlp_out_to_bus_get<150>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<128>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<129>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<130>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<131>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<132>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<133>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<134>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<135>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<136>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<137>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<138>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<139>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<140>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<141>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<142>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_fifo_D_OUT<143>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<128>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<129>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<130>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<131>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<132>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<133>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<134>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<135>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<136>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<137>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<138>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<139>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<140>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<141>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<142>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_in_from_bus_put<143>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<128>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<129>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<130>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<131>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<132>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<133>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<134>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<135>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<136>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<137>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<138>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<139>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<140>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<141>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<142>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<143>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_config_get<151>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<128>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<129>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<130>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<131>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<132>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<133>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<134>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<135>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<136>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<137>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<138>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<139>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<140>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<141>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<142>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<143>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<144>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<145>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<146>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<147>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<148>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<149>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_dispatcher/tlp_out_to_dma_get<150>'
+   has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<11>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<12>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<13>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<14>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<15>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_command<9>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dcommand<10>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dcommand<11>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dcommand<15>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dcommand<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dcommand<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dcommand<8>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<10>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<11>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<12>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<13>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<14>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<15>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<16>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<17>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<18>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<19>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<20>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<21>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<22>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<23>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<24>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<25>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<26>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<27>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<28>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<29>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<30>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<31>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<8>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_do<9>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<10>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<11>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<12>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<13>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<14>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<15>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<8>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_dstatus<9>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_err_cpl_rdy_n' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<10>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<11>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<12>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<13>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<14>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<15>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<8>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lcommand<9>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<10>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<11>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<12>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<13>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<14>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<15>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<8>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_lstatus<9>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_pcie_link_state_n<0>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_pcie_link_state_n<1>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_pcie_link_state_n<2>' has
+   no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_rd_wr_done_n' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<10>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<11>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<12>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<13>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<14>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<15>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<8>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_status<9>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/cfg_to_turnoff_n' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rerrfwd_n' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<0>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<5>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<6>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_nph_av<7>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<0>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<10>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<11>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<5>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<6>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<7>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<8>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_pd_av<9>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<0>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<5>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<6>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rfc_ph_av<7>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rrem_n<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_rsrc_dsc_n' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_tbuf_av<0>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_tbuf_av<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_tbuf_av<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_tbuf_av<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_tdst_dsc_n' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_trem_n<1>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_trem_n<2>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_trem_n<3>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_trem_n<4>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_trem_n<5>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_trem_n<6>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/trn_trem_n<7>' has no driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<0>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<5>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<6>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<7>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<8>' has no
+   driver
+WARNING:NgdBuild:452 - logical net 'scemi_pcie_ep/pcie_ep0/cfg_dwaddr<9>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/fe_l0_dll_error_vector_ext<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/fe_l0_dll_error_vector_ext<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/fe_l0_dll_error_vector_ext<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/fe_l0_rx_mac_link_error_ext<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_pmcsr<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar0<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<16>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<17>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<18>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<19>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<20>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<21>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<22>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<23>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<24>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<25>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<26>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<27>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<28>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<29>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<30>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<31>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar2<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<16>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<17>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<18>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<19>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<20>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<21>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<22>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<23>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<24>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<25>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<26>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<27>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<28>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<29>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<30>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<31>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar3<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<16>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<17>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<18>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<19>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<20>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<21>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<22>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<23>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<24>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<25>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<26>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<27>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<28>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<29>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<30>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<31>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar4<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<16>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<17>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<18>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<19>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<20>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<21>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<22>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<23>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<24>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<25>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<26>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<27>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<28>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<29>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<30>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<31>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_bar5<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cfg_rx_xrom<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_arb_trem_n<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_arb_trem_n<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_arb_trem_n<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_arb_trem_n<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_arb_trem_n<5>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_arb_trem_n<6>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_arb_trem_n<7>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<16>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<17>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<18>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<19>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<20>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<21>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<22>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<23>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<24>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<25>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<26>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<27>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<28>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<29>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<30>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<31>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_dcap<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgctrl<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgladdr<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_msgladdr<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<16>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<17>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<18>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<19>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<20>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<21>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<22>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<23>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<24>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<25>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<26>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<27>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<28>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<29>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<30>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cfg_pmcsr<31>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/cs_is_pm' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<10>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<11>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<12>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<13>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<14>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<15>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<16>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<17>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<18>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<19>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<20>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<21>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<22>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<23>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<24>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<25>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<26>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<27>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<28>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<29>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<30>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<31>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<32>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<33>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<34>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<35>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<36>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<37>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<38>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<39>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<40>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<41>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<42>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<43>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<44>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<45>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<46>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<47>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<49>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/request_data<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/cf_bridge/interrupt_interface/signaledint
+   ' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/clear_cpl_count' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/err_tlp_uc' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/npd_credit_limited' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_ch_credits_received<4>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_ch_credits_received<5>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_ch_credits_received<6>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_ch_credits_received<7>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_ch_credits_received_inc' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_cpld_cl<0>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_cpld_cl<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_cpld_cl<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_cpld_cl<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_cpld_cl<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<0>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<10>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<11>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<5>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<6>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<7>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<8>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_npd_cl<9>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<0>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<1>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<2>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<3>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<4>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<5>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<6>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/trn_pfc_nph_cl<7>' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<0>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<10>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<11>'
+   has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<1>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<2>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<3>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<4>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<5>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<6>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<7>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<8>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_available<9>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<0>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<10>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<11>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<1>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<2>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<3>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<4>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<5>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<6>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<7>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<8>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_cd_credits_consumed<9>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_ch_credits_consumed<5>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_ch_credits_consumed<6>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_ch_credits_consumed<7>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/tx_bridge/tx_src_dsc_n' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<0>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<10>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<11>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<12>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<13>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<14>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<15>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<16>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<17>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<18>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<19>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<1>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<20>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<21>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<22>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<23>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<24>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<25>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<26>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<27>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<28>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<29>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<2>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<30>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<31>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<32>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<33>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<34>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<35>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<36>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<37>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<38>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<39>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<3>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<40>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<41>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<42>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<43>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<44>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<45>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<46>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<4>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<5>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<6>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<7>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<8>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/check_raddr<9>' has
+   no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/fifo_pcpl_req' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_preeof' has no
+   driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_as_nak_l1
+   _o' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<0>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<1>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<2>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<3>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<4>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<5>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<6>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<7>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<8>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_data_o<9>' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_set_slot_
+   pwr_o' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/snk_inst/pm_turn_off_
+   o' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/fifo_inst/oq_dout<68>
+   ' has no driver
+WARNING:NgdBuild:452 - logical net
+   'scemi_pcie_ep/pcie_ep0/pcie_blk_if/ll_bridge/rx_bridge/fifo_inst/oq_dout<69>
+   ' has no driver
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings: 659
+
+Total memory usage is 536748 kilobytes
+
+Writing NGD file "mkBridge.ngd" ...
+Total REAL time to NGDBUILD completion:  57 sec
+Total CPU time to NGDBUILD completion:   56 sec
+
+Writing NGDBUILD log file "mkBridge.bld"...

@@ -1,0 +1,16 @@
+Release 13.4 - WebTalk (O.87xd)
+Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.
+
+Project Information
+--------------------
+ProjectID=89c3918244154c5eb8349e40e8ecd6ae
+ProjectIteration=2
+
+WebTalk Summary
+----------------
+INFO:WebTalk:2 - WebTalk is enabled.
+
+INFO:WebTalk:8 - WebTalk Install setting is ON.
+INFO:WebTalk:6 - WebTalk User setting is ON.
+
+INFO:WebTalk:5 - /afs/athena.mit.edu/user/r/d/rdeits/6.375-final-project/src/scemi/fpga/xilinx/usage_statistics_webtalk.html WebTalk report has not been sent to Xilinx.  Please check your network and proxy settings.  For additional details about this file, please refer to the WebTalk help file at /afs/csail.mit.edu/group/csg/tools/tools_lx86/xilinx/13.4/ISE_DS/ISE/data/reports/webtalk_introduction.html
