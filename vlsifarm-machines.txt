@@ -2,6 +2,7 @@
 02: no device
 03: good
 04: problem with FPGA?
-
-
+05: FATAL: Module bluenoc not found.
+06: no response
 07: no device, generally no other users
+08: FATAL: Module bluenoc not found.
