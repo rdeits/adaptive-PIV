@@ -129,7 +129,7 @@ module [Module] mkPIV(PIV);
     current_tracker_in <= 0;
   endmethod
 
-  method Action done_loading() if (state == LoadingImages && !packet_buffer_A.notEmpty() && !packet_buffer_B.notEmpty()));
+  method Action done_loading() if (state == LoadingImages && !packet_buffer_A.notEmpty() && !packet_buffer_B.notEmpty());
     iMem.done_loading();
     state <= WaitingForReq;
   endmethod
