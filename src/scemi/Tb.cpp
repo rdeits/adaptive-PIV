@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
     fprintf(stderr, "2");
 
     // Initialize the SceMi ports
-    OutportProxyT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
+    OutportQueueT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
     // disp_get.setCallBack(out_cb, NULL);
 
     InportProxyT<WindowReq> window_req("", "scemi_windowreq_put_inport", sceMi);
