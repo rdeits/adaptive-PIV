@@ -50,25 +50,6 @@ module mkWindowManager(TrackerID tracker_id, FIFO#(Vector#(2, Pixel)) m2a, Windo
   cfg_B.memorySize = valueOf(PixelsPerWindowB);
   BRAM1Port#(WindowPixelAddrB, Pixel) bram_B <- mkBRAM1Server(cfg_B);
 
-  // rule request_lock if (state == WaitingForLock && iMem.get_current_tracker() == tracker_id);
-  //   $display("got lock");
-  //   state <= Downloading;
-  //   done_storing_A <= False;
-  //   done_storing_B <= False;
-  // endrule
-
-  // rule request_download_A if (state == Downloading && !counter_A.done());
-  //   let addr <- counter_A.get_addr();
-  //   // $display("requesting download A at addr: %d", addr);
-  //   iMem.req_A.put(MemReq{addr: addr, tracker_id: tracker_id});
-  // endrule
-
-  // rule request_download_B if (state == Downloading && !counter_B.done());
-  //   let addr <- counter_B.get_addr();
-  //   // $display("requesting download B at addr: %d", addr);
-  //   iMem.req_B.put(MemReq{addr: addr, tracker_id: tracker_id});
-  // endrule
-
   rule store_download_A if (!done_storing_A && state == Downloading);
     // Pixel new_pixel = iMem.queue_first_A(tracker_id);
     // Pixel new_pixel <- iMem.resp_A.get();

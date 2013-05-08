@@ -29,23 +29,10 @@ module mkWindowTracker(TrackerID tracker_id, WindowTracker ifc);
   method Action start = manager.start;
   interface Put pxA = manager.pxA;
   interface Put pxB = manager.pxB;
-  // interface Put request;
-  //   method Action put(WindowReq r);
-  //     manager.req.put(r);
-  //     req_ndx_f.enq(r.ndx);
-  //     $display("got request for index: %d", r.ndx);
-  //     // iMem.req.put(truncate(r.ndx));
-  //   endmethod
-  // endinterface
 
   interface Get resp;
     method ActionValue#(Displacements) get();
-      // let x <- iMem.resp.get();
-      // let ret = Displacements{u: x, v: x};
       let x <- tracker.resp.get();
-      // x.ndx = req_ndx_f.first();
-      // req_ndx_f.deq();
-      // x.ndx = current_ndx;
       return x;
     endmethod
   endinterface
