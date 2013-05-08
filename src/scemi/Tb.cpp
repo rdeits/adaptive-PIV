@@ -12,12 +12,12 @@
 #define PIXELS_PER_MSG 8
 
 
-void out_cb(void* x, const Displacements& dispmsg)
-{
-    static int cnt = 1;
-    fprintf(stdout, "%i: $%d\n$%d\n$%d\n", cnt, (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
-    cnt++;
-}
+// void out_cb(void* x, const Displacements& dispmsg)
+// {
+//     static int cnt = 1;
+//     fprintf(stdout, "%i: $%d\n$%d\n$%d\n", cnt, (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+//     cnt++;
+// }
 
 int main(int argc, char* argv[])
 {
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 
     // Initialize the SceMi ports
     OutportProxyT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
-    disp_get.setCallBack(out_cb, NULL);
+    // disp_get.setCallBack(out_cb, NULL);
 
     InportProxyT<WindowReq> window_req("", "scemi_windowreq_put_inport", sceMi);
     InportProxyT<ImagePacket> im_store_A("", "scemi_imstoreA_put_inport", sceMi);
@@ -92,6 +92,7 @@ int main(int argc, char* argv[])
     fprintf(stderr, "Finished storing image B\n");
 
     WindowReq winmsg;
+    Displacements dispmsg;
     int num_requests = 0;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
@@ -104,24 +105,21 @@ int main(int argc, char* argv[])
                 num_requests++;
             }
         }
+        bool got_msg = disp_get.getMessageNonBlocking(dispmsg);
+        if (got_msg) {
+            num_requests--;
+            fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+            fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+        }
     }
-//    Displacements dispmsg;
-//    for (int i = 0; i < num_requests; i++) {
-//        dispmsg = disp_get.getMessage();
-//        fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
-//        fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
-//    }
-    fprintf(stderr, "Waiting for %i displacements... (press enter when ready)", num_requests);
-    getchar();
+    for (int i = 0; i < num_requests; i++) {
+        dispmsg = disp_get.getMessage();
+        fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v); 
+        fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v);
+    }
+    // fprintf(stderr, "Waiting for %i displacements... (press enter when ready)", num_requests);
+    // getchar();
     fprintf(stderr, "Finished tracking\n");
-    // winmsg.m_size = 40;
-    // for (int i = 0; i < 1; i++) {
-    //     winmsg.m_ndx = i * 8;
-    //     window_req.sendMessage(winmsg);
-    //     dispmsg = disp_get.getMessage();
-    //     fprintf(stdout, "Tb got %d %d\n", (int)dispmsg.m_u, (int)dispmsg.m_v);
-    // }
-// 
 
     shutdown.blocking_send_finish();
     scemi_service_thread->stop();
