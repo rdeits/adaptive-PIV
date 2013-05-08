@@ -107,27 +107,6 @@ module mkIMemory(IMemory);
     endmethod
   endinterface
 
-  // method Pixel queue_first_A(TrackerID tracker_id);
-  //   let r = memq_A[tracker_id].first();
-  //   // let r = memq_A[0].first();
-  //   return r;
-  // endmethod
-
-  // method Pixel queue_first_B(TrackerID tracker_id);
-  //   let r = memq_B[tracker_id].first();
-  //   return r;
-  // endmethod
-
-  // method Action queue_deq_A(TrackerID tracker_id);
-  //   $display("deq A");
-  //   memq_A[tracker_id].deq();
-  //   // memq_A[0].deq();
-  // endmethod
-
-  // method Action queue_deq_B(TrackerID tracker_id);
-  //   memq_B[tracker_id].deq();
-  // endmethod
-
   interface Put store_A;
     method Action put(Pixel x) if (loading);
       bram_A.portA.request.put(BRAMRequest {

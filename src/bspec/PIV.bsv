@@ -4,6 +4,7 @@ import GetPut::*;
 import WindowTracker::*;
 import ClientServer::*;
 import FIFO::*;
+import FIFOF::*;
 import Vector::*;
 import AddrCounter::*;
 
@@ -16,7 +17,7 @@ interface PIV;
   method Action done_loading();
 endinterface
 
-typedef enum {WaitingForReq, Downloading} PIVState deriving (Bits, Eq);
+typedef enum {LoadingImages, WaitingForReq, Downloading} PIVState deriving (Bits, Eq);
 
 (* synthesize *)
 module [Module] mkPIV(PIV);
@@ -28,8 +29,8 @@ module [Module] mkPIV(PIV);
   Reg#(TrackerID) next_tracker_in <- mkReg(0);
   Reg#(TrackerID) current_tracker_in <- mkReg(0);
   Reg#(TrackerID) next_tracker_out <- mkReg(0);
-  FIFO#(ImagePacket) packet_buffer_A <- mkFIFO();
-  FIFO#(ImagePacket) packet_buffer_B <- mkFIFO();
+  FIFOF#(ImagePacket) packet_buffer_A <- mkFIFOF();
+  FIFOF#(ImagePacket) packet_buffer_B <- mkFIFOF();
   FIFO#(WindowReq) reqFIFO <- mkFIFO();
   FIFO#(PixelNdx) req_ndxFIFO <- mkFIFO();
   Reg#(UInt#(TLog#(ImagePacketSize))) packet_offset_A <- mkReg(0);
@@ -42,7 +43,7 @@ module [Module] mkPIV(PIV);
   AddrCounter counter_B <- mkCounter(winsizeB, imwidth);
   Reg#(PIVState) state <- mkReg(WaitingForReq);
 
-  rule load_mem_A;
+  rule load_mem_A if (state == LoadingImages);
     let p = packet_buffer_A.first();
     iMem.store_A.put(p[packet_offset_A]);
     if (packet_offset_A == fromInteger(valueOf(ImagePacketSize) - 1)) begin
@@ -51,7 +52,7 @@ module [Module] mkPIV(PIV);
     packet_offset_A <= packet_offset_A + 1;
   endrule
 
-  rule load_mem_B;
+  rule load_mem_B if (state == LoadingImages);
     let p = packet_buffer_B.first();
     iMem.store_B.put(p[packet_offset_B]);
     if (packet_offset_B == fromInteger(valueOf(ImagePacketSize) - 1)) begin
@@ -60,7 +61,7 @@ module [Module] mkPIV(PIV);
     packet_offset_B <= packet_offset_B + 1;
   endrule
 
-  rule start_next_tracker if (!iMem.is_loading && state == WaitingForReq);
+  rule start_next_tracker if (state == WaitingForReq);
     state <= Downloading;
     let r = reqFIFO.first();
     reqFIFO.deq();
@@ -75,27 +76,27 @@ module [Module] mkPIV(PIV);
     next_tracker_in <= next_tracker_in + 1;
   endrule
 
-  rule request_download_A if (!iMem.is_loading && state == Downloading && !counter_A.done());
+  rule request_download_A if (state == Downloading && !counter_A.done());
     let addr <- counter_A.get_addr();
     iMem.req_A.put(MemReq{addr: addr, tracker_id: current_tracker_in});
   endrule
 
-  rule request_download_B if (!iMem.is_loading && state == Downloading && !counter_B.done());
+  rule request_download_B if (state == Downloading && !counter_B.done());
     let addr <- counter_B.get_addr();
     iMem.req_B.put(MemReq{addr: addr, tracker_id: current_tracker_in});
   endrule
 
-  rule send_download_A if (!iMem.is_loading && state == Downloading);
+  rule send_download_A if (state == Downloading);
     Pixel new_pixel <- iMem.resp_A.get();
     trackers[current_tracker_in].pxA.put(new_pixel);
   endrule
 
-  rule send_download_B if (!iMem.is_loading && state == Downloading);
+  rule send_download_B if (state == Downloading);
     Pixel new_pixel <- iMem.resp_B.get();
     trackers[current_tracker_in].pxB.put(new_pixel);
   endrule
 
-  rule finish_downloading if (!iMem.is_loading && trackers[current_tracker_in].is_done_storing() && state == Downloading);
+  rule finish_downloading if (trackers[current_tracker_in].is_done_storing() && state == Downloading);
     state <= WaitingForReq;
   endrule
 
@@ -110,26 +111,27 @@ module [Module] mkPIV(PIV);
   method Action put_window_req(WindowReq req) if (!iMem.is_loading);
     reqFIFO.enq(req);
     req_ndxFIFO.enq(req.ndx);
-    // trackers[next_tracker_in].request.put(req);
-    // next_tracker_in <= next_tracker_in + 1;
   endmethod
 
   method Action store_image_A(ImagePacket p);
     packet_buffer_A.enq(p);
-    // iMem.store_A.put(p);
   endmethod
 
   method Action store_image_B(ImagePacket p);
     packet_buffer_B.enq(p);
-    // iMem.store_B.put(p);
   endmethod
 
   method Action clear_image();
     iMem.clear();
+    state <= LoadingImages;
+    next_tracker_in <= 0;
+    next_tracker_out <= 0;
+    current_tracker_in <= 0;
   endmethod
 
-  method Action done_loading() if (iMem.is_loading);
+  method Action done_loading() if (state == LoadingImages && !packet_buffer_A.notEmpty() && !packet_buffer_B.notEmpty()));
     iMem.done_loading();
+    state <= WaitingForReq;
   endmethod
 
 endmodule
