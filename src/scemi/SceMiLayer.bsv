@@ -5,7 +5,6 @@ import GetPut::*;
 import DefaultValue::*;
 import SceMi::*;
 import Clocks::*;
-import ResetXactor::*;
 
 import PIVTypes::*;
 import PIV::*;
@@ -23,14 +22,13 @@ module [SceMiModule] mkSceMiLayer();
     SceMiClockConfiguration conf = defaultValue;
 
     SceMiClockPortIfc clk_port <- mkSceMiClockPort(conf);
-    DutInterface dut <- buildDutWithSoftReset(mkDutWrapper, clk_port);
+    DutInterface dut <- buildDut(mkDutWrapper, clk_port);
 
     Empty dispget <- mkDispXactor(dut, clk_port);
     Empty windowreq <- mkWindowReqXactor(dut, clk_port);
     Empty imstoreA <- mkStoreAXactor(dut, clk_port);
     Empty imstoreB <- mkStoreBXactor(dut, clk_port);
-    Empty imclear <- mkClearXactor(dut, clk_port);
-    Empty imdone <- mkDoneLoadingXactor(dut, clk_port);
+    Empty imclear <- mkClearDoneXactor(dut, clk_port);
 
     Empty shutdown <- mkShutdownXactor();
 endmodule
@@ -67,20 +65,18 @@ module [SceMiModule] mkStoreBXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empt
     Empty put <- mkPutXactor(req, clk_port);
 endmodule
 
-module [SceMiModule] mkClearXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
+module [SceMiModule] mkClearDoneXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
 
-    Put#(ClearT) req = interface Put;
-        method Action put(ClearT x) = piv.clear_image();
+    Put#(Bit#(1)) req = interface Put;
+        method Action put(Bit#(1) x);
+            if (x == 0) begin
+                 piv.clear_image();
+            end else begin
+                piv.done_loading();
+            end
+        endmethod
     endinterface;
 
     Empty put <- mkPutXactor(req, clk_port);
 endmodule
 
-module [SceMiModule] mkDoneLoadingXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empty);
-
-    Put#(ClearT) req = interface Put;
-        method Action put(ClearT x) = piv.done_loading();
-    endinterface;
-
-    Empty put <- mkPutXactor(req, clk_port);
-endmodule

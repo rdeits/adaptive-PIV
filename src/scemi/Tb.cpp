@@ -7,12 +7,17 @@
 
 #include "bsv_scemi.h"
 #include "SceMiHeaders.h"
-#include "ResetXactor.h"
 
 #define PIXEL_DEPTH 4
 #define PIXELS_PER_MSG 8
 
-FILE* outfile = NULL;
+
+void out_cb(void* x, const Displacements& dispmsg)
+{
+    static int cnt = 1;
+    fprintf(stdout, "%i: $%d\n$%d\n$%d\n", cnt, (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+    cnt++;
+}
 
 int main(int argc, char* argv[])
 {
@@ -24,15 +29,15 @@ int main(int argc, char* argv[])
     fprintf(stderr, "2");
 
     // Initialize the SceMi ports
-    OutportQueueT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
+    OutportProxyT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
+    disp_get.setCallBack(out_cb, NULL);
+
     InportProxyT<WindowReq> window_req("", "scemi_windowreq_put_inport", sceMi);
     InportProxyT<ImagePacket> im_store_A("", "scemi_imstoreA_put_inport", sceMi);
     InportProxyT<ImagePacket> im_store_B("", "scemi_imstoreB_put_inport", sceMi);
-    InportProxyT<ClearT> im_clear("", "scemi_imclear_put_inport", sceMi);
-    InportProxyT<ClearT> im_done("", "scemi_imdone_put_inport", sceMi);
+    InportProxyT<BitT<1> > im_cleardone("", "scemi_imclear_put_inport", sceMi);
     fprintf(stderr, "3");
 
-    ResetXactor reset("", "scemi", sceMi);
     ShutdownXactor shutdown("", "scemi_shutdown", sceMi);
     fprintf(stderr, "4");
 
@@ -40,11 +45,9 @@ int main(int argc, char* argv[])
     SceMiServiceThread *scemi_service_thread = new SceMiServiceThread(sceMi);
     fprintf(stderr, "5");
 
-    // Reset the dut.
-    reset.reset();
     fprintf(stderr, "6");
 
-    im_clear.sendMessage(true);
+    im_cleardone.sendMessage(BitT<1>(0));
     fprintf(stderr, "6");
     char *line;
     size_t len = 0;
@@ -85,7 +88,7 @@ int main(int argc, char* argv[])
             }
         }
     }
-    im_done.sendMessage(true);
+    im_cleardone.sendMessage(BitT<1>(1));
     fprintf(stderr, "Finished storing image B\n");
 
     WindowReq winmsg;
@@ -102,12 +105,14 @@ int main(int argc, char* argv[])
             }
         }
     }
-    Displacements dispmsg;
-    for (int i = 0; i < num_requests; i++) {
-        dispmsg = disp_get.getMessage();
-        fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
-        fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
-    }
+//    Displacements dispmsg;
+//    for (int i = 0; i < num_requests; i++) {
+//        dispmsg = disp_get.getMessage();
+//        fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+//        fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+//    }
+    fprintf(stderr, "Waiting for %i displacements... (press enter when ready)", num_requests);
+    getchar();
     fprintf(stderr, "Finished tracking\n");
     // winmsg.m_size = 40;
     // for (int i = 0; i < 1; i++) {
@@ -117,7 +122,6 @@ int main(int argc, char* argv[])
     //     fprintf(stdout, "Tb got %d %d\n", (int)dispmsg.m_u, (int)dispmsg.m_v);
     // }
 // 
-
 
     shutdown.blocking_send_finish();
     scemi_service_thread->stop();
