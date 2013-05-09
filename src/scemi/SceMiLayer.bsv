@@ -5,6 +5,7 @@ import GetPut::*;
 import DefaultValue::*;
 import SceMi::*;
 import Clocks::*;
+import ResetXactor::*;
 
 import PIVTypes::*;
 import PIV::*;
@@ -22,7 +23,7 @@ module [SceMiModule] mkSceMiLayer();
     SceMiClockConfiguration conf = defaultValue;
 
     SceMiClockPortIfc clk_port <- mkSceMiClockPort(conf);
-    DutInterface dut <- buildDut(mkDutWrapper, clk_port);
+    DutInterface dut <- buildDutWithSoftReset(mkDutWrapper, clk_port);
 
     Empty dispget <- mkDispXactor(dut, clk_port);
     Empty windowreq <- mkWindowReqXactor(dut, clk_port);

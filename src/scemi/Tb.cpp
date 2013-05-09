@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
     InportProxyT<BitT<1> > im_cleardone("", "scemi_imclear_put_inport", sceMi);
     fprintf(stderr, "3");
 
+    ResetXactor reset("", "scemi", sceMi);
     ShutdownXactor shutdown("", "scemi_shutdown", sceMi);
     fprintf(stderr, "4");
 
@@ -45,6 +46,7 @@ int main(int argc, char* argv[])
     SceMiServiceThread *scemi_service_thread = new SceMiServiceThread(sceMi);
     fprintf(stderr, "5");
 
+    reset.reset();
     fprintf(stderr, "6");
 
     im_cleardone.sendMessage(BitT<1>(0));
