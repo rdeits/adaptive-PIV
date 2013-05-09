@@ -24,9 +24,6 @@ module mkIMemory(IMemory);
   Reg#(Bool) loading <- mkReg(False);
   BRAM_Configure cfg = defaultValue;
   cfg.memorySize = valueOf(PixelsPerImage);
-  // Reg#(TrackerID) current_tracker <- mkReg(0);
-  // FIFO#(TrackerID) req_info_q_A <- mkFIFO();
-  // FIFO#(TrackerID) req_info_q_B <- mkFIFO();
   BRAM1Port#(PixelNdx, Pixel) bram_A <- mkBRAM1Server(cfg);
   BRAM1Port#(PixelNdx, Pixel) bram_B <- mkBRAM1Server(cfg);
 

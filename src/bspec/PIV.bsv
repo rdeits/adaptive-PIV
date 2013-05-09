@@ -73,7 +73,11 @@ module [Module] mkPIV(PIV);
     counter_B.reset(pos_B);
     trackers[next_tracker_in].start();
     current_tracker_in <= next_tracker_in;
-    next_tracker_in <= next_tracker_in + 1;
+    if (next_tracker_in >= fromInteger(valueOf(NumTrackers) - 1)) begin
+      next_tracker_in <= 0;
+    end else begin
+      next_tracker_in <= next_tracker_in + 1;
+    end
   endrule
 
   rule request_download_A if (state == Downloading && !counter_A.done());
@@ -104,7 +108,11 @@ module [Module] mkPIV(PIV);
     let x <- trackers[next_tracker_out].resp.get();
     x.ndx = req_ndxFIFO.first();
     req_ndxFIFO.deq();
-    next_tracker_out <= next_tracker_out + 1;
+    if (next_tracker_out >= fromInteger(valueOf(NumTrackers) - 1)) begin
+      next_tracker_out <= next_tracker_out + 1;
+    end else begin
+      next_tracker_out <= 0;
+    end
     return x;
   endmethod
 
