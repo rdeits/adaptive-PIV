@@ -67,6 +67,7 @@ int main(int argc, char* argv[])
                 if (line_pos == PIXELS_PER_MSG) {
                     line_pos = 0;
                     im_store_A.sendMessage(msg);
+					fprintf(stderr, "wrote image message starting with: %d\n", (int)msg[0]);
                 }
             }
         }
