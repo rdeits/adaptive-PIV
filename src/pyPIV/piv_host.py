@@ -30,7 +30,7 @@ if bspec_im_width != im_pair.A.size[0]:
 for im in im_pair:
     for pix in im.convert('L').getdata():
         tb_proc.stdin.write(str(pix) + '\n')
-        print pix
+        # print pix
     tb_proc.stdin.write('.\n')
     print '.'
 

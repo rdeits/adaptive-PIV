@@ -29,6 +29,6 @@ def get_image_pair(image_dir):
     else:
         raise IOError("no image files found")
 
-    imageA = Image.open(fnameA)
-    imageB = Image.open(fnameB)
+    imageA = Image.open(fnameA).crop([0, 0, 640, 480])
+    imageB = Image.open(fnameB).crop([0, 0, 640, 480])
     return ImPair(imageA, imageB)
