@@ -109,9 +109,9 @@ module [Module] mkPIV(PIV);
     x.ndx = req_ndxFIFO.first();
     req_ndxFIFO.deq();
     if (next_tracker_out >= fromInteger(valueOf(NumTrackers) - 1)) begin
-      next_tracker_out <= next_tracker_out + 1;
-    end else begin
       next_tracker_out <= 0;
+    end else begin
+      next_tracker_out <= next_tracker_out + 1;
     end
     return x;
   endmethod
