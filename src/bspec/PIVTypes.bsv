@@ -3,7 +3,7 @@ import GetPut::*;
 import Vector::*;
 import FIFO::*;
 
-typedef 2 NumTrackers;
+typedef 40 NumTrackers;
 // typedef UInt#(TAdd#(TLog#(NumTrackers), 1)) TrackerID;
 typedef UInt#(TLog#(NumTrackers)) TrackerID;
 
