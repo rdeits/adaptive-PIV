@@ -34,10 +34,12 @@ for im in im_pair:
     tb_proc.stdin.write('.\n')
     print '.'
 
+start = time.time()
 for frame_row in range(frame_rows(im_pair.A)):
     for frame_col in range(frame_cols(im_pair.A)):
         pixel_ndx = get_px_ndx(im_pair.A, frame_row, frame_col)
         tb_proc.stdin.write(str(pixel_ndx) + '\n')
 stdout, stderr = tb_proc.communicate('.\n')
+print >> sys.stderr, "Elapsed time =",  time.time() - start
 pickle.dump(stdout, open(os.path.join(image_dir, 'stdout.pck'), 'wb'))
 parse_and_show(stdout, image_dir)
