@@ -129,15 +129,15 @@ module [Module] mkPIV(PIV);
     req_ndxFIFO.enq(req.ndx);
   endmethod
 
-  method Action store_image_A(ImagePacket p);
+  method Action store_image_A(ImagePacket p) if (state == LoadingImages);
     packet_buffer_A.enq(p);
   endmethod
 
-  method Action store_image_B(ImagePacket p);
+  method Action store_image_B(ImagePacket p) if (state == LoadingImages);
     packet_buffer_B.enq(p);
   endmethod
 
-  method Action clear_image() if (state == WaitingForClear);
+  method Action clear_image() if (state == WaitingForClear || state == WaitingForReq);
     iMem.clear();
     $display("clearing images. Num trackers: %d", num_trackers);
     state <= LoadingImages;
