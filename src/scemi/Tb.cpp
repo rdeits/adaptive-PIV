@@ -22,11 +22,9 @@
 int main(int argc, char* argv[])
 {
 
-    fprintf(stderr, "1");
     int sceMiVersion = SceMi::Version( SCEMI_VERSION_STRING );
     SceMiParameters params("scemi.params");
     SceMi *sceMi = SceMi::Init(sceMiVersion, &params);
-    fprintf(stderr, "2");
 
     // Initialize the SceMi ports
     OutportQueueT<Displacements> disp_get("", "scemi_dispget_get_outport", sceMi);
@@ -37,14 +35,11 @@ int main(int argc, char* argv[])
     InportProxyT<ImagePacket> im_store_B("", "scemi_imstoreB_put_inport", sceMi);
     InportProxyT<BitT<1> > im_cleardone("", "scemi_imclear_put_inport", sceMi);
     InportProxyT<TrackerID> num_tracker_port("", "scemi_numtrackers_put_inport", sceMi);
-    fprintf(stderr, "3");
 
     ShutdownXactor shutdown("", "scemi_shutdown", sceMi);
-    fprintf(stderr, "4");
 
     // Service SceMi requests
     SceMiServiceThread *scemi_service_thread = new SceMiServiceThread(sceMi);
-    fprintf(stderr, "5");
 
     char *line;
     size_t len = 0;
@@ -62,6 +57,7 @@ int main(int argc, char* argv[])
 
 
     im_cleardone.sendMessage(BitT<1>(0));
+    fprintf(stderr, "Sent clear\n");
     int pixel;
     ImagePacket msg;
     int line_pos = 0;
@@ -99,8 +95,9 @@ int main(int argc, char* argv[])
             }
         }
     }
-    im_cleardone.sendMessage(BitT<1>(1));
     fprintf(stderr, "Finished storing image B\n");
+    im_cleardone.sendMessage(BitT<1>(1));
+    fprintf(stderr, "Sent done\n");
 
     WindowReq winmsg;
     Displacements dispmsg;
