@@ -20,7 +20,7 @@ typedef enum {WaitingForReq, Downloading, Outputting} State deriving (Bits, Eq);
 module mkWindowManager(TrackerID tracker_id, FIFO#(Vector#(2, Pixel)) m2a, WindowManager ifc);
   Bit#(WindowSizeA) winsizeA = ?;
   Bit#(WindowSizeB) winsizeB = ?;
-  Bit#(TAdd#(TSub#(WindowSizeA, WindowSizeB), 1)) dummy1 = ?;
+  Bit#(TAdd#(TSub#(WindowSizeA, WindowSizeB), 1)) dummy1 = 0;
   AddrCounter sub_counter_A <- mkCounter(winsizeB, winsizeA);
   AddrCounter sub_counter_B <- mkCounter(winsizeB, winsizeB);
   AddrCounter sub_frame_pos_counter <- mkCounter(dummy1, winsizeA);

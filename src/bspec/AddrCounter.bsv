@@ -10,8 +10,8 @@ module mkCounter(Bit#(winsize) dummy1, Bit#(imwidth) dummy2, AddrCounter ifc);
   Reg#(PixelNdx) curr_ndx <- mkRegU();
   Reg#(PixelNdx) start_ndx <- mkRegU();
   Reg#(Bool) has_data <- mkReg(False);
-  Reg#(Bit#(winsize)) col_pos <- mkRegU();
-  Reg#(Bit#(winsize)) row_pos <- mkRegU();
+  Reg#(Bit#(winsize)) col_pos <- mkReg(0);
+  Reg#(Bit#(winsize)) row_pos <- mkReg(0);
 
   method Action reset(PixelNdx ndx);
     has_data <= True;
