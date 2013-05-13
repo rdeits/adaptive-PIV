@@ -127,7 +127,8 @@ int main(int argc, char* argv[])
         fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v);
     }
     time(&end);
-    fprintf(stderr, "Tb elapsed time while tracking: %.f\n", difftime(end, beginning));
+    double seconds = difftime(end, beginning);
+    fprintf(stderr, "Tb elapsed time while tracking: %f\n", seconds);
     // fprintf(stderr, "Waiting for %i displacements... (press enter when ready)", num_requests);
     // getchar();
     fprintf(stderr, "Finished tracking\n");
