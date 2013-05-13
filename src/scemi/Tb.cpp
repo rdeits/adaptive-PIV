@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <time.h>
 
 #include "bsv_scemi.h"
 #include "SceMiHeaders.h"
@@ -94,12 +95,19 @@ int main(int argc, char* argv[])
 
     WindowReq winmsg;
     Displacements dispmsg;
+    bool started = false;
+    time_t beginning;
+    time_t end;
     int num_requests = 0;
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
             if (line[0] == '.') {
                 break;
             } else {
+                if (!started) {
+                    time(&beginning);
+                    started = true;
+                }
                 winmsg.m_ndx = atoi(line);
                 fprintf(stderr, "Sending request: %d\n", (int)winmsg.m_ndx);
                 window_req.sendMessage(winmsg);
@@ -118,6 +126,8 @@ int main(int argc, char* argv[])
         fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v); 
         fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v);
     }
+    time(&end);
+    fprintf(stderr, "Tb elapsed time while tracking: %.f\n", difftime(end, beginning));
     // fprintf(stderr, "Waiting for %i displacements... (press enter when ready)", num_requests);
     // getchar();
     fprintf(stderr, "Finished tracking\n");
