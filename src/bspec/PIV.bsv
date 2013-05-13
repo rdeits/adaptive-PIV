@@ -13,19 +13,21 @@ interface PIV;
   method Action put_window_req(WindowReq req);
   method Action store_image_A(ImagePacket x);
   method Action store_image_B(ImagePacket x);
+  method Action set_num_trackers(TrackerID x);
   method Action clear_image();
   method Action done_loading();
 endinterface
 
-typedef enum {LoadingImages, WaitingForReq, Downloading} PIVState deriving (Bits, Eq);
+typedef enum {WaitingForTrackers, WaitingForClear, LoadingImages, WaitingForReq, Downloading} PIVState deriving (Bits, Eq);
 
 (* synthesize *)
 module [Module] mkPIV(PIV);
   IMemory iMem <- mkIMemory();
-  Vector#(NumTrackers, WindowTracker) trackers;
-  for (Integer i = 0; i < valueOf(NumTrackers); i = i + 1) begin
+  Vector#(MaxNumTrackers, WindowTracker) trackers;
+  for (Integer i = 0; i < valueOf(MaxNumTrackers); i = i + 1) begin
     trackers[i] <- mkWindowTracker(fromInteger(i));
   end
+  Reg#(TrackerID) num_trackers <- mkRegU();
   Reg#(TrackerID) next_tracker_in <- mkReg(0);
   Reg#(TrackerID) current_tracker_in <- mkReg(0);
   Reg#(TrackerID) next_tracker_out <- mkReg(0);
@@ -41,7 +43,7 @@ module [Module] mkPIV(PIV);
   Bit#(ImageWidth) imwidth = ?;
   AddrCounter counter_A <- mkCounter(winsizeA, imwidth);
   AddrCounter counter_B <- mkCounter(winsizeB, imwidth);
-  Reg#(PIVState) state <- mkReg(WaitingForReq);
+  Reg#(PIVState) state <- mkReg(WaitingForTrackers);
 
   rule load_mem_A if (state == LoadingImages);
     let p = packet_buffer_A.first();
@@ -73,7 +75,7 @@ module [Module] mkPIV(PIV);
     counter_B.reset(pos_B);
     trackers[next_tracker_in].start();
     current_tracker_in <= next_tracker_in;
-    if (next_tracker_in >= fromInteger(valueOf(NumTrackers) - 1)) begin
+    if (next_tracker_in >= num_trackers - 1) begin
       next_tracker_in <= 0;
     end else begin
       next_tracker_in <= next_tracker_in + 1;
@@ -104,11 +106,17 @@ module [Module] mkPIV(PIV);
     state <= WaitingForReq;
   endrule
 
+  method Action set_num_trackers(TrackerID n) if (state == WaitingForTrackers);
+    state <= WaitingForClear;
+    $display("set number of trackers to: %d", n);
+    num_trackers <= n;
+  endmethod
+
   method ActionValue#(Displacements) get_displacements if (!iMem.is_loading);
     let x <- trackers[next_tracker_out].resp.get();
     x.ndx = req_ndxFIFO.first();
     req_ndxFIFO.deq();
-    if (next_tracker_out >= fromInteger(valueOf(NumTrackers) - 1)) begin
+    if (next_tracker_out >= num_trackers - 1) begin
       next_tracker_out <= 0;
     end else begin
       next_tracker_out <= next_tracker_out + 1;
@@ -129,8 +137,9 @@ module [Module] mkPIV(PIV);
     packet_buffer_B.enq(p);
   endmethod
 
-  method Action clear_image();
+  method Action clear_image() if (state == WaitingForClear);
     iMem.clear();
+    $display("clearing images. Num trackers: %d", num_trackers);
     state <= LoadingImages;
     next_tracker_in <= 0;
     next_tracker_out <= 0;
@@ -138,6 +147,7 @@ module [Module] mkPIV(PIV);
   endmethod
 
   method Action done_loading() if (state == LoadingImages && !packet_buffer_A.notEmpty() && !packet_buffer_B.notEmpty());
+    $display("done loading");
     iMem.done_loading();
     state <= WaitingForReq;
   endmethod

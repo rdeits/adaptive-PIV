@@ -36,6 +36,7 @@ int main(int argc, char* argv[])
     InportProxyT<ImagePacket> im_store_A("", "scemi_imstoreA_put_inport", sceMi);
     InportProxyT<ImagePacket> im_store_B("", "scemi_imstoreB_put_inport", sceMi);
     InportProxyT<BitT<1> > im_cleardone("", "scemi_imclear_put_inport", sceMi);
+    InportProxyT<TrackerID> num_tracker_port("", "scemi_numtrackers_put_inport", sceMi);
     fprintf(stderr, "3");
 
     ShutdownXactor shutdown("", "scemi_shutdown", sceMi);
@@ -45,13 +46,22 @@ int main(int argc, char* argv[])
     SceMiServiceThread *scemi_service_thread = new SceMiServiceThread(sceMi);
     fprintf(stderr, "5");
 
-    fprintf(stderr, "6");
-
-    im_cleardone.sendMessage(BitT<1>(0));
-    fprintf(stderr, "6");
     char *line;
     size_t len = 0;
     int read;
+    int num_trackers;
+    fprintf(stderr, "Waiting for number of trackers\n");
+    while ((read = getline(&line, &len, stdin)) != -1) {
+        if (read != 0) {
+            num_trackers = atoi(line);
+            num_tracker_port.sendMessage((TrackerID) num_trackers);
+            fprintf(stderr, "%s%d\n", "Sent number of trackers: ",(int) (TrackerID) num_trackers);
+            break;
+        }
+    }
+
+
+    im_cleardone.sendMessage(BitT<1>(0));
     int pixel;
     ImagePacket msg;
     int line_pos = 0;
@@ -67,7 +77,7 @@ int main(int argc, char* argv[])
                 if (line_pos == PIXELS_PER_MSG) {
                     line_pos = 0;
                     im_store_A.sendMessage(msg);
-					fprintf(stderr, "wrote image message starting with: %d\n", (int)msg[0]);
+					// fprintf(stderr, "wrote image message starting with: %d\n", (int)msg[0]);
                 }
             }
         }

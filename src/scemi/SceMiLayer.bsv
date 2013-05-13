@@ -29,6 +29,7 @@ module [SceMiModule] mkSceMiLayer();
     Empty imstoreA <- mkStoreAXactor(dut, clk_port);
     Empty imstoreB <- mkStoreBXactor(dut, clk_port);
     Empty imclear <- mkClearDoneXactor(dut, clk_port);
+    Empty numtrackers <- mkNumTrackersXactor(dut, clk_port);
 
     Empty shutdown <- mkShutdownXactor();
 endmodule
@@ -62,6 +63,13 @@ module [SceMiModule] mkStoreBXactor#(PIV piv, SceMiClockPortIfc clk_port ) (Empt
     Put#(ImagePacket) req = interface Put;
         method Action put(ImagePacket x) = piv.store_image_B(x);
     endinterface;
+    Empty put <- mkPutXactor(req, clk_port);
+endmodule
+
+module [SceMiModule] mkNumTrackersXactor#(PIV piv,  SceMiClockPortIfc clk_port ) (Empty);
+    Put#(TrackerID) req = interface Put;
+        method Action put(TrackerID n) = piv.set_num_trackers(n);
+        endinterface;
     Empty put <- mkPutXactor(req, clk_port);
 endmodule
 
