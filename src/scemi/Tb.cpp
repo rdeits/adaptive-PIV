@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
                 if (line_pos == PIXELS_PER_MSG) {
                     line_pos = 0;
                     im_store_A.sendMessage(msg);
-					fprintf(stderr, "wrote image message starting with: %d\n", (int)msg[0]);
+					// fprintf(stderr, "wrote image message starting with: %d\n", (int)msg[0]);
                 }
             }
         }
@@ -99,34 +99,62 @@ int main(int argc, char* argv[])
     time_t beginning;
     time_t end;
     int num_requests = 0;
+
+    int window_ndx[18];
+    int disp_ndx[18];
+    int disp_u[18];
+    int disp_v[18];
     while ((read = getline(&line, &len, stdin)) != -1) {
         if (read != 0) {
             if (line[0] == '.') {
                 break;
             } else {
-                if (!started) {
-                    time(&beginning);
-                    started = true;
-                }
-                winmsg.m_ndx = atoi(line);
-                fprintf(stderr, "Sending request: %d\n", (int)winmsg.m_ndx);
-                window_req.sendMessage(winmsg);
+                window_ndx[num_requests] = atoi(line);
                 num_requests++;
             }
         }
-        bool got_msg = disp_get.getMessageNonBlocking(dispmsg);
-        if (got_msg) {
+    }
+    time(&beginning);
+    started = true;
+    fprintf(stderr, "%f\n", (double) beginning);
+
+    for (int c = 0; c < 100; c++) {
+        num_requests = 18;
+        for (int i = 0; i < 18; i++) {
+            winmsg.m_ndx = window_ndx[i];
+            window_req.sendMessage(winmsg);
+            bool got_msg = disp_get.getMessageNonBlocking(dispmsg);
+            if (got_msg) {
+                num_requests--;
+                disp_ndx[num_requests] = (int)dispmsg.m_ndx;
+                disp_u[num_requests] = (int)dispmsg.m_u;
+                disp_v[num_requests] = (int)dispmsg.m_v;
+            }
+            //     fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+            //     fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+            // }
+        }
+
+        while (num_requests > 0) {
+            dispmsg = disp_get.getMessage();
             num_requests--;
-            fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
-            fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, (int)dispmsg.m_v);
+            disp_ndx[num_requests] = (int)dispmsg.m_ndx;
+            disp_u[num_requests] = (int)dispmsg.m_u;
+            disp_v[num_requests] = (int)dispmsg.m_v;
         }
     }
-    for (int i = 0; i < num_requests; i++) {
-        dispmsg = disp_get.getMessage();
-        fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v); 
-        fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v);
-    }
     time(&end);
+
+    for (int i = 0; i < 18; i++) {
+        fprintf(stdout, "$%d\n$%d\n$%d\n", disp_ndx[i], disp_u[i], disp_v[i]); 
+        fprintf(stderr, "$%d\n$%d\n$%d\n", disp_ndx[i], disp_u[i], disp_v[i]); 
+    }
+
+    // for (int i = 0; i < num_requests; i++) {
+    //     dispmsg = disp_get.getMessage();
+    //     // fprintf(stdout, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v); 
+    //     // fprintf(stderr, "$%d\n$%d\n$%d\n", (int)dispmsg.m_ndx, (int)dispmsg.m_u, ( int)dispmsg.m_v);
+    // }
     double seconds = difftime(end, beginning);
     fprintf(stderr, "Tb elapsed time while tracking: %f\n", seconds);
     // fprintf(stderr, "Waiting for %i displacements... (press enter when ready)", num_requests);
