@@ -46,41 +46,27 @@
 	The ability to perform real-time PIV using a customized hardware system would be of great value to a project such as the MIT RoboClam, with which I have spent several years working. This project seeks to understand and replicate the efficient burrowing mechanism of the Atlantic razor clam, \emph{Ensis directus}, in order to create self-digging anchors for energy-constrained underwater vehicles. The razor clam uses the contraction of its shell to unpack the substrate around it, making digging much easier \citep{Winter:2012hj}. We use PIV to analyze the motion of both the real animal and its robotic counterpart and the effects that their motions have on the surrounding substrate. Adding real-time PIV would enable rapid feedback about the effects the robot is having on the substrate as we design and improve its motion patterns. 
 
 	\section{Implementation}
-	I will divide the implementation of the PIV system up into the high-level logic, which will be performed in Python, and the computationally intensive and parallelizable cross-correlation which will be performed on the FPGA. This division is shown in Figure~\ref{fig:system}. The host machine will read image pairs from disk (simulating live capture from a camera system), then convert them to 4-bit grayscale. These image pairs will be transmitted over SCEMI to the FPGA, which will store both images in DRAM. The host machine will then select a series of interrogation windows. The exact method of selection will depend on whether we are performing normal or adaptive PIV. The host will transmit the coordinates of the interrogation windows to the DUT. The FPGA will then extract the actual image data for each window, perform the cross-correlation, and locate the peak in the cross-correlation value signifying the displacement of the particles in the window. The FPGA will then send the displacement back to the host. 
+	I have divided the implementation of the PIV system up into the high-level logic, which is performed in Python, and the computationally intensive and parallelizable cross-correlation which is performed on the FPGA. This division is shown in Figure~\ref{fig:system}. The host machine reads image pairs from disk (simulating live capture from a camera system), then converts them to 4-bit grayscale. These image pairs are transmitted over SCEMI to the FPGA, which stores both images in Block RAM. The host machine then selects a series of interrogation windows. The exact method of selection will depend on whether we are performing normal or adaptive PIV. The host transmits the coordinates of the interrogation windows to the DUT. The FPGA then extracts the actual image data for each window, performs the cross-correlation, and locates the peak in the cross-correlation value signifying the displacement of the particles in the window. The FPGA then sends the displacement back to the host. 
+
+	\subsection{Module: PIV}
+	The PIV master module handles all input and output operations to the SceMi layer and manages access to the primary Block RAM. Image data is passed into the PIV in packets of 8 pixels, in order to improve transmission performance across SceMi. The PIV master breaks up the packets into individual pixels and stores them in RAM. When the host sends a request for a particular interrogation window, the PIV master chooses the next available Window Tracker and downloads the sub-frames corresponding to the desired pixel coordinates of the window to the Window Tracker's own Block RAM. Once that tracker has finished computing the displacement of its window, the PIV master returns the displacement data to the host.
 
 	\subsection{Module: Window Tracker}
-	The FPGA will contain many instances of the Window Tracker module, each of which will perform the cross-correlation and displacement extraction for a single interrogation window. The Window Tracker will be implemented as a server with the following operations: 
-	\begin{enumerate}
-		\item put(x, y): begin calculating the cross-correlation and displacement for a new window located at (x, y) in the image
-		\item u, v = get(): get the displacement of the interrogation window which was previously input to put()
-	\end{enumerate}
-	The Window Tracker will have a number of submodules, described below:
+	The FPGA program contains many instances of the Window Tracker module, each of which performs the cross-correlation and displacement extraction for a single interrogation window. The Window Tracker has a number of submodules, described below:
 
 	\subsubsection{Module: Window Manager}
-	The Window Manager will be responsible for extracting the correct pixel values from the images stored in the DRAM. It needs to support the following operations: 
-	\begin{enumerate}
-		\item reset(x, y): begin extracting pixels for a new interrogation window located at the point (x, y) in the first image
-		\item px = getNextPixel(): return the value of the next pixel needed for cross-correlation computation. Since the order in which pixel values are accessed is fixed, this function needs no input.
-	\end{enumerate}
-	The fixed access order for pixel values used in the cross-correlation algorithm means that we can easily make the Window Manager's access to the DRAM fully pipelined, and we can also cache values from the DRAM to reduce the number of memory accesses.
+	The Window Manager is responsible for storing the entire sub-frame from each of the source images for a particular interrogation window. Data is fed into the Window Manager from the PIV master when a particular window is requested. Once that download is complete the Window Manager begins to output each pair of pixels which must be multiplied as part of the cross-correlation computation. 
 
 	\subsubsection{Module: Accumulator}
-	The Accumulator will take pixel values from the Window Manager and compute a running sum of the product of its pairs of inputs. It will automatically reset its internal total to zero for each element in the cross-correlation matrix output.
-	\begin{enumerate}
-		\item update(px1, px2): add px1 * px2 to the internal total. This total is copied to result and then reset to zero after every $c$ calls to update(), where $c$ is the number of multiplications and additions required per element in the cross-correlation matrix
-		\item result = get(): Return result and then set result to Invalid
-	\end{enumerate}
+	The Accumulator takes pixel values from the Window Manager and computes a running sum of the product of its pairs of inputs. It automatically resets its internal total to zero for each element in the cross-correlation matrix output. Since its operation is fully pipelined, it needs only a FIFO of pixel pairs from the Window Manager and a FIFO of cross-correlation matrix elements to send to the Displacement Tracker. 
 
-	\subsubsection{Module: Tracker}
-	The Tracker determines from the output of the Accumulator the current displacement values with the highest cross-correlation between the windows. It polls the get() method of the Accumulator and maintains internal variables for the highest result seen so far and the x and y displacements corresponding to it. Once all cross-correlation computations are finished, it makes its result available. 
-	\begin{enumerate}
-		\item x\_disp, y\_disp = get(): Return the displacement in x and y of the peak of the cross-correlation matrix.
-	\end{enumerate}
+	\subsubsection{Module: Displacement Tracker}
+	The Displacement Tracker determines from the output of the Accumulator the current displacement values with the highest cross-correlation between the windows. It reads cross-correlation elements from the output FIFO of the Accumulator and maintains internal variables for the highest result seen so far and the x and y displacements corresponding to it. Once all cross-correlation computations are finished, it makes its result available. 
 
 
 \begin{figure}[htbp]
 \makebox[\textwidth][c]{
-	\includegraphics[width=1.4\textwidth]{system_diagram.pdf}}
+	\includegraphics[width=1.4\textwidth]{fig/system_diagram.pdf}}
 	\caption{The system diagram for the Adaptive PIV implementation on the FPGA. High-level logic relating to the particular PIV implementation is performed in Python, and the cross-correlation is performed on the FPGA. Only 3 Window Tracker modules are shown, but the full implementation should have up to 40 or more.}
 	\label{fig:system}
 \end{figure}
@@ -120,7 +106,7 @@ In addition, I have run the PIV system in simulation on an entire 800x600\,px im
 
 	\begin{subfigure}[htb]{.7\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{../../data/test/x+2_y+2/PIV.png}
+		\includegraphics[width=\textwidth]{fig/x+2_y+2_PIV.png}
 	\end{subfigure}
 	\caption{A pair of sample images created to test the PIV system. The image on the upper left has been shifted down and to the right by two pixels to create the image on the upper right. The lower image shows the calculated flow field from the PIV program, which matches this displacement.}
 	\label{fig:diag_test}
@@ -138,7 +124,7 @@ In addition, I have run the PIV system in simulation on an entire 800x600\,px im
 	\end{subfigure}
 
 	\begin{subfigure}[htb]{\textwidth}
-		\centerline{\includegraphics[trim = .4in .4in .4in .4in, clip, width=1.5\textwidth]{../../data/vort_sim/PIV.png}}
+		\centerline{\includegraphics[trim = .4in .4in .4in .4in, clip, width=1.5\textwidth]{fig/vort_sim_non_adapt.png}}
 	\end{subfigure}
 	\caption{A pair of full-size synthetic images taken from Sharma's adaptive PIV system, along with the measured flow field from the simulated FPGA implementation.}
 	\label{fig:full_test}
