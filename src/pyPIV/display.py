@@ -38,6 +38,7 @@ def displacement_field(stdout, image_dir, adaptive=False):
 
 
 def parse_and_show(stdout, image_dir, adaptive):
+    im_pair = get_image_pair(image_dir)
     X, Y, U, V = displacement_field(stdout, image_dir, adaptive)
     f = plt.figure()
     a = f.add_axes([.1, .1, .8, .8])
