@@ -20,6 +20,9 @@
 
 	\tableofcontents
 
+	\section{Overview}
+	This project is designed to implement Particle Image Velocimetry (PIV) on hardware, using an FPGA. The purpose is to allow for real-time analysis of fluid flows using optical tracking of thousands of particles. Specifically, this project introduces a framework for PIV on hardware which allows for adaptive selection of interrogation windows, which can improve the flow resolution in the busiest parts of the fluid. 
+
 	\section{Background: PIV} % (fold)
 	\label{sec:background}
 	Particle Image Velocimetry (PIV) is an optical approach to measuring the flow field of a fluid, and has been used in the study of combustion, water flow, robotics, and many other fields. It involves seeding a fluid with tracking particles and using a laser or other planar lighting system to capture sequential images of the particle positions in a single thin 2D slice of the fluid. By comparing the change in position of groups of particles between the subsequent frames, a measurement of the local flow vector can be computed for each region of the fluid. This process of determining the movement of each section of the image is extremely time-consuming in a sequential programming system, but can be readily parallelized to significantly improve performance \citep{Yu:2006tb}
