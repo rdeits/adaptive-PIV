@@ -8,8 +8,7 @@ from config import frame_rows, frame_cols, get_px_ndx, get_image_pair, window_sp
 from collections import namedtuple
 Displacements = namedtuple('Displacements', ['u', 'v'])
 
-
-def parse_and_show(stdout, image_dir):
+def displacement_field(stdout, image_dir):
     results = [int(line[1:]) for line in stdout.split('\n') if len(line) > 0 and line[0] == '$']
     results = [(results[i], Displacements(*results[i+1:i+3])) for i in range(0, len(results), 3)]
     disp_map = dict(results)
@@ -23,12 +22,18 @@ def parse_and_show(stdout, image_dir):
             pixel_ndx = get_px_ndx(im_pair.A, frame_row, frame_col)
             U[frame_row][frame_col] = disp_map[pixel_ndx].u - 4
             V[frame_row][frame_col] = disp_map[pixel_ndx].v - 4
+    X = np.array(range(num_cols)) * window_spacing + frame_size / 2
+    Y = np.array(range(num_rows)) * window_spacing + frame_size / 2
+    return X, Y, U, V
+
+
+
+def parse_and_show(stdout, image_dir):
+    X, Y, U, V = displacement_field(stdout, image_dir)
     f = plt.figure()
     a = f.add_axes([.1, .1, .8, .8])
     a.imshow(im_pair.A.transpose(Image.FLIP_TOP_BOTTOM))
     a.hold(True)
-    X = np.array(range(num_cols)) * window_spacing + frame_size / 2
-    Y = np.array(range(num_rows)) * window_spacing + frame_size / 2
     a.quiver(X, Y, U, V, color='y', units='x')
     # a.invert_yaxis()
     plt.savefig(os.path.join(image_dir, 'PIV.png'))
