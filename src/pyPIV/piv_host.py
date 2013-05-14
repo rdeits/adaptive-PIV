@@ -11,6 +11,7 @@ import sys; sys.stdout = open('log', 'w')
 image_dir = sys.argv[1]
 use_fpga = int(sys.argv[2])
 adaptive = int(sys.argv[3])
+num_trackers = 2
 
 os.system('killall bluetcl')
 if use_fpga:
@@ -27,6 +28,7 @@ if bspec_im_width != im_pair.A.size[0]:
     print >> sys.stderr, "WARNING: Image width doesn't match parameters used when compling bspec file. Press Enter to continue anyway."
     raw_input()
 
+tb_proc.stdin.write(str(num_trackers) + '\n')
 for im in im_pair:
     for pix in im.convert('L').getdata():
         tb_proc.stdin.write(str(pix) + '\n')

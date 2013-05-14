@@ -30,8 +30,8 @@ def displacement_field(stdout, image_dir, adaptive=False):
         ndxs = np.array(disp_map.keys())
         U = np.array([disp_map[k].u for k in disp_map])
         V = np.array([disp_map[k].v for k in disp_map])
-        X = ndxs % im_pair.A.size[0]
-        Y = ndxs // im_pair.A.size[0]
+        X = ndxs % im_pair.A.size[0] + frame_size / 2
+        Y = ndxs // im_pair.A.size[0] + frame_size / 2
 
     return X, Y, U, V
 
