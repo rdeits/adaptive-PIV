@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
     started = true;
     fprintf(stderr, "%f\n", (double) beginning);
 
-    for (int c = 0; c < 100; c++) {
+    for (int c = 0; c < 1000; c++) {
         num_requests = 18;
         for (int i = 0; i < 18; i++) {
             winmsg.m_ndx = window_ndx[i];
