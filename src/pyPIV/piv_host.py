@@ -46,4 +46,4 @@ else:
             tb_proc.stdin.write(str(pixel_ndx) + '\n')
 stdout, stderr = tb_proc.communicate('.\n')
 pickle.dump(stdout, open(os.path.join(image_dir, 'stdout.pck'), 'wb'))
-parse_and_show(stdout, image_dir)
+parse_and_show(stdout, image_dir, adaptive)
