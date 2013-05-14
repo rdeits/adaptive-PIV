@@ -28,6 +28,7 @@ def displacement_field(stdout, image_dir, adaptive=False):
         Y = np.array(range(num_rows)) * window_spacing + frame_size / 2
     else:
         ndxs = np.array(disp_map.keys())
+        import pdb; pdb.set_trace()
         U = np.array([disp_map[k].u for k in disp_map])
         V = np.array([disp_map[k].v for k in disp_map])
         X = ndxs % im_pair.A.size[0] + frame_size / 2
