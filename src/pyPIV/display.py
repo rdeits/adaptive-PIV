@@ -52,6 +52,7 @@ if __name__ == '__main__':
     import pickle
     import sys
     image_dir = sys.argv[1]
+    adaptive = int(sys.argv[2])
 
     stdout = pickle.load(open(os.path.join(image_dir, 'stdout.pck'), 'rb'))
-    parse_and_show(stdout, image_dir)
+    parse_and_show(stdout, image_dir, adaptive)
