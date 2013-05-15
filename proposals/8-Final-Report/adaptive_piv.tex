@@ -14,7 +14,7 @@
 
 \begin{document}
 	\author{Robin Deits\\ rdeits@csail.mit.edu}
-	\title{6.375 Report: Adaptive PIV: Synthesis}
+	\title{6.375 Group 2: Adaptive PIV Final Report}
 	\date{\today}
 	\maketitle
 
@@ -155,7 +155,7 @@ I have successfully implemented the design described in this report to meet most
 
 \subsection{Performance on Hardware}
 \label{sec:performance}
-The results of this project are promising but do not yet meet the full targets for performance. I ran a series of benchmark tests to determine the effectiveness of parallelizing the design to multiple Window Tracker modules. With a single tracker module, the system completed 18,000 window requests in 30.8\,seconds, for an overall rate of $4.85 \times 10^7$ multiplications per second, or almost exactly one multiplication per clock cycle. With two parallel trackers, 18,000 requests took only 15.7\,s, for a rate of $9.49\times10^7$ multiplications per second or 1.9 multiplications per clock cycle. This is extremely close to the target rate of 1 multiplication per cycle per module. 
+The results of this project are promising but do not yet meet the full targets for performance. I ran a series of benchmark tests to determine the effectiveness of parallelizing the design to multiple Window Tracker modules. With a single tracker module, the system completed 18,000 window requests in 30.8\,seconds, for an overall rate of $4.85 \times 10^7$ multiplications per second, or almost exactly 1 multiplication per clock cycle. With two parallel trackers, 18,000 requests took only 15.7\,s, for a rate of $9.49\times10^7$ multiplications per second or 1.9 multiplications per clock cycle. This is extremely close to the target rate of 1 multiplication per cycle per module. 
 
 Unfortunately, this performance does not yet scale properly beyond two parallel trackers, and adding more modules does not significantly improve the execution speed. This is likely due at least in part to contention for the single main Block RAM, which must serve out the sub-frames to each tracker. 
 
