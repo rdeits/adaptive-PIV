@@ -73,22 +73,11 @@
 
 \section{Computational Requirements}
 \label{sec:computation}
-In order to assess the computational requirements of this design, I chose to use the interrogation window parameters presented by Yu et al. \citep{Yu:2006tb}. This choice means an interrogation window of 40x40px for the first image in each pair and 32x32px for the second image in each pair. For clarity, we will refer to the images as Image A and Image B and the frames as Frame A (40x40) and Frame B (32x32). Cross-correlation will be performed for each fully overlapping position of Frame B within Frame A. This means that the cross-correlation matrix will have $(40 - 32 + 1) ^2 = 81$ elements. 
+This section describes the computational goals of the PIV implementation. I will discuss the actual performance of the system and how it relates to these goals in Section \ref{sec:performance}. In order to assess the computational requirements of this design, I chose to use the interrogation window parameters presented by Yu et al. \citep{Yu:2006tb}. This choice means an interrogation window of 40x40px for the first image in each pair and 32x32px for the second image in each pair. For clarity, we will refer to the images as Image A and Image B and the frames as Frame A (40x40) and Frame B (32x32). Cross-correlation will be performed for each fully overlapping position of Frame B within Frame A. This means that the cross-correlation matrix will have $(40 - 32 + 1) ^2 = 81$ elements. 
 
 Each element in the cross-correlation matrix will require $32 * 32$ multiplications and additions, so the entire cross-correlation matrix will require $32 * 32 * 81 = 82944$ multiplications. To compute the full velocity vector field for normal PIV, using an 8 pixel shift between interrogation windows, we must compute 1680 cross-correlation matrices per image pair. This means that, for a throughput of 15 image pairs per second, we need to perform $2,090,188,800$ multiplications per second. At a clock speed of 50\,MHz, that comes down to approximately 40 multiplications per clock cycle, meaning that the final design will need 40 Window Tracker modules each performing a single multiplication per cycle. 
-\section{Testing Plan}
-I will use the sample data provided with Sharma's Adaptive PIV implementation, which consists of simulated image pairs of a vortex flow. I will compare the displacements calculated by the FPGA implementation to those produced by Sharma's cross-correlation code using the same window size settings and also compare the execution speed of the normal PIV algorithm with publicly available PIV implementations. My specific goals are:
-\begin{enumerate}
-	\item 15 image pairs per second throughput
-	\item Cross-correlation results which exactly match those produced by \textsc{Matlab}
-\end{enumerate}
 
-\section{Implementation Status}
-As of May 6, I have implemented the complete PIV system in simulation. I have created a simple Python script which loads in a pair of 800x600\,px images, transmits their pixel data to the simulated FPGA test bench, and then sends requests for 40\,px windows spaced every 8\,px. The Python program then displays the velocity vector field received for each window. 
-
-On the FPGA, I have successfully run the PIV system using 80x60\,px images. So far, I have had no success running the program at all when the image size is increased to 800x600. This may be due to a compiler version mismatch or to some other stranger problem. I will investigate this in the coming days. 
-
-\subsection{Demonstration}
+\section{Demonstration}
 To test the PIV system, I generated several small image pairs with known displacements. By applying an 80x60\,px window to a source image, and then shifting that window by a few pixels in a given direction, I created pairs of images with perfectly uniform, controlled displacements, which the PIV system was able to accurately track. One such pair is shown in Figure \ref{fig:diag_test}. 
 
 In addition, I have run the PIV system in simulation on an entire 800x600\,px image pair, using the test set from Sharma's adaptive PIV system. The results are shown  in Figure \ref{fig:full_test}. 
@@ -130,17 +119,62 @@ In addition, I have run the PIV system in simulation on an entire 800x600\,px im
 	\label{fig:full_test}
 \end{figure}
 
-\section{Explorations}
-\subsection{Variable Window Size}
-If possible, I would like to extend the design to support varying the size of the interrogation window. This is an important part of the Adaptive PIV algorithm, as it allows the system to examine smaller windows of particle flow in busy areas of the image, in which the assumption that all particles within a window are moving with the same velocity might not hold for a larger window. This will require adding a window size parameter to the reset() method of the Window Manager and will require that that size parameter be passed to the Accumulator and Tracker in order to adjust their behavior accordingly. 
+\subsection{Demonstrating Adaptive PIV}
+To demonstrate that this system is flexible enough to handle an adaptive PIV wrapper, with no changes to the FPGA program, I created a simple Python application to request windows with variable spatial frequency. Using velocity data compiled from a previous run, I generated a probability density map based on total velocity at each point in the image, then sampled 1000 window locations from this distribution. The density and the resulting sampled points can be seen in Figure \ref{fig:distribution}. 
 
-\subsection{Image Data Caching}
-I suspect that contention for BRAM access among all the Window Managers will be a major difficulty as I attempt to parallelize my design. I plan to explore several variables related to this problem: 
-\begin{itemize}
-	\item Memory data size: wider memory data will allow more pixel values to be received per read of the BRAM, but may create timing problems.
-	\item Caching image data: each window manager may need to cache the pixel values of its interrogation windows. As of Apr. 22, I have implemented this in my design.
-	\item Number of BRAM ports: adding memory ports will allow for more parallel reads, but may create other resource issues.
-\end{itemize}
+\begin{figure}
+	\centering
+	\begin{subfigure}[htb]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{fig/sample_density.pdf}
+	\end{subfigure}
+	\begin{subfigure}[htb]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{fig/sample_points.pdf}
+	\end{subfigure}
+	\caption{Sampling distribution created from prior fluid flow estimate (a) and interrogation window locations drawn from that distribution (b). Note the high probability density in the top-center of the image, where the vortex shown in Figure \ref{fig:full_test} is located.}
+	\label{fig:distribution}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[htb]{0.8\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{fig/adaptive_1000_zoomed_out_box.png}
+	\end{subfigure}
+	\begin{subfigure}[htb]{0.6\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{fig/adaptive_1000_detail.png}
+	\end{subfigure}
+	\caption{Results of adaptive PIV using the sampled interrogation window locations shown in Figure \ref{fig:distribution}. The area within the red box in (a) is shown in (b).}
+	\label{fig:adaptive} 
+\end{figure}
+
+\section{Implementation Results}
+I have successfully implemented the design described in this report to meet most of the goals described. I have demonstrated PIV tracking in simulation on images of 80x60, 640x480, and 800x600 pixels with up to 40 parallel Window Trackers. I have also synthesized and run the design on hardware with image sizes up to 640x480 pixels and 2 parallel trackers. 
+
+\subsection{Performance on Hardware}
+\label{sec:performance}
+The results of this project are promising but do not yet meet the full targets for performance. I ran a series of benchmark tests to determine the effectiveness of parallelizing the design to multiple Window Tracker modules. With a single tracker module, the system completed 18,000 window requests in 30.8\,seconds, for an overall rate of $4.85 \times 10^7$ multiplications per second, or almost exactly one multiplication per clock cycle. With two parallel trackers, 18,000 requests took only 15.7\,s, for a rate of $9.49\times10^7$ multiplications per second or 1.9 multiplications per clock cycle. This is extremely close to the target rate of 1 multiplication per cycle per module. 
+
+Unfortunately, this performance does not yet scale properly beyond two parallel trackers, and adding more modules does not significantly improve the execution speed. This is likely due at least in part to contention for the single main Block RAM, which must serve out the sub-frames to each tracker. 
+
+\subsection{Implementation Challenges}
+There were a number of problems encountered in the design process, primarily when attempting to use the design on the FPGA. When I restricted the size of the images to 80x60 pixels, I was able to implement at least 40 parallel tracking modules (although they did not necessarily improve execution speed, as discussed previously). However, when I upgraded the system to 640x480 or 800x600 pixels, I began having a number of difficulties. With 800x600 pixels, I was using 91\% of available Block RAMs and synthesis reported success, but the design would not run. Removing the reset transactor and ensuring that there were no SceMi transactors passing void messages removed some of the hangups experienced in execution but did not allow me to successfully run the system with more than two trackers. 
+
+\subsection{Device Utilization}
+Timing was not an issue with this design, as the timing analysis consistently reported maximum frequencies of over 60\,MHz. The primary constraint for implementation was Block RAM usage. With an image size of 640x480, 60\% of RAMs were used, and with 800x600 images over 90\% of available RAMs were in use. 
+
+\subsection{Bluespec Code and IP Reuse}
+The image memory module used to store each frame for PIV analysis was based on the IMemory and DMemory used in the SMPIPS processor implementation. The Ehr, Vector, and FIFO implementations were also used throughout the design. All told, there were approximately 700 lines of Bluespec used in this design, with a few hundred more lines of supporting C++ and Python code. 
+
+\section{Future Explorations}
+I would like to extend the design to support varying the size of the interrogation window. This is an important part of the Adaptive PIV algorithm, as it allows the system to examine smaller windows of particle flow in busy areas of the image, in which the assumption that all particles within a window are moving with the same velocity might not hold for a larger window. This will require adding a window size parameter to the reset() method of the Window Manager and will require that that size parameter be passed to the Accumulator and Tracker in order to adjust their behavior accordingly. 
+
+In addition, I would like to explore ways to overcome the parallelization limits I encountered. The most likely next step in that exploration would be to improve the efficiency of access to the primary image Block RAMs. One possible method would be to store multiple pixels per word in RAM, which would allow multiple pixels to be retrieved per cycle. Alternatively, I could duplicate the Block RAMs to allow parallel access. 
+
+\section{Conclusion}
+This paper presents a functioning implementation of Particle Image Velocimetry, which is sufficiently flexible to perform standard PIV or a form of adaptive PIV in which the spatial frequency of the interrogation windows is adjusted while their size remains the same. It achieves a throughput rate of 1 multiplication per cycle per tracker, which will be sufficient to allow real-time PIV imaging if it can be extended to 40 parallel modules. 
 
 	\bibliographystyle{plain}
 	\bibliography{refs}

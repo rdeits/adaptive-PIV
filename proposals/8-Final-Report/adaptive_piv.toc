@@ -1,4 +1,4 @@
-\contentsline {section}{\numberline {1}Overview}{1}{section.1}
+\contentsline {section}{\numberline {1}Overview}{2}{section.1}
 \contentsline {section}{\numberline {2}Background: PIV}{2}{section.2}
 \contentsline {section}{\numberline {3}Adaptive PIV}{2}{section.3}
 \contentsline {section}{\numberline {4}Target Application}{3}{section.4}
@@ -7,11 +7,14 @@
 \contentsline {subsection}{\numberline {5.2}Module: Window Tracker}{4}{subsection.5.2}
 \contentsline {subsubsection}{\numberline {5.2.1}Module: Window Manager}{4}{subsubsection.5.2.1}
 \contentsline {subsubsection}{\numberline {5.2.2}Module: Accumulator}{4}{subsubsection.5.2.2}
-\contentsline {subsubsection}{\numberline {5.2.3}Module: Displacement Tracker}{4}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.3}Module: Displacement Tracker}{5}{subsubsection.5.2.3}
 \contentsline {section}{\numberline {6}Computational Requirements}{5}{section.6}
-\contentsline {section}{\numberline {7}Testing Plan}{6}{section.7}
-\contentsline {section}{\numberline {8}Implementation Status}{6}{section.8}
-\contentsline {subsection}{\numberline {8.1}Demonstration}{6}{subsection.8.1}
-\contentsline {section}{\numberline {9}Explorations}{8}{section.9}
-\contentsline {subsection}{\numberline {9.1}Variable Window Size}{8}{subsection.9.1}
-\contentsline {subsection}{\numberline {9.2}Image Data Caching}{8}{subsection.9.2}
+\contentsline {section}{\numberline {7}Demonstration}{6}{section.7}
+\contentsline {subsection}{\numberline {7.1}Demonstrating Adaptive PIV}{6}{subsection.7.1}
+\contentsline {section}{\numberline {8}Implementation Results}{10}{section.8}
+\contentsline {subsection}{\numberline {8.1}Performance on Hardware}{10}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Implementation Challenges}{10}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Device Utilization}{10}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}Bluespec Code and IP Reuse}{11}{subsection.8.4}
+\contentsline {section}{\numberline {9}Future Explorations}{11}{section.9}
+\contentsline {section}{\numberline {10}Conclusion}{11}{section.10}
